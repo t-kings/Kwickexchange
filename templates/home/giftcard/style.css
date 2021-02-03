@@ -1,0 +1,124 @@
+.header {
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+.header .flier {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    width: 50%;
+}
+
+.header .flier img {
+    width: 100%;
+}
+
+.header_holder {
+    min-height: 100vh;
+    padding: 3vw 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.header_holder h1 {
+    font-size: var(--headerLargeFontSize);
+    color: white;
+}
+
+.header_holder .subtitle {
+    font-size: var(--paragraphLargestFontSize);
+    width: 90%;
+    color: white;
+}
+
+.header_holder .action_buttons>div {
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90%;
+    flex-flow: row nowrap;
+}
+
+.info_holder {
+    width: 50%;
+}
+
+.header_holder ul {
+    margin-bottom: 40px;
+}
+
+.header_holder ul li {
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: row nowrap;
+    align-items: center;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.header_holder ul li.active {
+    opacity: 1;
+    margin-left: 20px;
+}
+
+.header_holder ul li p {
+    font-size: var(--paragraphMidFontSize);
+    margin: 0;
+    padding: 0;
+    margin-left: 20px;
+}
+
+.header_holder .animated_payment {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+}
+
+.header_holder .animated_payment div {
+    padding: 3vw 6vw;
+    background: #FCFDFF;
+    border-radius: 10px;
+}
+
+.header_holder .animated_payment img {
+    width: 100%;
+}
+
+@media only screen and (max-width: 900px) {
+    .header_holder {
+        justify-content: center;
+        align-items: center;
+        flex-flow: column nowrap;
+        padding-top: 100px;
+    }
+    .info_holder {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+    .header_holder .animated_payment {
+        width: 100%;
+        padding: 0 6vw;
+        display: none;
+    }
+    .header_holder .animated_payment img {
+        width: 100%;
+        transform: translateX(0);
+    }
+    .header_holder .subtitle {
+        width: 100%;
+    }
+    .header_holder .action_buttons>div {
+        width: 100%;
+    }
+    .header .flier {
+        width: 100%;
+    }
+}

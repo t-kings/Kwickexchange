@@ -1,0 +1,120 @@
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    scroll-behavior: smooth;
+}
+
+:root {
+    --bigLinkFontSize: 14px;
+    --colorGold: #FFC700;
+    --headerLargestFontSize: 48px;
+    --headerLargeFontSize: 36px;
+    --paragraphLargestFontSize: 18px;
+    --paragraphFontSize: 14px;
+    --paragraphMidFontSize: 16px;
+    --paragraphSmallFontSize: 12px;
+    --paragraphSmallestFontSize: 10px;
+    --shadedBackground: rgb(130, 130, 130, 0.3);
+}
+
+@media only screen and (max-width: 900px) {
+    :root {
+        --bigLinkFontSize: 12px;
+        --colorGold: #FFC700;
+        --headerLargestFontSize: 30px;
+        --headerLargeFontSize: 24px;
+        --paragraphLargestFontSize: 16px;
+        --paragraphFontSize: 12px;
+        --paragraphMidFontSize: 14px;
+        --paragraphSmallFontSize: 10px;
+        --paragraphSmallestFontSize: 8px;
+        --shadedBackground: rgb(130, 130, 130, 0.3);
+    }
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    background: black;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+a, .a {
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.link_btn {
+    color: white;
+    border: 1px solid white;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.link_btn_gold {
+    color: black;
+    border: 1px solid var(--colorGold);
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--colorGold);
+    font-size: var(--bigLinkFontSize);
+}
+
+.link_btn_gold:hover {
+    background: black;
+    border: 1px solid black;
+    color: var(--colorGold);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+p {
+    font-size: 15px;
+    color: white;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type=submit] {
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+    transition: all 0.3s;
+    background: none;
+    outline: none;
+    border: none;
+}
+
+button:focus {
+    outline: none;
+    border: none;
+}
