@@ -12,7 +12,7 @@
     background: none;
     transition: all 0.3s;
     z-index: 999999;
-    background: black;
+    background: none;
 }
 
 .nav ul {
@@ -35,36 +35,6 @@
 .nav .logo a {
     margin: 0;
     padding: 0;
-}
-
-.link_btn {
-    color: white;
-    border: 1px solid white;
-    display: inline-block;
-    padding: 10px 20px;
-}
-
-.link_btn:hover {
-    color: white;
-    border: 1px solid var(--colorGold);
-    display: inline-block;
-    padding: 10px 20px;
-    background: var(--colorGold);
-}
-
-.link_btn_gold {
-    color: black;
-    border: 1px solid var(--colorGold);
-    display: inline-block;
-    padding: 10px 20px;
-    background: var(--colorGold);
-    font-size: var(--bigLinkFontSize);
-}
-
-.link_btn_gold:hover {
-    background: black;
-    border: 1px solid black;
-    color: var(--colorGold);
 }
 
 .nav .logo svg, .nav .logo img {
@@ -93,6 +63,33 @@
 
 .nav ul li a.link_btn:hover {
     color: white !important;
+}
+
+.link_btn {
+    color: white;
+    border: 1px solid white;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.nav ul li a.link_btn:hover {
+    color: var(--colorGold) !important;
+    border: 1px solid var(--colorGold);
+}
+
+.link_btn_gold {
+    color: black;
+    border: 1px solid var(--colorGold);
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--colorGold);
+    font-size: var(--bigLinkFontSize);
+}
+
+.link_btn_gold:hover {
+    background: black;
+    border: 1px solid black;
+    color: var(--colorGold);
 }
 
 .nav_link_transform:hover {

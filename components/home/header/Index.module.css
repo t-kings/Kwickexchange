@@ -1,0 +1,235 @@
+.header {
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+.header .flier {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 50%;
+}
+
+.link_btn {
+    color: white;
+    border: 1px solid white;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.link_btn_gold {
+    color: black;
+    border: 1px solid var(--colorGold);
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--colorGold);
+    font-size: var(--bigLinkFontSize);
+}
+
+.link_btn_gold:hover {
+    background: black;
+    border: 1px solid var(--colorGold);
+    color: var(--colorGold);
+}
+
+.header .second_flier {
+    position: absolute;
+    right: 0;
+    z-index: -1;
+    width: 30%;
+}
+
+.header .second_flier svg, .header .flier svg {
+    width: 100%;
+}
+
+.header_holder {
+    min-height: 100vh;
+    padding: 3vw 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.header_holder h1 {
+    font-size: var(--headerLargestFontSize);
+    color: white;
+}
+
+.header_holder .subtitle {
+    font-size: var(--paragraphLargestFontSize);
+    width: 90%;
+    color: white;
+}
+
+.header_holder .action_buttons>div {
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90%;
+    flex-flow: row nowrap;
+}
+
+.info_holder {
+    width: 50%;
+}
+
+.header_holder .animated_payment {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+}
+
+.header_holder .animated_payment .hold {
+    width: 90%;
+    background: rgb(28, 28, 28);
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.tabs button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    color: white;
+    padding: 20px;
+}
+
+.tabs button.active {
+    background: var(--shadedBackground);
+    border-bottom: 3px solid white;
+    font-weight: bolder;
+}
+
+.tabs button:hover {
+    background: var(--shadedBackground);
+}
+
+.gift {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+    border: 1px solid #828282;
+    margin-bottom: 20px;
+}
+
+.gift .input {
+    width: 45%;
+}
+
+.input span:first-child {
+    padding: 20px;
+    background: var(--shadedBackground);
+    color: white;
+    font-size: var(--paragraphFontSize);
+    display: block;
+    text-align: center;
+    flex-basis: 20%;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.input span:last-child {
+    font-size: var(--paragraphSmallFontSize);
+    padding: 20px;
+    padding-left: 0;
+    color: #00C013;
+    display: block;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-flow: row nowrap;
+    width: 20%;
+}
+
+.input input {
+    display: block;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 20px 10px;
+    font-size: var(--paragraphMidFontSize);
+    width: 60%;
+}
+
+.input select {
+    display: block;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 20px 10px;
+    font-size: var(--paragraphMidFontSize);
+    width: 100%;
+    cursor: pointer;
+}
+
+.input select option {
+    color: black;
+}
+
+.gift .input input {
+    width: 100%;
+}
+
+.gift .input input:disabled {
+    cursor: not-allowed;
+}
+
+input.link_btn_gold {
+    width: 100%;
+    display: block;
+    font-size: var(--paragraphMidFontSize);
+}
+
+input.link_btn_gold:hover {
+    background: none;
+}
+
+.hold form {
+    padding: 20px;
+}
+
+@media only screen and (max-width: 900px) {
+    .header_holder {
+        justify-content: center;
+        align-items: center;
+        flex-flow: column nowrap;
+        padding-top: 100px;
+    }
+    .info_holder {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+    .header_holder .animated_payment {
+        width: 100%;
+    }
+    .header_holder .animated_payment .hold {
+        width: 105%;
+    }
+    .header_holder .subtitle {
+        width: 100%;
+    }
+    .header_holder .action_buttons>div {
+        width: 100%;
+    }
+}

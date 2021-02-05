@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { bitcoinContext } from "../store/root";
 import Nav from "../components/nav";
+import Header from "../components/home/header";
 export default function Home() {
   return (
     <>
@@ -26,8 +27,10 @@ export default function Home() {
           name="keywords"
           content="crypto currency, bitcoin, gift cards, Nigeria"
         />
+        <link rel="icon" href="/images/logo.png" />
       </Head>
       <Nav />
+      <Header />
     </>
   );
 }

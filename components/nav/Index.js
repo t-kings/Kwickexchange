@@ -12,6 +12,17 @@ const Index = () => {
 };
 export default Index;
 class Nav extends Component {
+  componentDidMount = () => {
+    document.addEventListener("scroll", () => {
+      if (window.scrollY > 100) {
+        document.querySelector("#mobile_nav").style.background = "black";
+        document.querySelector("#web_nav").style.background = "black";
+      } else {
+        document.querySelector("#mobile_nav").style.background = "none";
+        document.querySelector("#web_nav").style.background = "none";
+      }
+    });
+  };
   render() {
     const { router } = this.props;
     return (
