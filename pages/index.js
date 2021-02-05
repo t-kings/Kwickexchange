@@ -2,6 +2,7 @@ import Head from "next/head";
 import { bitcoinContext } from "../store/root";
 import Nav from "../components/nav";
 import Header from "../components/home/header";
+import Exchange from "../components/home/exchange";
 export default function Home() {
   return (
     <>
@@ -31,6 +32,7 @@ export default function Home() {
       </Head>
       <Nav />
       <Header />
+      <Exchange />
     </>
   );
 }

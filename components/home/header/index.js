@@ -5,12 +5,12 @@ const Index = () => {
   const router = useRouter();
   return (
     <div>
-      <Nav router={router} />
+      <Header router={router} />
     </div>
   );
 };
 export default Index;
-class Nav extends Component {
+class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
