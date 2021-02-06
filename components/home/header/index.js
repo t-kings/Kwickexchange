@@ -170,7 +170,7 @@ class Header extends Component {
               have easy access to your money anytime you want it.
             </p>
             <div className={style.action_buttons}>
-              <a href="/#footer" className={style.link_btn_gold}>
+              <a href="/#contact_us" className={style.link_btn_gold}>
                 Contact Us
               </a>
             </div>

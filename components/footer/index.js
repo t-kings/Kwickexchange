@@ -102,7 +102,7 @@ class Footer extends Component {
         </div>
 
         <div className={style.hold}>
-          <form onSubmit={this.handleSubmit}>
+          <form id="contact_us" onSubmit={this.handleSubmit}>
             <input
               type="email"
               name="email"
