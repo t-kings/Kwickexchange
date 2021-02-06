@@ -6,13 +6,16 @@ import bg3 from "./images/bg3.svg";
 import { connect } from "react-redux";
 import logo from "./images/logo.png";
 import { Link, Redirect } from "react-router-dom";
-import { signIn } from "../../store/actions/auth";
-class SignIn extends Component {
+import { resetPassword } from "../../store/actions/auth";
+class ResetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
+      fullName: "",
+      confirmPassword: "",
+      username: "",
       loading: false,
       isAuthenticated: false,
       shouldVerify: false,
@@ -34,22 +37,30 @@ class SignIn extends Component {
       ...this.state,
       errors,
     });
-    const { password, email } = this.state;
-    const { isLoading, signIn } = this.props;
+    const { password, confirmPassword } = this.state;
+    const { isLoading, resetPassword, match } = this.props;
     if (isLoading) {
       return "";
-    }
-    if (email.length < 1) {
-      errors.push({
-        msg: "Email is required",
-        param: "email",
-        location: "body",
-      });
     }
     if (password.length < 1) {
       errors.push({
         msg: "Password is required",
         param: "password",
+        location: "body",
+      });
+    }
+    if (confirmPassword.length < 1) {
+      errors.push({
+        msg: "Confirm Password is required",
+        param: "confirmPassword",
+        location: "body",
+      });
+    }
+
+    if (password !== confirmPassword) {
+      errors.push({
+        msg: "Passwords do not match",
+        param: "confirmPassword",
         location: "body",
       });
     }
@@ -59,12 +70,16 @@ class SignIn extends Component {
         errors,
       });
     } else {
-      signIn({ email, password });
+      resetPassword({
+        password,
+        password_confirmation: confirmPassword,
+        code: match.params.token,
+      });
     }
   };
   render() {
     const { errors } = this.state;
-    const { isLoading, isAuthenticated, toVerify, user } = this.props;
+    const { isLoading, isAuthenticated, isPasswordChanged, user } = this.props;
     if (isAuthenticated) {
       return (
         <Redirect
@@ -76,8 +91,8 @@ class SignIn extends Component {
         />
       );
     }
-    if (toVerify) {
-      return <Redirect to={"/verify/" + user.email} />;
+    if (isPasswordChanged) {
+      return <Redirect to={"/password/" + user.email + "/reset/status"} />;
     }
     return (
       <div className={style.big_container}>
@@ -97,28 +112,20 @@ class SignIn extends Component {
             </a>
           </div>
           <form className={style.box} onSubmit={this.handleSubmit}>
-            <h4 className={style.box_title}>Sign In</h4>
-            <input
-              type="email"
-              placeholder="Email address"
-              onChange={this.handleChange}
-              id="email"
-              name="email"
+            <h4 className={style.box_title}>Reset Password</h4>
+            <p className={style.box_info}>Enter a new Password</p>
+            <label
               className={
-                style.form_control +
+                style.control_label +
                 " " +
-                (errors.filter((error) => error.param === "email").length > 0
+                (errors.filter((error) => error.param === "password").length > 0
                   ? style.error
                   : " ")
               }
-            />
-            {errors
-              .filter((error) => error.param === "email")
-              .map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item.msg}
-                </p>
-              ))}
+              htmlFor="password"
+            >
+              Password
+            </label>
             <input
               type="password"
               placeholder="Password"
@@ -141,6 +148,43 @@ class SignIn extends Component {
                   {item.msg}
                 </p>
               ))}
+
+            <label
+              className={
+                style.control_label +
+                " " +
+                (errors.filter((error) => error.param === "confirmPassword")
+                  .length > 0
+                  ? style.error
+                  : " ")
+              }
+              htmlFor="confirmPassword"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              required
+              onChange={this.handleChange}
+              id="confirmPassword"
+              name="confirmPassword"
+              className={
+                style.form_control +
+                " " +
+                (errors.filter((error) => error.param === "confirmPassword")
+                  .length > 0
+                  ? style.error
+                  : " ")
+              }
+            />
+            {errors
+              .filter((error) => error.param === "confirmPassword")
+              .map((item, idx) => (
+                <p key={idx} className={style.error_par}>
+                  {item.msg}
+                </p>
+              ))}
             {isLoading ? (
               <div className={style.load + " " + style.link_btn_gold}>
                 <div className={style.loader}>Loading...</div>
@@ -148,15 +192,14 @@ class SignIn extends Component {
             ) : (
               <input
                 type="submit"
-                value="Login"
+                value="Reset Password"
                 className={style.link_btn_gold}
               />
             )}
           </form>
 
           <div className={style.foot}>
-            <Link to="/password">Forgot password?</Link>
-            <Link to="/signup">Create Account</Link>
+            <Link to="/">Sign In</Link>
           </div>
         </div>
       </div>
@@ -169,7 +212,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (payload) => dispatch(signIn(payload)),
+    resetPassword: (payload) => dispatch(resetPassword(payload)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);

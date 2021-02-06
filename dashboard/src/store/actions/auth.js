@@ -267,6 +267,138 @@ export const verifyEmail = (user) => {
   };
 };
 
+export const requestPassword = (user) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: "AUTH_LOADING",
+    });
+    try {
+      const res = await axios.post(apiUrl + "auth/forgot-password", {
+        ...user,
+      });
+      if (res.status === 200) {
+        dispatch({
+          type: "PASSWORD_SENT",
+          data: user,
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Request Password",
+            isSuccess: true,
+            message: "Password reset email sent",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      } else {
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Request Password",
+            isSuccess: false,
+            message: "Error, try again",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+    } catch (err) {
+      dispatch({
+        type: "CLEAR_AUTH_LOADING",
+      });
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Request Password",
+          isSuccess: false,
+          message: err?.response?.data?.message,
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+    }
+  };
+};
+
+export const resetPassword = (user) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: "AUTH_LOADING",
+    });
+    try {
+      const res = await axios.post(apiUrl + "auth/reset-password", {
+        ...user,
+      });
+      if (res.status === 200) {
+        dispatch({
+          type: "PASSWORD_CHANGED",
+          data: user,
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Reset Password",
+            isSuccess: true,
+            message: "Password changed successfully",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      } else {
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Reset Password",
+            isSuccess: false,
+            message: "Error, try again",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+    } catch (err) {
+      dispatch({
+        type: "CLEAR_AUTH_LOADING",
+      });
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Reset Password",
+          isSuccess: false,
+          message: err?.response?.data?.message,
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+    }
+  };
+};
+
 // export const editProfile = (data) => {
 //   return (dispatch, getState) => {
 //     axios
@@ -286,27 +418,6 @@ export const verifyEmail = (user) => {
 //       })
 //       .catch((err) => {
 //         // cogoToast.error(err.response?.data?.message);
-//       });
-//   };
-// };
-
-// export const forgotPassword = (email) => {
-//   return async (dispatch, getState) => {
-//     dispatch({ type: "Loading" });
-//     axios
-//       .get(apiUrl + "password/" + email)
-//       .then((res) => {
-//         // console.log(res)
-//         if (res.status === 200) {
-//           dispatch({ type: "Forgot_Success", data: res.data.data });
-//           //   cogoToast.success("A reset link has been sent to your mail.");
-//         } else {
-//           dispatch({ type: "Forgot_Error", err: res.data.message });
-//         }
-//       })
-//       .catch((err) => {
-//         dispatch({ type: "Forgot_Error", err: err.response.data.message });
-//         // cogoToast.error("Email does not exist!");
 //       });
 //   };
 // };

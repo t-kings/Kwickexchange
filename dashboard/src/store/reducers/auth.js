@@ -46,6 +46,19 @@ const authReducer = (state = initState, action) => {
         ...state,
         isVerified: true,
       };
+    case "PASSWORD_SENT":
+      return {
+        ...state,
+        isPasswordSent: true,
+        ...action.data,
+      };
+    case "PASSWORD_CHANGED":
+      return {
+        ...state,
+        isPasswordChanged: true,
+        ...action.data,
+      };
+
     // case "Token_LoggedIn":
     //   // console.log(action.data)
     //   return {

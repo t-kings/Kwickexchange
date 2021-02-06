@@ -33,6 +33,10 @@ class SignUp extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const errors = [];
+    this.setState({
+      ...this.state,
+      errors,
+    });
     const { password, email, fullName, username, confirmPassword } = this.state;
     const { isLoading, signUp } = this.props;
     if (isLoading) {

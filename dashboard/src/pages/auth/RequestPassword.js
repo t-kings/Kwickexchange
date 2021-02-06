@@ -6,8 +6,8 @@ import bg3 from "./images/bg3.svg";
 import { connect } from "react-redux";
 import logo from "./images/logo.png";
 import { Link, Redirect } from "react-router-dom";
-import { signIn } from "../../store/actions/auth";
-class SignIn extends Component {
+import { requestPassword } from "../../store/actions/auth";
+class RequestPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,8 +34,8 @@ class SignIn extends Component {
       ...this.state,
       errors,
     });
-    const { password, email } = this.state;
-    const { isLoading, signIn } = this.props;
+    const { email } = this.state;
+    const { isLoading, requestPassword } = this.props;
     if (isLoading) {
       return "";
     }
@@ -46,25 +46,18 @@ class SignIn extends Component {
         location: "body",
       });
     }
-    if (password.length < 1) {
-      errors.push({
-        msg: "Password is required",
-        param: "password",
-        location: "body",
-      });
-    }
     if (errors.length > 0) {
       this.setState({
         ...this.state,
         errors,
       });
     } else {
-      signIn({ email, password });
+      requestPassword({ email });
     }
   };
   render() {
     const { errors } = this.state;
-    const { isLoading, isAuthenticated, toVerify, user } = this.props;
+    const { isLoading, isAuthenticated, user, isPasswordSent } = this.props;
     if (isAuthenticated) {
       return (
         <Redirect
@@ -76,8 +69,9 @@ class SignIn extends Component {
         />
       );
     }
-    if (toVerify) {
-      return <Redirect to={"/verify/" + user.email} />;
+
+    if (isPasswordSent) {
+      return <Redirect to={"/password/" + user.email} />;
     }
     return (
       <div className={style.big_container}>
@@ -97,7 +91,8 @@ class SignIn extends Component {
             </a>
           </div>
           <form className={style.box} onSubmit={this.handleSubmit}>
-            <h4 className={style.box_title}>Sign In</h4>
+            <h4 className={style.box_title}>Forgot Password</h4>
+            <p className={style.box_info}>Enter your email</p>
             <input
               type="email"
               placeholder="Email address"
@@ -119,28 +114,6 @@ class SignIn extends Component {
                   {item.msg}
                 </p>
               ))}
-            <input
-              type="password"
-              placeholder="Password"
-              required
-              onChange={this.handleChange}
-              id="password"
-              name="password"
-              className={
-                style.form_control +
-                " " +
-                (errors.filter((error) => error.param === "password").length > 0
-                  ? style.error
-                  : " ")
-              }
-            />
-            {errors
-              .filter((error) => error.param === "password")
-              .map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item.msg}
-                </p>
-              ))}
             {isLoading ? (
               <div className={style.load + " " + style.link_btn_gold}>
                 <div className={style.loader}>Loading...</div>
@@ -148,15 +121,14 @@ class SignIn extends Component {
             ) : (
               <input
                 type="submit"
-                value="Login"
+                value="Reset Password"
                 className={style.link_btn_gold}
               />
             )}
           </form>
 
           <div className={style.foot}>
-            <Link to="/password">Forgot password?</Link>
-            <Link to="/signup">Create Account</Link>
+            <Link to="/">Sign In</Link>
           </div>
         </div>
       </div>
@@ -169,7 +141,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (payload) => dispatch(signIn(payload)),
+    requestPassword: (payload) => dispatch(requestPassword(payload)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(RequestPassword);
