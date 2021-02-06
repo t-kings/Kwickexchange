@@ -3,8 +3,10 @@ import style from "./Index.module.css";
 import bg1 from "./images/bg.svg";
 import bg2 from "./images/bg2.svg";
 import bg3 from "./images/bg3.svg";
+import { connect } from "react-redux";
 import logo from "./images/logo.png";
 import { Link } from "react-router-dom";
+import { signIn } from "../../store/actions/auth";
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -29,8 +31,8 @@ class SignIn extends Component {
     e.preventDefault();
     const errors = [];
     const { password, email } = this.state;
-    const { loading } = this.props;
-    if (loading) {
+    const { isLoading, signIn } = this.props;
+    if (isLoading) {
       return "";
     }
     if (email.length < 1) {
@@ -53,81 +55,12 @@ class SignIn extends Component {
         errors,
       });
     } else {
-      //   this.setState({
-      //     ...this.state,
-      //     loading: true,
-      //     errors,
-      //   });
-      //   axios
-      //     .post(apiUrl + "/user/signin", {
-      //       ...this.state,
-      //     })
-      //     .then((res) => {
-      //       setUser(res.data.token);
-      //       if (res.status === 200) {
-      //         this.setState({
-      //           ...this.state,
-      //           loading: false,
-      //           user: res.data.user,
-      //           token: res.data.token,
-      //           isAuthenticated: true,
-      //         });
-      //       } else {
-      //         this.setState({
-      //           ...this.state,
-      //           errors,
-      //           loading: false,
-      //           user: res.data.user,
-      //           response: res.data.message,
-      //         });
-      //       }
-      //     })
-      //     .catch((err) => {
-      //       if (err.response?.status === 401) {
-      //         this.setState({
-      //           ...this.state,
-      //           errors,
-      //           loading: false,
-      //           errors: err.response?.data.errors,
-      //         });
-      //       }
-      //       if (err.response?.status === 500) {
-      //         cogoToast.error("Internal server error!");
-      //         this.setState({
-      //           errors,
-      //           ...this.state,
-      //           loading: false,
-      //         });
-      //       }
-      //       if (err.response?.status === 400) {
-      //         cogoToast.error("Wrong email / password combination!");
-      //         this.setState({
-      //           errors,
-      //           ...this.state,
-      //           loading: false,
-      //         });
-      //       }
-      //       if (err.response?.status === 402) {
-      //         cogoToast.error("Email not verified!");
-      //         this.setState({
-      //           errors,
-      //           ...this.state,
-      //           shouldVerify: true,
-      //           loading: false,
-      //         });
-      //       }
-      //     });
+      signIn(email, password);
     }
   };
   render() {
-    const { errors, shouldVerify, isAuthenticated } = this.state;
-    const { router } = this.props;
-    if (isAuthenticated) {
-      router.push("/");
-    }
-    if (shouldVerify) {
-      router.push("/verify/" + this.state.email);
-    }
+    const { errors } = this.state;
+    const { isLoading } = this.props;
     return (
       <div className={style.big_container}>
         <div className={style.flier}>
@@ -188,11 +121,17 @@ class SignIn extends Component {
                   {item.msg}
                 </p>
               ))}
-            <input
-              type="submit"
-              value="Login"
-              className={style.link_btn_gold}
-            />
+            {isLoading ? (
+              <div className={style.load + " " + style.link_btn_gold}>
+                <div className={style.loader}>Loading...</div>
+              </div>
+            ) : (
+              <input
+                type="submit"
+                value="Login"
+                className={style.link_btn_gold}
+              />
+            )}
           </form>
 
           <div className={style.foot}>
@@ -204,4 +143,13 @@ class SignIn extends Component {
     );
   }
 }
-export default SignIn;
+
+const mapStateToProps = (state) => {
+  return { ...state.auth };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (payload) => dispatch(signIn(payload)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
