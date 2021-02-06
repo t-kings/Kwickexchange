@@ -1,3 +1,5 @@
-import {createContext} from "react";
+import { createContext } from "react";
 
-export const bitcoinContext = createContext();
+export const TestimonialContext = createContext();
+
+export const apiUrl = "https://url.com/";

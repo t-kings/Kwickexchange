@@ -1,13 +1,28 @@
+import React, { Component, useContext, useEffect } from "react";
 import Head from "next/head";
-import { bitcoinContext } from "../store/root";
-import Nav from "../components/nav";
+import Nav from "../components/navbar";
 import Header from "../components/home/header";
 import Exchange from "../components/home/exchange";
 import Bitcoin from "../components/home/bitcoin";
 import GiftCard from "../components/home/giftCard";
 import Review from "../components/home/review";
 import Footer from "../components/footer";
-export default function Home() {
+import TestimonialState from "../store/actions/testimonials";
+import { TestimonialContext } from "../store/root";
+export default class Home extends Component {
+  render() {
+    return (
+      <TestimonialState>
+        <Index />
+      </TestimonialState>
+    );
+  }
+}
+const Index = () => {
+  const context = useContext(TestimonialContext);
+  useEffect(() => {
+    context.getTestimonials();
+  }, []);
   return (
     <>
       <Head>
@@ -39,4 +54,4 @@ export default function Home() {
       <Footer />
     </>
   );
-}
+};

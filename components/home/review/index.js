@@ -1,18 +1,40 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { useRouter } from "next/router";
 import style from "./Index.module.css";
+import { TestimonialContext } from "../../../store/root";
 const Index = () => {
   const router = useRouter();
+  const context = useContext(TestimonialContext);
   return (
     <div>
-      <Bitcoin router={router} />
+      <Testimonials router={router} context={context} />
     </div>
   );
 };
 export default Index;
-class Bitcoin extends Component {
+class Testimonials extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0,
+    };
+  }
+  intervalID = 0;
+  componentDidMount = () => {
+    this.intervalID = setInterval(() => {
+      const count = this.props.context.testimonials.length;
+      const index = Math.floor(Math.random() * count);
+      this.setState({
+        ...this.state,
+        index,
+      });
+    }, 5000);
+  };
+  componentWillUnmount = () => {
+    clearInterval(this.intervalID);
+  };
   render() {
-    return (
+    return this.props.context.testimonials.length > 0 ? (
       <section className={style.header}>
         <div className={style.flier}>
           <svg
@@ -102,26 +124,33 @@ class Bitcoin extends Component {
         <div className={style.header_holder}>
           <div className={style.info_holder}>
             <div className={style.hold}>
-              <div className={style.holder}>
-                <h1>
-                  MARK ADNREW
-                  <br />
-                  <span>Head of Tech</span>
-                </h1>
-                <p className={style.subtitle}>
-                  The most reliable cryptocurrency exchange platform. Where you
-                  have easy access to your money anytime you want it.
-                </p>
-                <div className={style.action_buttons}>
-                  <a href="/contact/speak" className={style.link_btn_gold}>
-                    Speak with Us
-                  </a>
+              {this.props.context.testimonials.map((item, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display: this.state.index === index ? "flex" : "none",
+                  }}
+                  className={style.holder}
+                >
+                  <h1>
+                    {item.name}
+                    <br />
+                    <span>{item.title}</span>
+                  </h1>
+                  <p className={style.subtitle}>{item.message}</p>
+                  {/* <div className={style.action_buttons}>
+                    <a href="/contact/speak" className={style.link_btn_gold}>
+                      Speak with Us
+                    </a>
+                  </div> */}
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
+    ) : (
+      <div></div>
     );
   }
 }

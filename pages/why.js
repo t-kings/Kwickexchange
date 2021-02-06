@@ -4,7 +4,7 @@ import Head from "next/head";
 import style from "../styles/subPage.module.css";
 import Footer from "../components/footer";
 import GiftCard from "../components/home/giftCard";
-import Nav from "../components/nav";
+import Nav from "../components/navbar";
 import Review from "../components/home/review";
 import Bitcoin from "../components/home/bitcoin";
 const Index = () => {
