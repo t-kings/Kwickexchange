@@ -29,6 +29,17 @@ const authReducer = (state = initState, action) => {
         isLoading: false,
         ...action.data,
       };
+    case "USER_REGISTERED":
+      return {
+        ...state,
+        toVerify: true,
+        user: action.data,
+      };
+    case "ClEAR_VERIFY":
+      return {
+        ...state,
+        toVerify: false,
+      };
     // case "Token_LoggedIn":
     //   // console.log(action.data)
     //   return {
@@ -40,17 +51,6 @@ const authReducer = (state = initState, action) => {
     //     transactions: action.data.transactions,
     //     nairaTransactions: action.data.naira_transactions,
     //     btcTransactions: action.data.btc_transactions,
-    //   };
-    // case "User_Registered":
-    //   return {
-    //     ...state,
-    //     toVerify: true,
-    //     profile: action.data.user,
-    //   };
-    // case "Clear_Verify":
-    //   return {
-    //     ...state,
-    //     toVerify: false,
     //   };
     // case "User_Error":
     //   return {

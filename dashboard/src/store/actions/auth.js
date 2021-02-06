@@ -7,15 +7,15 @@ export const signIn = (user) => {
       type: "AUTH_LOADING",
     });
     try {
-      const res = await axios.post(apiUrl + "auth/login", { ...user });
+      const res = await axios.post(apiUrl + "auth/Sign In", { ...user });
       if (res.status === 200) {
         dispatch({ type: "USER_LOGGED_IN", data: res.data });
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
-            type: "Login",
+            type: "Sign In",
             isSuccess: true,
-            message: "Login Successful",
+            message: "Sign In Successful",
           },
         });
         setTimeout(() => {
@@ -30,7 +30,7 @@ export const signIn = (user) => {
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
-            type: "Login",
+            type: "Sign In",
             isSuccess: false,
             message: "Email not verified",
           },
@@ -41,7 +41,7 @@ export const signIn = (user) => {
           });
         }, 5000);
         // dispatch({ type: "User_Registered", data: res.data });
-        // setTimeout(dispatch({ type: "Clear_Verify", data: null }), 10000);
+        setTimeout(dispatch({ type: "CLEAR_VERIFY" }), 10000);
       } else {
         dispatch({
           type: "CLEAR_AUTH_LOADING",
@@ -49,7 +49,7 @@ export const signIn = (user) => {
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
-            type: "Login",
+            type: "Sign In",
             isSuccess: false,
             message: "Error, try again",
           },
@@ -67,7 +67,7 @@ export const signIn = (user) => {
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {
-          type: "Login",
+          type: "Sign In",
           isSuccess: false,
           message: "Wrong Username / Password Combination",
         },
@@ -81,26 +81,67 @@ export const signIn = (user) => {
   };
 };
 
-// export const regUser = (user) => {
-//   return async (dispatch, getState) => {
-//     try {
-//       const res = await axios.post(apiUrl + "register", { ...user });
-//       if (res.status === 201) {
-//         dispatch({ type: "User_Registered", data: res.data });
-//         setTimeout(dispatch({ type: "Clear_Verify", data: null }), 10000);
-//         // cogoToast.success(
-//         //   "Successful! Verification link has been sent to your email."
-//         // );
-//       } else {
-//         dispatch({ type: "User_Error", err: res.data.message });
-//         // cogoToast.error(JSON.stringify(res?.data?.message));
-//       }
-//     } catch (err) {
-//       dispatch({ type: "User_Error", err: err.response.data.message });
-//       //   cogoToast.error(JSON.stringify(err?.response?.data?.message));
-//     }
-//   };
-// };
+export const signUp = (user) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: "AUTH_LOADING",
+    });
+    try {
+      const res = await axios.post(apiUrl + "auth/register", { ...user });
+      if (res.status === 201) {
+        dispatch({ type: "USER_REGISTERED", data: user });
+        setTimeout(dispatch({ type: "CLEAR_VERIFY" }), 10000);
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Sign Up",
+            isSuccess: true,
+            message: "Account created",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      } else {
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Sign Up",
+            isSuccess: false,
+            message: "Error, try again",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+    } catch (err) {
+      dispatch({
+        type: "CLEAR_AUTH_LOADING",
+      });
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Sign Up",
+          isSuccess: false,
+          message: "Account not created",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+    }
+  };
+};
 
 // export const verifyUser = (user) => {
 //   return (dispatch, getState) => {

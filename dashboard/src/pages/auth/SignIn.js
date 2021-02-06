@@ -5,7 +5,7 @@ import bg2 from "./images/bg2.svg";
 import bg3 from "./images/bg3.svg";
 import { connect } from "react-redux";
 import logo from "./images/logo.png";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { signIn } from "../../store/actions/auth";
 class SignIn extends Component {
   constructor(props) {
@@ -60,7 +60,21 @@ class SignIn extends Component {
   };
   render() {
     const { errors } = this.state;
-    const { isLoading } = this.props;
+    const { isLoading, isAuthenticated, toVerify, user } = this.props;
+    if (isAuthenticated) {
+      return (
+        <Redirect
+          to={
+            this.props.location.redirect_to
+              ? this.props.location.redirect_to
+              : "/dashboard"
+          }
+        />
+      );
+    }
+    if (toVerify) {
+      return <Redirect to={"/verify/" + user.email} />;
+    }
     return (
       <div className={style.big_container}>
         <div className={style.flier}>
@@ -79,7 +93,7 @@ class SignIn extends Component {
             </a>
           </div>
           <form className={style.box} onSubmit={this.handleSubmit}>
-            <h4 className={style.box_title}>Login</h4>
+            <h4 className={style.box_title}>Sign In</h4>
             <input
               type="email"
               placeholder="Email address"
