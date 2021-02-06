@@ -71,7 +71,7 @@ a, .a {
 
 .link_btn_gold:hover {
   background: black;
-  border: 1px solid black;
+  border: 1px solid var(--colorGold);
   color: var(--colorGold);
 }
 

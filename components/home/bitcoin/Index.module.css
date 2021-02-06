@@ -12,6 +12,13 @@
     width: 50%;
 }
 
+.header .second_flier {
+    position: absolute;
+    right: 0;
+    z-index: -1;
+    width: 30%;
+}
+
 .link_btn {
     color: white;
     border: 1px solid white;
@@ -34,19 +41,13 @@
     color: var(--colorGold);
 }
 
-.header .second_flier {
-    position: absolute;
-    right: 0;
-    z-index: -1;
-    width: 30%;
-}
-
 .header_holder {
-    padding: 1.5vw 0;
+    padding: 3vw 6vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-flow: row nowrap;
+    background: #272727;
 }
 
 .header_holder h1 {
@@ -70,7 +71,6 @@
 }
 
 .info_holder {
-    padding: 0 6vw;
     width: 50%;
 }
 
@@ -83,7 +83,6 @@
     justify-content: flex-start;
     flex-flow: row nowrap;
     align-items: center;
-    margin: 10px 0;
 }
 
 .header_holder ul li p {
@@ -91,11 +90,6 @@
     margin: 0;
     padding: 0;
     margin-left: 20px;
-}
-
-.header_holder ul li svg {
-    width: 30px;
-    display: block;
 }
 
 .header_holder .animated_payment {
@@ -107,7 +101,6 @@
 
 .header_holder .animated_payment img {
     width: 80%;
-    transform: translateX(-8%);
 }
 
 @media only screen and (max-width: 900px) {

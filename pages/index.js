@@ -3,6 +3,9 @@ import { bitcoinContext } from "../store/root";
 import Nav from "../components/nav";
 import Header from "../components/home/header";
 import Exchange from "../components/home/exchange";
+import Bitcoin from "../components/home/bitcoin";
+import GiftCard from "../components/home/giftCard";
+import Review from "../components/home/review";
 export default function Home() {
   return (
     <>
@@ -33,6 +36,9 @@ export default function Home() {
       <Nav />
       <Header />
       <Exchange />
+      <Bitcoin />
+      <GiftCard />
+      <Review />
     </>
   );
 }
