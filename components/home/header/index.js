@@ -1,11 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { useRouter } from "next/router";
 import style from "./Index.module.css";
+import { BitcoinContext } from "../../../store/root";
 const Index = () => {
   const router = useRouter();
+  const context = useContext(BitcoinContext);
   return (
     <div>
-      <Header router={router} />
+      <Header router={router} context={context} />
     </div>
   );
 };
@@ -25,7 +27,7 @@ class Header extends Component {
   }
   handleBTC = (e) => {
     const btc = parseFloat(e.target.value);
-    const dollar = btc * 30000;
+    const dollar = btc * this.props.context.sell.usd;
     this.setState({
       ...this.state,
       btc,
@@ -34,7 +36,7 @@ class Header extends Component {
   };
   handleDollar = (e) => {
     const dollar = parseFloat(e.target.value);
-    const btc = dollar / 30000;
+    const btc = dollar / this.props.context.sell.usd;
     this.setState({
       ...this.state,
       dollar,
@@ -192,37 +194,43 @@ class Header extends Component {
                 </button>
               </div>
               {formTab === 1 ? (
-                <form target="_blank" action="https://url.com/signup">
-                  <div className={style.input}>
-                    <span>BTC</span>
+                this.props.context.sell.usd ? (
+                  <form target="_blank" action="https://url.com/signup">
+                    <div className={style.input}>
+                      <span>BTC</span>
+                      <input
+                        type="number"
+                        min={0}
+                        name="btc"
+                        id="btc"
+                        onChange={this.handleBTC}
+                        value={this.state.btc}
+                      />
+                      <span>$234/BTC</span>
+                    </div>
+                    <div className={style.input}>
+                      <span>$</span>
+                      <input
+                        type="number"
+                        min={0}
+                        name="dollars"
+                        id="dollars"
+                        value={this.state.dollar}
+                        onChange={this.handleDollar}
+                      />
+                      <span></span>
+                    </div>
                     <input
-                      type="number"
-                      min={0}
-                      name="btc"
-                      id="btc"
-                      onChange={this.handleBTC}
-                      value={this.state.btc}
+                      className={style.link_btn_gold}
+                      type="submit"
+                      value="SELL"
                     />
-                    <span>$234/BTC</span>
+                  </form>
+                ) : (
+                  <div className={style.load}>
+                    <div className={style.loader}>Loading...</div>
                   </div>
-                  <div className={style.input}>
-                    <span>$</span>
-                    <input
-                      type="number"
-                      min={0}
-                      name="dollars"
-                      id="dollars"
-                      value={this.state.dollar}
-                      onChange={this.handleDollar}
-                    />
-                    <span></span>
-                  </div>
-                  <input
-                    className={style.link_btn_gold}
-                    type="submit"
-                    value="SELL"
-                  />
-                </form>
+                )
               ) : (
                 <form target="_blank" action="https://url.com/signup">
                   <div className={style.gift}>

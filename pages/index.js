@@ -9,23 +9,28 @@ import GiftCard from "../components/home/giftCard";
 import Review from "../components/home/review";
 import Footer from "../components/footer";
 import TestimonialState from "../store/actions/testimonials";
-import { TestimonialContext } from "../store/root";
+import { TestimonialContext, BitcoinContext } from "../store/root";
 import NotificationState from "../store/actions/notification";
+import BitcoinState from "../store/actions/bitcoin";
 export default class Home extends Component {
   render() {
     return (
       <NotificationState>
-        <TestimonialState>
-          <Index />
-        </TestimonialState>
+        <BitcoinState>
+          <TestimonialState>
+            <Index />
+          </TestimonialState>
+        </BitcoinState>
       </NotificationState>
     );
   }
 }
 const Index = () => {
   const context = useContext(TestimonialContext);
+  const bitCoinContext = useContext(BitcoinContext);
   useEffect(() => {
     context.getTestimonials();
+    bitCoinContext.getBitcoinRate();
   }, []);
   return (
     <>
