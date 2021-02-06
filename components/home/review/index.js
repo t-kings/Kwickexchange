@@ -4,10 +4,10 @@ import style from "./Index.module.css";
 import { TestimonialContext } from "../../../store/root";
 const Index = () => {
   const router = useRouter();
-  const context = useContext(TestimonialContext);
+  const testimonialContext = useContext(TestimonialContext);
   return (
     <div>
-      <Testimonials router={router} context={context} />
+      <Testimonials router={router} testimonialContext={testimonialContext} />
     </div>
   );
 };
@@ -22,7 +22,7 @@ class Testimonials extends Component {
   intervalID = 0;
   componentDidMount = () => {
     this.intervalID = setInterval(() => {
-      const count = this.props.context.testimonials.length;
+      const count = this.props.testimonialContext.testimonials.length;
       const index = Math.floor(Math.random() * count);
       this.setState({
         ...this.state,
@@ -34,7 +34,7 @@ class Testimonials extends Component {
     clearInterval(this.intervalID);
   };
   render() {
-    return this.props.context.testimonials.length > 0 ? (
+    return this.props.testimonialContext.testimonials.length > 0 ? (
       <section className={style.header}>
         <div className={style.flier}>
           <svg
@@ -124,7 +124,7 @@ class Testimonials extends Component {
         <div className={style.header_holder}>
           <div className={style.info_holder}>
             <div className={style.hold}>
-              {this.props.context.testimonials.map((item, index) => (
+              {this.props.testimonialContext.testimonials.map((item, index) => (
                 <div
                   key={index}
                   style={{

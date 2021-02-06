@@ -8,21 +8,10 @@ import Bitcoin from "../components/home/bitcoin";
 import GiftCard from "../components/home/giftCard";
 import Review from "../components/home/review";
 import Footer from "../components/footer";
-import TestimonialState from "../store/actions/testimonials";
 import { TestimonialContext, BitcoinContext } from "../store/root";
-import NotificationState from "../store/actions/notification";
-import BitcoinState from "../store/actions/bitcoin";
 export default class Home extends Component {
   render() {
-    return (
-      <NotificationState>
-        <BitcoinState>
-          <TestimonialState>
-            <Index />
-          </TestimonialState>
-        </BitcoinState>
-      </NotificationState>
-    );
+    return <Index />;
   }
 }
 const Index = () => {

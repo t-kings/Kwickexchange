@@ -4,10 +4,10 @@ import style from "./Index.module.css";
 import { BitcoinContext } from "../../../store/root";
 const Index = () => {
   const router = useRouter();
-  const context = useContext(BitcoinContext);
+  const bitcoinContext = useContext(BitcoinContext);
   return (
     <div>
-      <Header router={router} context={context} />
+      <Header router={router} bitcoinContext={bitcoinContext} />
     </div>
   );
 };
@@ -27,7 +27,7 @@ class Header extends Component {
   }
   handleBTC = (e) => {
     const btc = parseFloat(e.target.value);
-    const dollar = btc * this.props.context.sell.usd;
+    const dollar = btc * this.props.bitcoinContext.sell.usd;
     this.setState({
       ...this.state,
       btc,
@@ -36,7 +36,7 @@ class Header extends Component {
   };
   handleDollar = (e) => {
     const dollar = parseFloat(e.target.value);
-    const btc = dollar / this.props.context.sell.usd;
+    const btc = dollar / this.props.bitcoinContext.sell.usd;
     this.setState({
       ...this.state,
       dollar,
@@ -194,7 +194,7 @@ class Header extends Component {
                 </button>
               </div>
               {formTab === 1 ? (
-                this.props.context.sell.usd ? (
+                this.props.bitcoinContext.sell.usd ? (
                   <form target="_blank" action="https://url.com/signup">
                     <div className={style.input}>
                       <span>BTC</span>

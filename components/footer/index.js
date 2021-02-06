@@ -7,8 +7,8 @@ import { apiUrl } from "../../store/root";
 import { NotificationContext } from "../../store/root";
 const Index = () => {
   const router = useRouter();
-  const context = useContext(NotificationContext);
-  const { showNotification } = context;
+  const notificationContext = useContext(NotificationContext);
+  const { showNotification } = notificationContext;
   return (
     <div>
       <Footer router={router} showNotification={showNotification} />
