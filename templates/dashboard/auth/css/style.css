@@ -1,0 +1,259 @@
+.big_container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.flier {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.flier img {
+    width: 100%;
+}
+
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #D1D1D1;
+}
+
+.logo {
+    background: var(--shadedBackground);
+    display: flex;
+    align-items: center;
+    flex-flow: column nowrap;
+    justify-content: center;
+    padding: 10px 6vw;
+}
+
+.box {
+    padding: 20px 3vw;
+}
+
+.box_title {
+    text-transform: uppercase;
+    font-size: var(--paragraphMidFontSize);
+    text-align: center;
+    width: 100%;
+}
+
+.sm .form_control {
+    height: 40px;
+}
+
+.form_control {
+    width: 100%;
+    font-size: var(--paragraphMidFontSize);
+    outline: none;
+    padding: 20px 30px;
+    background: white;
+    border: 1px solid #828282;
+    margin-top: 30px;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+}
+
+.form_control:focus {
+    border-color: #FFC700;
+}
+
+.form_control.error {
+    border-color: #E70000;
+}
+
+.notification {
+    position: fixed;
+    top: 15vh;
+    right: 0;
+    margin: 0 5vw;
+    width: 250px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    background: white;
+    z-index: 101;
+    padding: 0;
+    animation: slideIn 0.3s;
+    transform-origin: right;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0.5;
+        transform: scaleX(0) translateX(20px);
+    }
+}
+
+.notification>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-flow: column nowrap;
+}
+
+.notification .heading {
+    position: relative;
+    padding: 20px;
+    height: 40px;
+    background: white;
+}
+
+.notification .heading p {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    right: 0;
+    font-size: 10px;
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+.notification .heading h4 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.notification .info {
+    text-align: center;
+    padding: 10px;
+    margin: 0 10px;
+}
+
+.notification .lines {
+    border-top: 4px solid;
+    border-bottom: 1px solid;
+    margin: 0 10px;
+    padding: 1px;
+    margin-bottom: 10px;
+}
+
+.notification_success .heading h4 {
+    color: #00C013;
+}
+
+.notification_success .info {
+    color: #00C013;
+}
+
+.notification_success .lines {
+    border-color: #00C013;
+}
+
+.notification_error .heading h4 {
+    color: #E70000;
+}
+
+.notification_error .info {
+    color: #E70000;
+}
+
+.notification_error .lines {
+    border-color: #E70000;
+}
+
+.notification_success>div {
+    background: rgba(0, 192, 19, 0.1);
+}
+
+.notification_error>div {
+    background: rgb(231, 0, 0, 0.1);
+}
+
+.error_par {
+    margin: 0;
+    margin-top: 5px;
+    padding: 15px 25px;
+    background: rgba(231, 0, 0, 0.1);
+    color: #E70000;
+}
+
+.box .link_btn_gold {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 15px 30px;
+    margin-top: 30px;
+}
+
+.control_label {
+    font-size: var(--paragraphMidFontSize);
+    margin-bottom: -20px;
+    margin-top: 20px;
+    display: block;
+    cursor: pointer;
+}
+
+.control_label.error {
+    color: red;
+}
+
+.foot {
+    display: flex;
+    justify-content: center;
+    flex-flow: row nowrap;
+    margin-bottom: 20px;
+    padding: 0 3vw;
+}
+
+.foot a {
+    display: block;
+    padding: 0;
+    color: black;
+    margin-right: 20px;
+}
+
+.foot a:last-child {
+    margin-right: 0;
+}
+
+.box_info {
+    color: #161616;
+    font-size: var(--paragraphMidFontSize);
+    text-align: center;
+}
+
+.foot a:hover {
+    text-decoration: underline;
+}
+
+.radio {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.radio label {
+    padding-right: 20px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+    min-height: 20px;
+}
