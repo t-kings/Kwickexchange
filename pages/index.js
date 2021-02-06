@@ -6,6 +6,7 @@ import Exchange from "../components/home/exchange";
 import Bitcoin from "../components/home/bitcoin";
 import GiftCard from "../components/home/giftCard";
 import Review from "../components/home/review";
+import Footer from "../components/footer";
 export default function Home() {
   return (
     <>
@@ -39,6 +40,7 @@ export default function Home() {
       <Bitcoin />
       <GiftCard />
       <Review />
+      <Footer />
     </>
   );
 }
