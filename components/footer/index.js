@@ -1,12 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import style from "./Index.module.css";
+import axios from "axios";
+import { apiUrl } from "../../store/root";
+import { NotificationContext } from "../../store/root";
 const Index = () => {
   const router = useRouter();
+  const context = useContext(NotificationContext);
+  const { showNotification } = context;
   return (
     <div>
-      <Footer router={router} />
+      <Footer router={router} showNotification={showNotification} />
     </div>
   );
 };
@@ -17,11 +22,42 @@ class Footer extends Component {
     this.state = {
       email: "",
       message: "",
+      loading: false,
     };
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
+    const { email, message } = this.state;
+    this.setState({
+      ...this.state,
+      loading: true,
+    });
+    try {
+      const res = await axios.post(apiUrl + "misc/contact-us", {
+        email,
+        message,
+      });
+      if (res.status === 201) {
+        this.props.showNotification(
+          true,
+          "Contact Us",
+          "Message received, we shall reach out to you shortly"
+        );
+      } else {
+        this.props.showNotification(false, "Contact Us", res.data?.message);
+      }
+    } catch (e) {
+      this.props.showNotification(
+        false,
+        "Contact Us",
+        "Error Something went wrong"
+      );
+    }
+    this.setState({
+      ...this.state,
+      loading: false,
+    });
   };
   render() {
     return (
@@ -86,6 +122,7 @@ class Footer extends Component {
               cols="30"
               rows="10"
               placeholder="Message"
+              required
               onChange={(e) =>
                 this.setState({
                   ...this.state,
@@ -93,7 +130,17 @@ class Footer extends Component {
                 })
               }
             ></textarea>
-            <input type="submit" value="SEND" className={style.link_btn_gold} />
+            {this.state.loading ? (
+              <div className={style.link_btn_gold + " " + style.load}>
+                <div className={style.loader}>Loading...</div>
+              </div>
+            ) : (
+              <input
+                type="submit"
+                value="SEND"
+                className={style.link_btn_gold}
+              />
+            )}
           </form>
         </div>
       </footer>

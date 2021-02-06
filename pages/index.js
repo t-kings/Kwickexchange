@@ -1,6 +1,7 @@
 import React, { Component, useContext, useEffect } from "react";
 import Head from "next/head";
 import Nav from "../components/navbar";
+import Notification from "../components/notification";
 import Header from "../components/home/header";
 import Exchange from "../components/home/exchange";
 import Bitcoin from "../components/home/bitcoin";
@@ -9,12 +10,15 @@ import Review from "../components/home/review";
 import Footer from "../components/footer";
 import TestimonialState from "../store/actions/testimonials";
 import { TestimonialContext } from "../store/root";
+import NotificationState from "../store/actions/notification";
 export default class Home extends Component {
   render() {
     return (
-      <TestimonialState>
-        <Index />
-      </TestimonialState>
+      <NotificationState>
+        <TestimonialState>
+          <Index />
+        </TestimonialState>
+      </NotificationState>
     );
   }
 }
@@ -46,6 +50,7 @@ const Index = () => {
         <link rel="icon" href="/images/logo.png" />
       </Head>
       <Nav />
+      <Notification />
       <Header />
       <Exchange />
       <Bitcoin />
