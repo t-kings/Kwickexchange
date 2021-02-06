@@ -55,7 +55,7 @@ class SignIn extends Component {
         errors,
       });
     } else {
-      signIn(email, password);
+      signIn({ email, password });
     }
   };
   render() {

@@ -252,6 +252,29 @@
     }
 }
 
+.big_load {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.load.big_load:hover {
+    background: none !important;
+    border-color: none!important;
+}
+
+.big_load .loader, .big_load .loader:before, .big_load .loader:after {
+    background: rgba(0, 0, 0, 0.7);
+    width: 1em;
+    height: 70px;
+}
+
+.big_load .loader {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 15px;
+}
+
 .notification_error>div {
     background: rgb(231, 0, 0, 0.1);
 }

@@ -17,8 +17,11 @@ const Index = (props) => {
             <p>{type}</p>
             <h4>Success</h4>
           </div>
+
           <p className={style.info}>
-            {message.length > 50 ? message.substring(0, 50) : message}
+            {message && message.length > 50
+              ? message.substring(0, 50)
+              : message}
           </p>
           <div className={style.lines}></div>
         </div>
@@ -36,7 +39,9 @@ const Index = (props) => {
             <h4>Error</h4>
           </div>
           <p className={style.info}>
-            {message.length > 50 ? message.substring(0, 50) : message}
+            {message && message.length > 50
+              ? message.substring(0, 50)
+              : message}
           </p>
           <div className={style.lines}></div>
         </div>

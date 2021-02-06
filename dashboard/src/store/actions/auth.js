@@ -143,22 +143,129 @@ export const signUp = (user) => {
   };
 };
 
-// export const verifyUser = (user) => {
-//   return (dispatch, getState) => {
-//     axios
-//       .post(apiUrl + "email/verify", { ...user })
-//       .then((res) => {
-//         if (res.status === 201) {
-//           dispatch({ type: "User_Verified", data: res.data.data });
-//         } else {
-//           dispatch({ type: "User_Error", err: res.data.message });
-//         }
-//       })
-//       .catch((err) => {
-//         dispatch({ type: "User_Error", err: err.response.data.message });
-//       });
-//   };
-// };
+export const resendVerification = (user) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: "AUTH_LOADING",
+    });
+    try {
+      const res = await axios.post(apiUrl + "/verification/email", { ...user });
+      if (res.status === 200) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Email Verification",
+            isSuccess: true,
+            message: "Verification email sent",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      } else {
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Email Verification",
+            isSuccess: false,
+            message: "Error, try again",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+    } catch (err) {
+      dispatch({
+        type: "CLEAR_AUTH_LOADING",
+      });
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Email Verification",
+          isSuccess: false,
+          message: err?.response?.data?.message,
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+    }
+  };
+};
+
+export const verifyEmail = (user) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: "AUTH_LOADING",
+    });
+    try {
+      const res = await axios.post(apiUrl + "auth/verify/email/" + user);
+      if (res.status === 200) {
+        dispatch({
+          type: "EMAIL_VERIFIED",
+          data: { isVerified: true },
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Email Verification",
+            isSuccess: true,
+            message: "Email Verified Successfully",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      } else {
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Email Verification",
+            isSuccess: false,
+            message: "Error, try again",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+    } catch (err) {
+      dispatch({
+        type: "CLEAR_AUTH_LOADING",
+      });
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Email Verification",
+          isSuccess: false,
+          message: err?.response?.data?.message,
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+    }
+  };
+};
 
 // export const editProfile = (data) => {
 //   return (dispatch, getState) => {

@@ -89,7 +89,7 @@ class SignUp extends Component {
         errors,
       });
     } else {
-      signUp(email, password, fullName, username);
+      signUp({ email, password, fullName, username });
     }
   };
   render() {

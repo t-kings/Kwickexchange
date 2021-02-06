@@ -6,6 +6,7 @@ const initState = {
   accessToken: "",
   accessTokenExpiresIn: 1611538064,
   refreshToken: "",
+  isVerified: false,
 };
 
 const authReducer = (state = initState, action) => {
@@ -39,6 +40,11 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         toVerify: false,
+      };
+    case "EMAIL_VERIFIED":
+      return {
+        ...state,
+        isVerified: true,
       };
     // case "Token_LoggedIn":
     //   // console.log(action.data)
