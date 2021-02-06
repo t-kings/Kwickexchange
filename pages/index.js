@@ -20,11 +20,7 @@ export default function Home() {
                     you want it."
         />
         <meta name="robots" content="index, follow" />
-        <meta
-          property="og:title"
-          content="The most reliable crypto currency exchange platform. Where you have easy access to your money anytime
-                    you want it."
-        />
+        <meta property="og:title" content="Quick Exchange" />
         <meta property="og:url" content="" />
         <meta property="og:site_name" content="Quick Exchange" />
         <meta property="og:image" content="" />
