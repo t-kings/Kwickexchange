@@ -34,7 +34,7 @@ class Testimonials extends Component {
     clearInterval(this.intervalID);
   };
   render() {
-    return this.props.testimonialContext.testimonials.length > 0 ? (
+    return (
       <section className={style.header}>
         <div className={style.flier}>
           <svg
@@ -124,33 +124,41 @@ class Testimonials extends Component {
         <div className={style.header_holder}>
           <div className={style.info_holder}>
             <div className={style.hold}>
-              {this.props.testimonialContext.testimonials.map((item, index) => (
-                <div
-                  key={index}
-                  style={{
-                    display: this.state.index === index ? "flex" : "none",
-                  }}
-                  className={style.holder}
-                >
-                  <h1>
-                    {item.name}
-                    <br />
-                    <span>{item.title}</span>
-                  </h1>
-                  <p className={style.subtitle}>{item.message}</p>
-                  {/* <div className={style.action_buttons}>
+              {this.props.testimonialContext.testimonials.length > 0 ? (
+                this.props.testimonialContext.testimonials.map(
+                  (item, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        display: this.state.index === index ? "flex" : "none",
+                      }}
+                      className={style.holder}
+                    >
+                      <h1>
+                        {item.name}
+                        <br />
+                        <span>{item.title}</span>
+                      </h1>
+                      <p className={style.subtitle}>{item.message}</p>
+                      {/* <div className={style.action_buttons}>
                     <a href="/contact/speak" className={style.link_btn_gold}>
                       Speak with Us
                     </a>
                   </div> */}
+                    </div>
+                  )
+                )
+              ) : (
+                <div className={style.holder}>
+                  <div className={style.load}>
+                    <div className={style.loader}>Loading...</div>
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>
       </section>
-    ) : (
-      <div></div>
     );
   }
 }

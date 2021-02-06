@@ -8,7 +8,8 @@ import Bitcoin from "../components/home/bitcoin";
 import GiftCard from "../components/home/giftCard";
 import Review from "../components/home/review";
 import Footer from "../components/footer";
-import { TestimonialContext, BitcoinContext } from "../store/root";
+import axios from "axios";
+import { TestimonialContext, BitcoinContext, apiUrl } from "../store/root";
 const Index = ({ testimonials, bitcoinRate }) => {
   const context = useContext(TestimonialContext);
   const bitCoinContext = useContext(BitcoinContext);
@@ -19,18 +20,18 @@ const Index = ({ testimonials, bitcoinRate }) => {
   return (
     <>
       <Head>
-        <meta charset="UTF-8" />
+        <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Quick Exchange</title>
+        <title>Kwick Xchange</title>
         <meta
           name="description"
           content="The most reliable crypto currency exchange platform. Where you have easy access to your money anytime
                     you want it."
         />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Quick Exchange" />
+        <meta property="og:title" content="Kwick Xchange" />
         <meta property="og:url" content="" />
-        <meta property="og:site_name" content="Quick Exchange" />
+        <meta property="og:site_name" content="Kwick Xchange" />
         <meta property="og:image" content="" />
         <meta
           name="keywords"
@@ -60,64 +61,25 @@ export default Index;
 
 const getTestimonials = async () => {
   try {
-    //   const res = await axios.get(apiUrl + "/misc/testimonial");
-    const res = {
-      status: 200,
-      data: {
-        message: "success",
-        data: [
-          {
-            id: "601deeec700d837dd51cb144",
-            name: "Ben Murray",
-            title: "Head Boy",
-            message: " A good one",
-          },
-          {
-            id: "601def1a700d837dd51cb145",
-            name: "Ben Murray Bruce",
-            title: "Head Boy",
-            message: "Another A good one",
-          },
-        ],
-      },
-    };
+    const res = await axios.get(apiUrl + "/misc/testimonial");
     if (res.status === 200) {
       return res.data.data;
     }
     return [];
   } catch (e) {
-    console.log(e);
+    console.log(e.response.status);
     return [];
   }
 };
 
 const getBitcoinRate = async () => {
   try {
-    //   const res = await axios.get(apiUrl + "/misc/bitcoin-rates");
-    const res = {
-      status: 200,
-      data: {
-        message: "success",
-        data: {
-          buy: {
-            type: "bitcoin-buy",
-            usd: "37978.60",
-            naira: "382.14",
-          },
-          sell: {
-            type: "bitcoin-sell",
-            usd: "37751.40",
-            naira: "379.86",
-          },
-        },
-      },
-    };
+    const res = await axios.get(apiUrl + "/misc/bitcoin-rates");
     if (res.status === 200) {
       return res.data.data;
     }
     return [];
   } catch (e) {
-    console.log(e);
     return [];
   }
 };

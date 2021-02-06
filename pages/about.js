@@ -21,21 +21,21 @@ class About extends Component {
     return (
       <>
         <Head>
-          <meta charset="UTF-8" />
+          <meta charSet="UTF-8" />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          <title>About | Quick Exchange</title>
+          <title>About | Kwick Xchange</title>
           <meta
             name="description"
             content="The most reliable crypto currency exchange platform. Where you have easy access to your money anytime
                     you want it."
           />
           <meta name="robots" content="index, follow" />
-          <meta property="og:title" content="Quick Exchange" />
+          <meta property="og:title" content="Kwick Xchange" />
           <meta property="og:url" content="" />
-          <meta property="og:site_name" content="Quick Exchange" />
+          <meta property="og:site_name" content="Kwick Xchange" />
           <meta property="og:image" content="" />
           <meta
             name="keywords"
