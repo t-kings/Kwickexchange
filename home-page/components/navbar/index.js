@@ -96,7 +96,11 @@ class Nav extends Component {
           </ul>
           <ul className={style.hide_mobile}>
             <li>
-              <a href="https://url.com/signin" className={style.signIn}>
+              <a
+                target="_blank"
+                href="https://dashboardkwickexchange.netlify.app/"
+                className={style.signIn}
+              >
                 Sign In
               </a>
             </li>
