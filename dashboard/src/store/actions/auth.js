@@ -335,7 +335,7 @@ export const requestPassword = (user) => {
       if (res.status === 200) {
         dispatch({
           type: "PASSWORD_SENT",
-          data: user,
+          data: { user },
         });
         dispatch({
           type: "SHOW_NOTIFICATION",
@@ -369,6 +369,24 @@ export const requestPassword = (user) => {
         }, 5000);
       }
     } catch (err) {
+      if (err.response.status === 404) {
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Request Password",
+            isSuccess: false,
+            message: "Email not found",
+          },
+        });
+        return setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
       dispatch({
         type: "CLEAR_AUTH_LOADING",
       });
@@ -377,7 +395,7 @@ export const requestPassword = (user) => {
         data: {
           type: "Request Password",
           isSuccess: false,
-          message: err?.response?.data?.message,
+          message: err?.response?.data?.data,
         },
       });
       setTimeout(() => {
@@ -435,6 +453,30 @@ export const resetPassword = (user) => {
         }, 5000);
       }
     } catch (err) {
+      if (err.response.status === 422) {
+        dispatch({
+          type: "AUTH_ERRORS",
+          data: {
+            errors: err.response.data.data.errors,
+          },
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Sign Up",
+            isSuccess: false,
+            message: "Check form errors",
+          },
+        });
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        return setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
       dispatch({
         type: "CLEAR_AUTH_LOADING",
       });

@@ -19,7 +19,10 @@ class ResetPassword extends Component {
       loading: false,
       isAuthenticated: false,
       shouldVerify: false,
-      errors: [],
+      errors: {
+        password: [],
+        confirmPassword: [],
+      },
       plans: [],
       user: {},
     };
@@ -32,7 +35,10 @@ class ResetPassword extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    const errors = [];
+    const errors = {
+      password: [],
+      confirmPassword: [],
+    };
     this.setState({
       ...this.state,
       errors,
@@ -43,28 +49,15 @@ class ResetPassword extends Component {
       return "";
     }
     if (password.length < 1) {
-      errors.push({
-        msg: "Password is required",
-        param: "password",
-        location: "body",
-      });
+      errors.password.push("Password is required");
     }
     if (confirmPassword.length < 1) {
-      errors.push({
-        msg: "Confirm Password is required",
-        param: "confirmPassword",
-        location: "body",
-      });
+      errors.confirmPassword.push("Confirm Password is required");
     }
-
     if (password !== confirmPassword) {
-      errors.push({
-        msg: "Passwords do not match",
-        param: "confirmPassword",
-        location: "body",
-      });
+      errors.confirmPassword.push("Passwords do not match");
     }
-    if (errors.length > 0) {
+    if (errors.password.length > 0 || errors.confirmPassword.length > 0) {
       this.setState({
         ...this.state,
         errors,
@@ -78,7 +71,7 @@ class ResetPassword extends Component {
     }
   };
   render() {
-    const { errors } = this.state;
+    const errors = { ...this.state.errors, ...this.props.errors };
     const { isLoading, isAuthenticated, isPasswordChanged, user } = this.props;
     if (isAuthenticated) {
       return (
@@ -118,9 +111,7 @@ class ResetPassword extends Component {
               className={
                 style.control_label +
                 " " +
-                (errors.filter((error) => error.param === "password").length > 0
-                  ? style.error
-                  : " ")
+                (errors["password"].length > 0 ? style.error : " ")
               }
               htmlFor="password"
             >
@@ -136,27 +127,20 @@ class ResetPassword extends Component {
               className={
                 style.form_control +
                 " " +
-                (errors.filter((error) => error.param === "password").length > 0
-                  ? style.error
-                  : " ")
+                (errors["password"].length > 0 ? style.error : " ")
               }
             />
-            {errors
-              .filter((error) => error.param === "password")
-              .map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item.msg}
-                </p>
-              ))}
+            {errors["password"].map((item, idx) => (
+              <p key={idx} className={style.error_par}>
+                {item}
+              </p>
+            ))}
 
             <label
               className={
                 style.control_label +
                 " " +
-                (errors.filter((error) => error.param === "confirmPassword")
-                  .length > 0
-                  ? style.error
-                  : " ")
+                (errors["confirmPassword"].length > 0 ? style.error : " ")
               }
               htmlFor="confirmPassword"
             >
@@ -172,19 +156,14 @@ class ResetPassword extends Component {
               className={
                 style.form_control +
                 " " +
-                (errors.filter((error) => error.param === "confirmPassword")
-                  .length > 0
-                  ? style.error
-                  : " ")
+                (errors["confirmPassword"].length > 0 ? style.error : " ")
               }
             />
-            {errors
-              .filter((error) => error.param === "confirmPassword")
-              .map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item.msg}
-                </p>
-              ))}
+            {errors["confirmPassword"].map((item, idx) => (
+              <p key={idx} className={style.error_par}>
+                {item}
+              </p>
+            ))}
             {isLoading ? (
               <div className={style.load + " " + style.link_btn_gold}>
                 <div className={style.loader}>Loading...</div>
