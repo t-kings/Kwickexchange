@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import Head from "next/head";
-import Nav from "../components/navbar/Index";
+import Nav from "../components/navbar";
 import Notification from "../components/notification";
 import Header from "../components/home/header";
 import Exchange from "../components/home/exchange";
