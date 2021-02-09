@@ -7,7 +7,7 @@ export const signIn = (user) => {
       type: "AUTH_LOADING",
     });
     try {
-      const res = await axios.post(apiUrl + "auth/Sign In", { ...user });
+      const res = await axios.post(apiUrl + "auth/login", { ...user });
       if (res.status === 200) {
         dispatch({ type: "USER_LOGGED_IN", data: res.data });
         dispatch({
@@ -23,25 +23,6 @@ export const signIn = (user) => {
             type: "CLEAR_NOTIFICATION",
           });
         }, 5000);
-      } else if (res.status === 202) {
-        dispatch({
-          type: "CLEAR_AUTH_LOADING",
-        });
-        dispatch({
-          type: "SHOW_NOTIFICATION",
-          data: {
-            type: "Sign In",
-            isSuccess: false,
-            message: "Email not verified",
-          },
-        });
-        setTimeout(() => {
-          dispatch({
-            type: "CLEAR_NOTIFICATION",
-          });
-        }, 5000);
-        // dispatch({ type: "User_Registered", data: res.data });
-        setTimeout(dispatch({ type: "CLEAR_VERIFY" }), 10000);
       } else {
         dispatch({
           type: "CLEAR_AUTH_LOADING",
@@ -61,6 +42,51 @@ export const signIn = (user) => {
         }, 5000);
       }
     } catch (err) {
+      if (
+        err.response.status === 400 &&
+        err.response.data.data !== "Invalid Credentials"
+      ) {
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Sign In",
+            isSuccess: false,
+            message: "Email not verified",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "USER_REGISTERED", data: user });
+        return setTimeout(dispatch({ type: "CLEAR_VERIFY" }), 5000);
+      }
+      if (
+        err.response.status === 503 ||
+        (err.response.status === 400 &&
+          err.response.data.data === "Invalid Credentials")
+      ) {
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Sign In",
+            isSuccess: false,
+            message: "Wrong Username / Password Combination",
+          },
+        });
+        return setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
       dispatch({
         type: "CLEAR_AUTH_LOADING",
       });
@@ -90,7 +116,7 @@ export const signUp = (user) => {
       const res = await axios.post(apiUrl + "auth/register", { ...user });
       if (res.status === 201) {
         dispatch({ type: "USER_REGISTERED", data: user });
-        setTimeout(dispatch({ type: "CLEAR_VERIFY" }), 10000);
+        setTimeout(dispatch({ type: "CLEAR_VERIFY" }), 5000);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -173,7 +199,9 @@ export const resendVerification = (user) => {
       type: "AUTH_LOADING",
     });
     try {
-      const res = await axios.post(apiUrl + "/verification/email", { ...user });
+      const res = await axios.post(apiUrl + "auth/verification/email", {
+        ...user,
+      });
       if (res.status === 200) {
         dispatch({
           type: "SHOW_NOTIFICATION",
@@ -182,6 +210,9 @@ export const resendVerification = (user) => {
             isSuccess: true,
             message: "Verification email sent",
           },
+        });
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
         });
         setTimeout(() => {
           dispatch({
@@ -271,6 +302,7 @@ export const verifyEmail = (user) => {
         }, 5000);
       }
     } catch (err) {
+      console.log(err.response.data);
       dispatch({
         type: "CLEAR_AUTH_LOADING",
       });
@@ -279,7 +311,7 @@ export const verifyEmail = (user) => {
         data: {
           type: "Email Verification",
           isSuccess: false,
-          message: err?.response?.data?.message,
+          message: err?.response?.data?.data,
         },
       });
       setTimeout(() => {

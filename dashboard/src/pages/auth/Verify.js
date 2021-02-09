@@ -15,7 +15,7 @@ class Verify extends Component {
     if (isLoading) {
       return "";
     }
-    resendVerification({ email: match.params.email });
+    resendVerification({ user: match.params.email });
   };
   render() {
     const { isAuthenticated, isLoading } = this.props;

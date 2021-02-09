@@ -39,7 +39,7 @@ const authReducer = (state = initState, action) => {
         user: action.data,
         isLoading: false,
       };
-    case "ClEAR_VERIFY":
+    case "CLEAR_VERIFY":
       return {
         ...state,
         toVerify: false,
@@ -48,6 +48,7 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         isVerified: true,
+        isLoading: false,
       };
     case "PASSWORD_SENT":
       return {
