@@ -19,7 +19,14 @@ class SignUp extends Component {
       loading: false,
       isAuthenticated: false,
       shouldVerify: false,
-      errors: [],
+      errors: {
+        full_name: [],
+        user_name: [],
+        username: [],
+        email: [],
+        password: [],
+        confirmPassword: [],
+      },
       plans: [],
       user: {},
     };
@@ -32,7 +39,14 @@ class SignUp extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    const errors = [];
+    const errors = {
+      full_name: [],
+      user_name: [],
+      username: [],
+      email: [],
+      password: [],
+      confirmPassword: [],
+    };
     this.setState({
       ...this.state,
       errors,
@@ -43,61 +57,43 @@ class SignUp extends Component {
       return "";
     }
     if (email.length < 1) {
-      errors.push({
-        msg: "Email is required",
-        param: "email",
-        location: "body",
-      });
+      errors.email.push("Email is required");
     }
     if (password.length < 1) {
-      errors.push({
-        msg: "Password is required",
-        param: "password",
-        location: "body",
-      });
+      errors.password.push("Password is required");
     }
     if (confirmPassword.length < 1) {
-      errors.push({
-        msg: "Confirm Password is required",
-        param: "confirmPassword",
-        location: "body",
-      });
+      errors.confirmPassword.push("Confirm Password is required");
     }
 
     if (username.length < 1) {
-      errors.push({
-        msg: "Username is required",
-        param: "username",
-        location: "body",
-      });
+      errors.user_name.push("Username is required");
     }
 
     if (fullName.length < 1) {
-      errors.push({
-        msg: "Full Name is required",
-        param: "fullName",
-        location: "body",
-      });
+      errors.full_name.push("Full Name is required");
     }
 
     if (password !== confirmPassword) {
-      errors.push({
-        msg: "Passwords do not match",
-        param: "confirmPassword",
-        location: "body",
-      });
+      errors.confirmPassword.push("Passwords do not match");
     }
-    if (errors.length > 0) {
+    if (
+      errors.full_name.length > 0 ||
+      errors.user_name.length > 0 ||
+      errors.email.length > 0 ||
+      errors.password.length > 0 ||
+      errors.confirmPassword.length > 0
+    ) {
       this.setState({
         ...this.state,
         errors,
       });
     } else {
-      signUp({ email, password, fullName, username });
+      signUp({ email, password, full_name: fullName, user_name: username });
     }
   };
   render() {
-    const { errors } = this.state;
+    const errors = { ...this.state.errors, ...this.props.errors };
     const { isLoading, isAuthenticated, toVerify, user } = this.props;
     if (isAuthenticated) {
       return (
@@ -136,9 +132,7 @@ class SignUp extends Component {
               className={
                 style.control_label +
                 " " +
-                (errors.filter((error) => error.param === "username").length > 0
-                  ? style.error
-                  : " ")
+                (errors["full_name"].length > 0 ? style.error : " ")
               }
               htmlFor="fullName"
             >
@@ -149,30 +143,24 @@ class SignUp extends Component {
               className={
                 style.form_control +
                 " " +
-                (errors.filter((error) => error.param === "fullName").length > 0
-                  ? style.error
-                  : " ")
+                (errors["full_name"].length > 0 ? style.error : " ")
               }
               id="fullName"
               name="fullName"
               onChange={this.handleChange}
               required
             />
-            {errors
-              .filter((error) => error.param === "fullName")
-              .map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item.msg}
-                </p>
-              ))}
+            {errors["full_name"].map((item, idx) => (
+              <p key={idx} className={style.error_par}>
+                {item}
+              </p>
+            ))}
 
             <label
               className={
                 style.control_label +
                 " " +
-                (errors.filter((error) => error.param === "username").length > 0
-                  ? style.error
-                  : " ")
+                (errors["user_name"].length > 0 ? style.error : " ")
               }
               htmlFor="username"
             >
@@ -183,29 +171,23 @@ class SignUp extends Component {
               className={
                 style.form_control +
                 " " +
-                (errors.filter((error) => error.param === "username").length > 0
-                  ? style.error
-                  : " ")
+                (errors["user_name"].length > 0 ? style.error : " ")
               }
               id="username"
               name="username"
               onChange={this.handleChange}
               required
             />
-            {errors
-              .filter((error) => error.param === "userName")
-              .map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item.msg}
-                </p>
-              ))}
+            {errors["user_name"].map((item, idx) => (
+              <p key={idx} className={style.error_par}>
+                {item}
+              </p>
+            ))}
             <label
               className={
                 style.control_label +
                 " " +
-                (errors.filter((error) => error.param === "email").length > 0
-                  ? style.error
-                  : " ")
+                (errors["email"].length > 0 ? style.error : " ")
               }
               htmlFor="email"
             >
@@ -220,25 +202,19 @@ class SignUp extends Component {
               className={
                 style.form_control +
                 " " +
-                (errors.filter((error) => error.param === "email").length > 0
-                  ? style.error
-                  : " ")
+                (errors["email"].length > 0 ? style.error : " ")
               }
             />
-            {errors
-              .filter((error) => error.param === "email")
-              .map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item.msg}
-                </p>
-              ))}
+            {errors["email"].map((item, idx) => (
+              <p key={idx} className={style.error_par}>
+                {item}
+              </p>
+            ))}
             <label
               className={
                 style.control_label +
                 " " +
-                (errors.filter((error) => error.param === "password").length > 0
-                  ? style.error
-                  : " ")
+                (errors["password"].length > 0 ? style.error : " ")
               }
               htmlFor="password"
             >
@@ -254,27 +230,20 @@ class SignUp extends Component {
               className={
                 style.form_control +
                 " " +
-                (errors.filter((error) => error.param === "password").length > 0
-                  ? style.error
-                  : " ")
+                (errors["password"].length > 0 ? style.error : " ")
               }
             />
-            {errors
-              .filter((error) => error.param === "password")
-              .map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item.msg}
-                </p>
-              ))}
+            {errors["password"].map((item, idx) => (
+              <p key={idx} className={style.error_par}>
+                {item}
+              </p>
+            ))}
 
             <label
               className={
                 style.control_label +
                 " " +
-                (errors.filter((error) => error.param === "confirmPassword")
-                  .length > 0
-                  ? style.error
-                  : " ")
+                (errors["confirmPassword"].length > 0 ? style.error : " ")
               }
               htmlFor="confirmPassword"
             >
@@ -290,19 +259,14 @@ class SignUp extends Component {
               className={
                 style.form_control +
                 " " +
-                (errors.filter((error) => error.param === "confirmPassword")
-                  .length > 0
-                  ? style.error
-                  : " ")
+                (errors["confirmPassword"].length > 0 ? style.error : " ")
               }
             />
-            {errors
-              .filter((error) => error.param === "confirmPassword")
-              .map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item.msg}
-                </p>
-              ))}
+            {errors["confirmPassword"].map((item, idx) => (
+              <p key={idx} className={style.error_par}>
+                {item}
+              </p>
+            ))}
             {isLoading ? (
               <div className={style.load + " " + style.link_btn_gold}>
                 <div className={style.loader}>Loading...</div>

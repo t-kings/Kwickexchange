@@ -123,6 +123,30 @@ export const signUp = (user) => {
         }, 5000);
       }
     } catch (err) {
+      if (err.response.status === 422) {
+        dispatch({
+          type: "AUTH_ERRORS",
+          data: {
+            errors: err.response.data.data.errors,
+          },
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Sign Up",
+            isSuccess: false,
+            message: "Check form errors",
+          },
+        });
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        return setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
       dispatch({
         type: "CLEAR_AUTH_LOADING",
       });

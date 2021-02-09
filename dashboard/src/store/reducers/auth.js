@@ -7,6 +7,7 @@ const initState = {
   accessTokenExpiresIn: 1611538064,
   refreshToken: "",
   isVerified: false,
+  errors: {},
 };
 
 const authReducer = (state = initState, action) => {
@@ -15,6 +16,7 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: true,
+        errors: {},
       };
     case "CLEAR_AUTH_LOADING":
       return {
@@ -35,6 +37,7 @@ const authReducer = (state = initState, action) => {
         ...state,
         toVerify: true,
         user: action.data,
+        isLoading: false,
       };
     case "ClEAR_VERIFY":
       return {
@@ -56,6 +59,11 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         isPasswordChanged: true,
+        ...action.data,
+      };
+    case "AUTH_ERRORS":
+      return {
+        ...state,
         ...action.data,
       };
 
