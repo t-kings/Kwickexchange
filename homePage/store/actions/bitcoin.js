@@ -10,7 +10,6 @@ const BitcoinState = (props) => {
 
   const [state, dispatch] = useReducer(BitcoinReducer, initialState);
 
-  // GET ALL CAKES
   const getBitcoinRate = async (bitcoinRate) => {
     dispatch({ type: "GET_BITCOIN_RATE", payload: bitcoinRate });
   };

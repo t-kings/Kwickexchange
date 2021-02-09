@@ -12,7 +12,6 @@ const NotificationState = (props) => {
 
   const [state, dispatch] = useReducer(NotificationReducer, initialState);
 
-  // GET ALL CAKES
   const showNotification = async (isSuccess, type, message) => {
     dispatch({
       type: "SHOW_NOTIFICATION",

@@ -11,7 +11,6 @@ const TestimonialState = (props) => {
 
   const [state, dispatch] = useReducer(TestimonialReducer, initialState);
 
-  // GET ALL CAKES
   const getTestimonials = async (testimonials) => {
     dispatch({ type: "GET_TESTIMONIALS", payload: testimonials });
   };

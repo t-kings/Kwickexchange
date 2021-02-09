@@ -2,12 +2,18 @@ import React, { Component, useContext } from "react";
 import { useRouter } from "next/router";
 import style from "./Index.module.css";
 import { BitcoinContext } from "../../../store/root";
+import { GiftCardContext } from "../../../store/root";
 const Index = () => {
   const router = useRouter();
   const bitcoinContext = useContext(BitcoinContext);
+  const giftCardContext = useContext(GiftCardContext);
   return (
     <div>
-      <Header router={router} bitcoinContext={bitcoinContext} />
+      <Header
+        router={router}
+        bitcoinContext={bitcoinContext}
+        giftCardContext={giftCardContext}
+      />
     </div>
   );
 };
@@ -19,10 +25,14 @@ class Header extends Component {
       formTab: 1,
       dollar: 0.0,
       btc: 0.0,
-      qty: 0,
-      giftCard: 100,
+      qty: 1,
+      giftCard: 0,
+      country: 0,
       type: 25,
       total: 0,
+      card: 0,
+      denomination: 0,
+      giftCards: [],
     };
   }
   handleBTC = (e) => {
@@ -46,35 +56,221 @@ class Header extends Component {
 
   handleGiftCard = (e) => {
     const giftCard = e.target.value;
-    const total = giftCard * this.state.qty * this.state.type;
+    const { giftCardContext } = this.props;
+    const giftCards = giftCardContext.sell;
+    const { country, card, denomination, qty } = this.state;
+    let rate = 0;
+    let total = 0;
+    if (giftCards.length > 0) {
+      const chosenGiftCard = giftCards[giftCard];
+      if (chosenGiftCard.sellRates.length > 0) {
+        const chosenCountry = chosenGiftCard.sellRates[country];
+        if (chosenCountry.cards.length > 0) {
+          const chosenCard = chosenCountry.cards[card];
+          if (chosenCard.denomination) {
+            const chosenCard = chosenCountry.cards[card];
+            if (chosenCard.denomination.length > 0) {
+              const chosenDenomination = chosenCard.denomination[denomination];
+              rate = chosenDenomination.rate;
+              const value = chosenDenomination.value;
+              total = rate * value * qty;
+            }
+          } else {
+            rate = chosenCard.rate;
+            total = rate * qty;
+          }
+        }
+      }
+    }
     this.setState({
       ...this.state,
       giftCard,
       total,
+      rate,
     });
   };
 
+  handleCountry = (e) => {
+    const country = e.target.value;
+    const { giftCardContext } = this.props;
+    const giftCards = giftCardContext.sell;
+    const { giftCard, card, denomination, qty } = this.state;
+    let rate = 0;
+    let total = 0;
+    if (giftCards.length > 0) {
+      const chosenGiftCard = giftCards[giftCard];
+      if (chosenGiftCard.sellRates.length > 0) {
+        const chosenCountry = chosenGiftCard.sellRates[country];
+        if (chosenCountry.cards.length > 0) {
+          const chosenCard = chosenCountry.cards[card];
+          if (chosenCard.denomination) {
+            const chosenCard = chosenCountry.cards[card];
+            if (chosenCard.denomination.length > 0) {
+              const chosenDenomination = chosenCard.denomination[denomination];
+              rate = chosenDenomination.rate;
+              const value = chosenDenomination.value;
+              total = rate * value * qty;
+            }
+          } else {
+            rate = chosenCard.rate;
+            total = rate * qty;
+          }
+        }
+      }
+    }
+    this.setState({
+      ...this.state,
+      country,
+      total,
+      rate,
+    });
+  };
+
+  handleCard = (e) => {
+    const card = e.target.value;
+    const { giftCardContext } = this.props;
+    const giftCards = giftCardContext.sell;
+    const { giftCard, country, denomination, qty } = this.state;
+    let rate = 0;
+    let total = 0;
+    if (giftCards.length > 0) {
+      const chosenGiftCard = giftCards[giftCard];
+      if (chosenGiftCard.sellRates.length > 0) {
+        const chosenCountry = chosenGiftCard.sellRates[country];
+        if (chosenCountry.cards.length > 0) {
+          const chosenCard = chosenCountry.cards[card];
+          if (chosenCard.denomination) {
+            const chosenCard = chosenCountry.cards[card];
+            if (chosenCard.denomination.length > 0) {
+              const chosenDenomination = chosenCard.denomination[denomination];
+              rate = chosenDenomination.rate;
+              const value = chosenDenomination.value;
+              total = rate * value * qty;
+            }
+          } else {
+            rate = chosenCard.rate;
+            total = rate * qty;
+          }
+        }
+      }
+    }
+    this.setState({
+      ...this.state,
+      card,
+      total,
+      rate,
+    });
+  };
+
+  handleDenomination = (e) => {
+    const denomination = e.target.value;
+    const { giftCardContext } = this.props;
+    const giftCards = giftCardContext.sell;
+    const { giftCard, country, card, qty } = this.state;
+    let rate = 0;
+    let total = 0;
+    if (giftCards.length > 0) {
+      const chosenGiftCard = giftCards[giftCard];
+      if (chosenGiftCard.sellRates.length > 0) {
+        const chosenCountry = chosenGiftCard.sellRates[country];
+        if (chosenCountry.cards.length > 0) {
+          const chosenCard = chosenCountry.cards[card];
+          if (chosenCard.denomination) {
+            const chosenCard = chosenCountry.cards[card];
+            if (chosenCard.denomination.length > 0) {
+              const chosenDenomination = chosenCard.denomination[denomination];
+              rate = chosenDenomination.rate;
+              const value = chosenDenomination.value;
+              total = rate * value * qty;
+            }
+          } else {
+            rate = chosenCard.rate;
+            total = rate * qty;
+          }
+        }
+      }
+    }
+    this.setState({
+      ...this.state,
+      denomination,
+      total,
+      rate,
+    });
+  };
   handleQTY = (e) => {
     const qty = parseFloat(e.target.value);
-    const total = this.state.giftCard * qty * this.state.type;
+    const { giftCardContext } = this.props;
+    const giftCards = giftCardContext.sell;
+    const { giftCard, country, card, denomination } = this.state;
+    let rate = 0;
+    let total = 0;
+    if (giftCards.length > 0) {
+      const chosenGiftCard = giftCards[giftCard];
+      if (chosenGiftCard.sellRates.length > 0) {
+        const chosenCountry = chosenGiftCard.sellRates[country];
+        if (chosenCountry.cards.length > 0) {
+          const chosenCard = chosenCountry.cards[card];
+          if (chosenCard.denomination) {
+            const chosenCard = chosenCountry.cards[card];
+            if (chosenCard.denomination.length > 0) {
+              const chosenDenomination = chosenCard.denomination[denomination];
+              rate = chosenDenomination.rate;
+              const value = chosenDenomination.value;
+              total = rate * value * qty;
+            }
+          } else {
+            rate = chosenCard.rate;
+            total = rate * qty;
+          }
+        }
+      }
+    }
     this.setState({
       ...this.state,
       qty,
       total,
+      rate,
     });
   };
-
-  handleType = (e) => {
-    const type = parseFloat(e.target.value);
-    const total = this.state.giftCard * type * this.state.qty;
-    this.setState({
-      ...this.state,
-      type,
-      total,
-    });
-  };
+  static getDerivedStateFromProps(props, state) {
+    const giftCards = props.giftCardContext.sell;
+    if (giftCards.length !== state.giftCards.length) {
+      const qty = 1;
+      const giftCard = 0;
+      const country = 0;
+      const card = 0;
+      const denomination = 0;
+      let rate = 0;
+      let total = 0;
+      if (giftCards.length > 0) {
+        const chosenGiftCard = giftCards[giftCard];
+        if (chosenGiftCard.sellRates.length > 0) {
+          const chosenCountry = chosenGiftCard.sellRates[country];
+          if (chosenCountry.cards.length > 0) {
+            const chosenCard = chosenCountry.cards[card];
+            if (chosenCard.denomination) {
+              const chosenCard = chosenCountry.cards[card];
+              if (chosenCard.denomination.length > 0) {
+                const chosenDenomination =
+                  chosenCard.denomination[denomination];
+                rate = chosenDenomination.rate;
+                const value = chosenDenomination.value;
+                total = rate * value * qty;
+              }
+            } else {
+              rate = chosenCard.rate;
+              total = rate * qty;
+            }
+          }
+        }
+      }
+      return { ...state, ...props, total, rate, giftCards };
+    }
+    return null;
+  }
   render() {
-    const { formTab } = this.state;
+    const { formTab, giftCard, country, card } = this.state;
+    const { bitcoinContext, giftCardContext } = this.props;
     return (
       <header className={style.header}>
         <div className={style.flier}>
@@ -190,12 +386,15 @@ class Header extends Component {
                   onClick={() => this.setState({ ...this.state, formTab: 2 })}
                   className={formTab === 1 ? "" : style.active}
                 >
-                  Gift Card
+                  Gift Cards
                 </button>
               </div>
               {formTab === 1 ? (
-                this.props.bitcoinContext.sell.usd ? (
-                  <form target="_blank" action="https://url.com/signup">
+                bitcoinContext.sell.usd ? (
+                  <form
+                    target="_blank"
+                    action="https://dashboard.kwickxchange.com/signup"
+                  >
                     <div className={style.input}>
                       <span>BTC</span>
                       <input
@@ -206,7 +405,13 @@ class Header extends Component {
                         onChange={this.handleBTC}
                         value={this.state.btc}
                       />
-                      <span>$234/BTC</span>
+                      <span>
+                        $
+                        {bitcoinContext.sell.usd
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        /BTC
+                      </span>
                     </div>
                     <div className={style.input}>
                       <span>$</span>
@@ -231,7 +436,7 @@ class Header extends Component {
                     <div className={style.loader}>Loading...</div>
                   </div>
                 )
-              ) : (
+              ) : giftCardContext.sell.length > 0 ? (
                 <form target="_blank" action="https://url.com/signup">
                   <div className={style.gift}>
                     <div className={style.input}>
@@ -240,26 +445,111 @@ class Header extends Component {
                         id="giftCard"
                         onChange={this.handleGiftCard}
                       >
-                        <option value="">Gift Card</option>
+                        {giftCardContext.sell.map((itm, index) => (
+                          <option key={index} value={index}>
+                            {itm.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
-                    <div className={style.input}>
-                      <select name="type" id="type" onChange={this.handleType}>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                      </select>
-                    </div>
+                    {giftCardContext.sell[giftCard].sellRates.length > 0 ? (
+                      <div className={style.input}>
+                        <select
+                          name="country"
+                          id="country"
+                          onChange={this.handleCountry}
+                        >
+                          {giftCardContext.sell[giftCard].sellRates.map(
+                            (itm, index) => (
+                              <option key={index} value={index}>
+                                {itm.country}
+                              </option>
+                            )
+                          )}
+                        </select>
+                      </div>
+                    ) : (
+                      <div className={style.input}>
+                        <select
+                          disabled
+                          readOnly
+                          name="country"
+                          style={{
+                            cursor: "not-allowed",
+                          }}
+                        >
+                          <option value={0}>₦{0}</option>
+                        </select>
+                      </div>
+                    )}
                   </div>
+                  {giftCardContext.sell[giftCard].sellRates.length > 0 ? (
+                    <div className={style.gift}>
+                      <div className={style.input}>
+                        <select
+                          name="card"
+                          id="card"
+                          onChange={this.handleCard}
+                        >
+                          {giftCardContext.sell[giftCard].sellRates[
+                            country
+                          ].cards.map((itm, index) => (
+                            <option key={index} value={index}>
+                              {itm.card_type}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {giftCardContext.sell[giftCard].sellRates[country].cards[
+                        card
+                      ].denomination ? (
+                        <div className={style.input}>
+                          <select
+                            name="denomination"
+                            id="denomination"
+                            onChange={this.handleDenomination}
+                          >
+                            {giftCardContext.sell[giftCard].sellRates[
+                              country
+                            ].cards[card].denomination.map((itm, index) => (
+                              <option key={index} value={index}>
+                                {itm.value + " - ₦" + itm.rate}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      ) : (
+                        <div className={style.input}>
+                          <select
+                            disabled
+                            readOnly
+                            name="rate"
+                            style={{
+                              cursor: "not-allowed",
+                            }}
+                          >
+                            <option value={0}>
+                              ₦
+                              {
+                                giftCardContext.sell[giftCard].sellRates[
+                                  country
+                                ].cards[card].rate
+                              }
+                            </option>
+                          </select>
+                        </div>
+                      )}
+                    </div>
+                  ) : null}
                   <div className={style.gift}>
                     <div className={style.input}>
                       <input
                         type="number"
-                        name="quantity"
-                        id="quantity"
-                        min={0}
+                        name="amount"
+                        id="amount"
                         placeholder="Quantity"
                         onChange={this.handleQTY}
+                        defaultValue={1}
                       />
                     </div>
                     <div className={style.input}>
@@ -270,7 +560,7 @@ class Header extends Component {
                         placeholder="Total"
                         disabled
                         readOnly
-                        value={this.state.total}
+                        value={this.state.total ? this.state.total : 0}
                       />
                     </div>
                   </div>
@@ -280,6 +570,10 @@ class Header extends Component {
                     value="SELL"
                   />
                 </form>
+              ) : (
+                <div className={style.load}>
+                  <div className={style.loader}>Loading...</div>
+                </div>
               )}
             </div>
           </div>

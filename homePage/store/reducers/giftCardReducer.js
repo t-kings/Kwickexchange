@@ -1,6 +1,6 @@
-const bitcoinReducer =(state, action) => {
+const giftCardReducer = (state, action) => {
   switch (action.type) {
-    case "GET_BITCOIN_RATE":
+    case "GET_GIFT_CARD_RATE":
       return {
         ...state,
         ...action.payload,
@@ -9,4 +9,4 @@ const bitcoinReducer =(state, action) => {
       return state;
   }
 };
-export default bitcoinReducer;
+export default giftCardReducer;

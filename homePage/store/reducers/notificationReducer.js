@@ -1,4 +1,4 @@
-export default (state, action) => {
+const notificationReducer= (state, action) => {
   switch (action.type) {
     case "SHOW_NOTIFICATION":
       return {
@@ -15,3 +15,4 @@ export default (state, action) => {
       return state;
   }
 };
+export default notificationReducer;

@@ -1,4 +1,4 @@
-import React, { Component, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Head from "next/head";
 import Nav from "../components/navbar";
 import Notification from "../components/notification";
@@ -9,13 +9,20 @@ import GiftCard from "../components/home/giftCard";
 import Review from "../components/home/review";
 import Footer from "../components/footer";
 import axios from "axios";
-import { TestimonialContext, BitcoinContext, apiUrl } from "../store/root";
-const Index = ({ testimonials, bitcoinRate }) => {
-  const context = useContext(TestimonialContext);
+import {
+  TestimonialContext,
+  BitcoinContext,
+  apiUrl,
+  GiftCardContext,
+} from "../store/root";
+const Index = ({ testimonials, bitcoinRate, giftCardRate }) => {
+  const testimonialContext = useContext(TestimonialContext);
   const bitCoinContext = useContext(BitcoinContext);
+  const giftCardContext = useContext(GiftCardContext);
   useEffect(() => {
-    context.getTestimonials(testimonials);
+    testimonialContext.getTestimonials(testimonials);
     bitCoinContext.getBitcoinRate(bitcoinRate);
+    giftCardContext.getGiftCardRate(giftCardRate);
   }, []);
   return (
     <>
@@ -50,14 +57,13 @@ const Index = ({ testimonials, bitcoinRate }) => {
     </>
   );
 };
+export default Index;
 export async function getServerSideProps() {
-  // Fetch data from external API
   const testimonials = await getTestimonials();
   const bitcoinRate = await getBitcoinRate();
-  // Pass data to the page via props
-  return { props: { testimonials, bitcoinRate } };
+  const giftCardRate = await getGiftCardRate();
+  return { props: { testimonials, bitcoinRate, giftCardRate } };
 }
-export default Index;
 
 const getTestimonials = async () => {
   try {
@@ -67,7 +73,6 @@ const getTestimonials = async () => {
     }
     return [];
   } catch (e) {
-    console.log(e.response.status);
     return [];
   }
 };
@@ -80,6 +85,141 @@ const getBitcoinRate = async () => {
     }
     return [];
   } catch (e) {
+    return [];
+  }
+};
+
+const getGiftCardRate = async () => {
+  try {
+    // const res = await axios.get(apiUrl + "/misc/giftCard-rates");
+    const res = {
+      status: 200,
+      data: {
+        message: "success",
+        data: {
+          sell: [
+            {
+              name: "Itunes",
+              sellRates: [
+                {
+                  country: "USA",
+                  cards: [
+                    {
+                      card_type: "Pysical",
+                      rate: "450",
+                    },
+                    {
+                      card_type: "E card",
+                      denomination: [
+                        {
+                          value: "200",
+                          rate: "120",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  country: "CAD",
+                  cards: [
+                    {
+                      card_type: "E card",
+                      rate: "450",
+                    },
+                    {
+                      card_type: "Pysical",
+                      denomination: [
+                        {
+                          value: "200",
+                          rate: "120",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  country: "CAD",
+                  cards: [
+                    {
+                      card_type: "E card",
+                      rate: "450",
+                    },
+                    {
+                      card_type: "Pysical",
+                      denomination: [
+                        {
+                          value: "200",
+                          rate: "120",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  country: "CAD",
+                  cards: [
+                    {
+                      card_type: "E card",
+                      rate: "450",
+                    },
+                    {
+                      card_type: "Pysical",
+                      denomination: [
+                        {
+                          value: "200",
+                          rate: "120",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: "Itunes34",
+              sellRates: [
+                {
+                  country: "CAD",
+                  cards: [
+                    {
+                      card_type: "E card",
+                      rate: "450",
+                    },
+                    {
+                      card_type: "Pysical",
+                      denomination: [
+                        {
+                          value: "200",
+                          rate: "120",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: "Itunes45",
+              sellRates: [],
+            },
+            {
+              name: "Itunes4545",
+              sellRates: [],
+            },
+            {
+              name: "apple",
+              sellRates: [],
+            },
+          ],
+        },
+      },
+    };
+    if (res.status === 200) {
+      return res.data.data;
+    }
+    return [];
+  } catch (e) {
+    console.log(e.response.status);
     return [];
   }
 };

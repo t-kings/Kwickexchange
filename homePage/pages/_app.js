@@ -6,6 +6,7 @@ import TestimonialState from "../store/actions/testimonials";
 
 import NotificationState from "../store/actions/notification";
 import BitcoinState from "../store/actions/bitcoin";
+import GiftCardState from "../store/actions/giftCard";
 //Binding events.
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -14,9 +15,11 @@ function MyApp({ Component, pageProps }) {
   return (
     <NotificationState>
       <BitcoinState>
-        <TestimonialState>
-          <Component {...pageProps} />;
-        </TestimonialState>
+        <GiftCardState>
+          <TestimonialState>
+            <Component {...pageProps} />;
+          </TestimonialState>
+        </GiftCardState>
       </BitcoinState>
     </NotificationState>
   );

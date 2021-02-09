@@ -1,4 +1,4 @@
-export default (state, action) => {
+const testimonialReducer = (state, action) => {
   switch (action.type) {
     case "GET_TESTIMONIALS":
       return {
@@ -15,3 +15,4 @@ export default (state, action) => {
       return state;
   }
 };
+export default testimonialReducer;
