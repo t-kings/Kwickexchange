@@ -437,7 +437,10 @@ class Header extends Component {
                   </div>
                 )
               ) : giftCardContext.sell.length > 0 ? (
-                <form target="_blank" action="https://url.com/signup">
+                <form
+                  target="_blank"
+                  action="https://dashboardkwickexchange.netlify.app/signup"
+                >
                   <div className={style.gift}>
                     <div className={style.input}>
                       <select
