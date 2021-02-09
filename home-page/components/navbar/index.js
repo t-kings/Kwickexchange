@@ -101,7 +101,11 @@ class Nav extends Component {
               </a>
             </li>
             <li>
-              <a className={style.link_btn} href="https://url.com/signup">
+              <a
+                className={style.link_btn}
+                target="_blank"
+                href="https://dashboardkwickexchange.netlify.app/signup"
+              >
                 Get Started
               </a>
             </li>
@@ -209,12 +213,18 @@ class Nav extends Component {
               <div>
                 <ul className={style.mobile_nav_title_bottom}>
                   <li>
-                    <a href="https://url/signin.html">Sign In</a>
+                    <a
+                      target="_blank"
+                      href="https://dashboardkwickexchange.netlify.app/"
+                    >
+                      Sign In
+                    </a>
                   </li>
                   <li>
                     <a
                       className={style.link_btn_black}
-                      href="https://url/signin.html"
+                      target="_blank"
+                      href="https://dashboardkwickexchange.netlify.app/signup"
                     >
                       Get Started
                     </a>

@@ -41,7 +41,11 @@ class Exchange extends Component {
               </li>
             </ul>
             <div className={style.action_buttons}>
-              <a href="/contact/speak" className={style.link_btn_gold}>
+              <a
+                target="_blank"
+                href="https://dashboardkwickexchange.netlify.app/signup"
+                className={style.link_btn_gold}
+              >
                 Get Started
               </a>
             </div>
