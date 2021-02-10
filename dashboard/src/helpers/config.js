@@ -1,1 +1,1 @@
-export const apiUrl = "http://167.99.227.68/v1/";
+export const apiUrl = "https://apiquickxchange.herokuapp.com/v1/";
