@@ -2,7 +2,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Component } from "react";
 import "./App.css";
 import SignIn from "./pages/auth/SignIn";
-// import Home from "./pages/auth/SignIn";
+import Home from "./pages/dashboard";
 import Verify from "./pages/auth/Verify";
 import VerifyEmail from "./pages/auth/VerifyEmail";
 import SignUp from "./pages/auth/SignUp";
@@ -24,6 +24,7 @@ class App extends Component {
           <Route exact path="/verify/:email/:token" component={VerifyEmail} />
           <Route exact path="/password" component={RequestPassword} />
           <Route exact path="/password/:email" component={Password} />
+          <Route exact path="/home" component={Home} />
           <Route
             exact
             path="/password/:email/:token"

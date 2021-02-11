@@ -1,0 +1,94 @@
+.aside {
+    flex: 2;
+    box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-top: 100px;
+    min-width: 280px;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column nowrap;
+    align-items: stretch;
+}
+
+.aside ul {
+    height: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-flow: column nowrap;
+}
+
+.aside ul:last-child {
+    padding-top: 0;
+    height: 20%;
+    justify-content: flex-end;
+    align-items: stretch;
+    flex-flow: column nowrap;
+}
+
+.aside ul li svg {
+    margin-right: 20px;
+}
+
+.aside ul li path {
+    fill: grey;
+}
+
+.aside a {
+    color: grey;
+    margin: 0;
+    padding: 20px 6vw;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.aside a:hover {
+    background: var(--colorGold);
+    color: black;
+}
+
+.aside a:hover path {
+    fill: black;
+}
+
+.link_btn_gold {
+    color: black;
+    border: 1px solid var(--colorGold);
+    display: block;
+    padding: 10px 20px;
+    background: var(--colorGold);
+    font-size: var(--bigLinkFontSize);
+    width: 100%;
+    text-align: center;
+}
+
+.logout {
+    margin: 10px 6vw 40px 6vw;
+}
+
+.link_btn_gold:hover {
+    background: black;
+    border: 1px solid black;
+    color: var(--colorGold);
+}
+
+@media only screen and (max-width: 1000px) {
+    .aside {
+        display: none;
+        animation: scaleBlockSide 0.3s;
+        transform-origin: right;
+    }
+    @keyframes scaleBlockSide {
+        from {
+            opacity: 0.4;
+            transform: scaleX(0);
+        }
+        to {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+    }
+}

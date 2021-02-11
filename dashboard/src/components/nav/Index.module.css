@@ -1,0 +1,542 @@
+.nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    transition: all 0.3s;
+    left: 0;
+    z-index: 100;
+    max-width: 100%;
+    background: white;
+}
+
+.main_nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    align-items: center;
+    flex-flow: row nowrap;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.main_nav .logo, .main_nav .balance_bars {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 20%;
+}
+
+.main_nav .logo {
+    justify-content: center;
+}
+
+.main_nav .balance_bars {
+    width: 40%;
+    padding-left: 6vw;
+}
+
+.main_nav .action {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-flow: row nowrap;
+    width: 40%;
+}
+
+.main_nav .action>li {
+    margin-right: 20px;
+    padding: 0 20px;
+}
+
+.main_nav .action>li:last-child {
+    margin-right: 0;
+    padding: 0;
+}
+
+.notification_icon {
+    cursor: pointer;
+    position: relative;
+}
+
+.notification_icon p {
+    position: absolute;
+    top: -60%;
+    right: -60%;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    color: white;
+    font-size: 10px;
+    background: red;
+}
+
+.balance {
+    margin-right: 20px;
+}
+
+.balance a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-flow: row nowrap;
+    background: rgba(255, 199, 0, 0.33);
+    border: 1px solid var(--colorGold);
+}
+
+.balance:last-child a {
+    margin-right: 0;
+}
+
+.balance span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    background: var(--colorGold);
+}
+
+.balance p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 0;
+    color: black;
+}
+
+.account_icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 50px 0 0 0;
+    background: var(--colorGold);
+}
+
+.account_icons p {
+    margin: 0 5px;
+    padding: 0;
+    color: black;
+    font-size: var(--paragraphFontSize);
+}
+
+.nav_dropdown {
+    position: relative;
+}
+
+.nav_dropdown_menu {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    padding: 20px;
+    display: none;
+    transform-origin: top;
+}
+
+.notifications_list {
+    background: white;
+    width: 300px;
+    display: block;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.notifications_list li {
+    display: block;
+    border-bottom: 1px solid rgba(128, 0, 128, 0.164);
+    margin: 0 !important;
+    padding: 10px;
+}
+
+.notifications_list p {
+    color: black;
+    font-size: var(--paragraphFontSize);
+}
+
+.notifications_list h4 {
+    color: black;
+    font-size: var(--paragraphFontSize);
+}
+
+.account_drop {
+    background: white;
+    width: 200px;
+    display: block;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.account_drop li {
+    display: block;
+    margin: 0 !important;
+}
+
+.account_drop a, .account_drop button {
+    display: block;
+    margin: 5px 0;
+    padding: 10px 20px;
+    width: 100%;
+    color: black;
+    text-align: left;
+}
+
+.account_drop a:hover, .account_drop button:hover {
+    background: black;
+    color: #e9be00;
+}
+
+.nav_dropdown:hover .nav_dropdown_menu {
+    display: block;
+    animation: navbar_animate 0.1s linear;
+}
+
+@keyframes navbar_animate {
+    from {
+        opacity: 0.7;
+        transform: translate(-50%, 14px) scale(1, 0.9);
+    }
+}
+
+.notification {
+    position: fixed;
+    top: 15vh;
+    right: 0;
+    margin: 0 5vw;
+    width: 250px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    background: white;
+    z-index: 101;
+    padding: 0;
+}
+
+.notification>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-flow: column nowrap;
+}
+
+.notification .heading {
+    position: relative;
+    padding: 20px;
+    height: 40px;
+    background: white;
+}
+
+.notification .heading p {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    right: 0;
+    font-size: 10px;
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+.notification .heading h4 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.notification .info {
+    text-align: center;
+    padding: 10px;
+    margin: 0 10px;
+}
+
+.notification .lines {
+    border-top: 4px solid;
+    border-bottom: 1px solid;
+    margin: 0 10px;
+    padding: 1px;
+    margin-bottom: 10px;
+}
+
+.notification_success .heading h4 {
+    color: #00C013;
+}
+
+.notification_success .info {
+    color: #00C013;
+}
+
+.notification_success .lines {
+    border-color: #00C013;
+}
+
+.notification_error .heading h4 {
+    color: #E70000;
+}
+
+.notification_error .info {
+    color: #E70000;
+}
+
+.notification_error .lines {
+    border-color: #E70000;
+}
+
+.notification_success>div {
+    background: rgba(0, 192, 19, 0.1);
+}
+
+.notification_error>div {
+    background: rgb(231, 0, 0, 0.1);
+}
+
+.support {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 20px 5vw;
+}
+
+.support a {
+    background: #3d0040;
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.support p {
+    margin: 0 3px;
+    display: block;
+    color: white;
+    padding: 5px;
+}
+
+.support p:first-child {
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-flow: row nowrap;
+    height: 100vh;
+}
+
+.main_section {
+    flex: 10;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 80px 5vw 20px 5vw;
+    position: relative;
+}
+
+.main_body {
+    min-height: 80vh;
+}
+
+.account_dropdown .heading {
+    padding: 10px 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+    cursor: pointer;
+    background: rgb(128, 0, 128, 0.3);
+}
+
+.account_dropdown {
+    background: rgb(128, 0, 128, 0.3);
+}
+
+.account_dropdown .heading h1, .account_dropdown .heading p {
+    padding: 0;
+    margin: 0;
+}
+
+.account_dropdown p {
+    color: white;
+}
+
+.account_dropdown_list {
+    transform-origin: top;
+    padding: 10px 0;
+    display: none;
+    animation: scaleBlock 0.3s;
+}
+
+@keyframes scaleBlock {
+    from {
+        opacity: 0.4;
+        transform: scaleY(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.account_dropdown_list .add_account {
+    margin: 0 5vw;
+    padding: 10px;
+    cursor: pointer;
+    display: block;
+    background: #3d0040;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.account_dropdown:hover .account_dropdown_list {
+    display: block;
+}
+
+.account_dropdown_list>div {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.account_dropdown_list>div:hover {
+    background: rgb(128, 0, 128, 0.3);
+}
+
+.bars div {
+    width: 20px;
+    height: 3px;
+    background-color: black;
+    margin: 3px 0;
+    transition: 0.4s;
+    border-radius: 1.5px;
+}
+
+.bars {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 5px 10px;
+    border-radius: 5px 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.bars:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.bars {
+    display: none;
+}
+
+.bars_cross {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 5px 10px;
+    border-radius: 5px 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: none;
+    margin-right: 15px;
+}
+
+.bars_cross:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.bars_cross div {
+    width: 20px;
+    height: 3px;
+    background-color: black;
+    margin: 3px 0;
+    transition: 0.4s;
+    border-radius: 1.5px;
+}
+
+.bars_cross>div:first-child {
+    -webkit-transform: rotate(45deg) translate(0, 6px);
+    transform: translate(0, 6px) rotate(45deg);
+}
+
+.bars_cross>div:last-child {
+    -webkit-transform: rotate(135deg) translate(0px, -6px);
+    transform: translate(0, -6px) rotate(135deg);
+}
+
+.bars_cross>div:nth-child(2) {
+    opacity: 0;
+}
+
+@media only screen and (max-width: 1000px) {
+    .bars {
+        display: block;
+        margin-right: 15px;
+    }
+    .aside {
+        display: none;
+        animation: scaleBlockSide 0.3s;
+        transform-origin: right;
+    }
+    .main_nav .action>li {
+        margin-right: 0;
+    }
+    .main_nav {
+        padding: 20px 0;
+    }
+    @keyframes scaleBlockSide {
+        from {
+            opacity: 0.4;
+            transform: scaleX(0);
+        }
+        to {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+    }
+    .account_icons {
+        display: none;
+    }
+    .balance {
+        display: none;
+    }
+    .action {
+        padding-right: 6vw;
+    }
+    .nav_dropdown_menu {
+        transform: translate(0, 0);
+        left: 0;
+        margin-top: 20px;
+        position: fixed;
+        width: 100vw;
+        justify-content: center;
+        align-items: center;
+    }
+    .notifications_list {
+        width: 100%;
+    }
+    @keyframes navbar_animate {
+        from {
+            opacity: 0.7;
+            transform: translate(0, 14px) scale(1, 0.9);
+        }
+    }
+}
