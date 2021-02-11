@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Nav from "../../components/nav";
 import Aside from "../../components/aside";
+import Logout from "../../components/logout";
 import style from "./Index.module.css";
 class Index extends Component {
   componentDidMount = () => {
@@ -27,11 +28,19 @@ class Index extends Component {
         crossBars.style.display = "none";
       }
     });
+
+    const logoutModal = document.querySelector("#logout");
+    logoutModal.addEventListener("click", (e) => {
+      if (e.target == logoutModal) {
+        logoutModal.style.display = "none";
+      }
+    });
   };
   render() {
     return (
       <>
         <Nav />
+        <Logout />
         <main className={style.main}>
           <Aside />
           <section id="main_section" className={style.main_section}>

@@ -6,7 +6,7 @@ export default function index() {
     <aside id="aside" className={style.aside}>
       <ul className={style.overview}>
         <li>
-          <Link to="/overview">
+          <Link to="/home/overview">
             <svg
               width="17"
               height="17"
@@ -21,7 +21,7 @@ export default function index() {
           </Link>
         </li>
         <li>
-          <Link to="/wallet">
+          <Link to="/home/wallet">
             <svg
               width="20"
               height="19"
@@ -88,7 +88,15 @@ export default function index() {
 
       <ul>
         <li className={style.logout}>
-          <button className={style.link_btn_gold}>LOGOUT</button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector("#logout").style.display = "flex";
+            }}
+            className={style.link_btn_gold}
+          >
+            LOGOUT
+          </button>
         </li>
       </ul>
     </aside>

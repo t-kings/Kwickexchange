@@ -140,7 +140,14 @@ export default function index() {
                   <Link to="/home/settings">Settings</Link>
                 </li>
                 <li>
-                  <button>Logout</button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.querySelector("#logout").style.display = "flex";
+                    }}
+                  >
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>

@@ -24,7 +24,7 @@ class App extends Component {
           <Route exact path="/verify/:email/:token" component={VerifyEmail} />
           <Route exact path="/password" component={RequestPassword} />
           <Route exact path="/password/:email" component={Password} />
-          <Route exact path="/home" component={Home} />
+          <Route path="/home" component={Home} />
           <Route
             exact
             path="/password/:email/:token"
