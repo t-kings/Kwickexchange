@@ -280,7 +280,8 @@ input.link_btn_gold:hover {
         justify-content: center;
         align-items: center;
         flex-flow: column nowrap;
-        padding-top: 100px;
+        padding-top: 12vw;
+        padding-bottom: 12vw;
     }
     .info_holder {
         width: 100%;
@@ -290,7 +291,7 @@ input.link_btn_gold:hover {
         width: 100%;
     }
     .header_holder .animated_payment .hold {
-        width: 105%;
+        width: 100%;
     }
     .header_holder .subtitle {
         width: 100%;
