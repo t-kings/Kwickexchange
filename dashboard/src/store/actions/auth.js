@@ -9,7 +9,11 @@ export const signIn = (user) => {
     try {
       const res = await axios.post(apiUrl + "auth/login", { ...user });
       if (res.status === 200) {
-        dispatch({ type: "USER_LOGGED_IN", data: res.data });
+        dispatch({ type: "USER_LOGGED_IN", data: res.data.data });
+        const expiryTime = res.data.data.accessTokenExpiresIn;
+        setTimeout(() => {
+          refreshToken(dispatch, getState);
+        }, expiryTime - 300000);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -497,6 +501,95 @@ export const resetPassword = (user) => {
   };
 };
 
+export const logout = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: "LOGOUT" });
+    dispatch({
+      type: "SHOW_NOTIFICATION",
+      data: {
+        type: "Logout",
+        isSuccess: true,
+        message: "Logout Successful",
+      },
+    });
+    setTimeout(() => {
+      dispatch({
+        type: "CLEAR_NOTIFICATION",
+      });
+    }, 5000);
+  };
+};
+
+export const checkToken = () => {
+  return async (dispatch, getState) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("refresh_token"));
+      const stringProfile = JSON.parse(localStorage.getItem("profile"));
+      if (stringProfile && token) {
+        dispatch({
+          type: "AUTH_LOADING",
+        });
+        dispatch({
+          type: "USER_LOGGED_IN",
+          data: {
+            user: stringProfile,
+            refreshToken: token,
+          },
+        });
+        const res = await axios.post(apiUrl + "auth/refresh-token", {
+          refreshToken: token,
+        });
+        if (res.status === 200) {
+          dispatch({
+            type: "USER_LOGGED_IN",
+            data: res.data.data,
+          });
+          const expiryTime = res.data.data.accessTokenExpiresIn;
+          setTimeout(() => {
+            refreshToken(dispatch, getState);
+          }, expiryTime - 300000);
+        }
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+      } else {
+        dispatch({ type: "LOGOUT" });
+      }
+    } catch (e) {
+      dispatch({
+        type: "CLEAR_AUTH_LOADING",
+      });
+      console.log(e);
+    }
+  };
+};
+
+export const refreshToken = async (dispatch, getState) => {
+  try {
+    const { auth } = getState();
+    console.log(auth);
+    if (auth.refreshToken) {
+      const res = await axios.post(apiUrl + "auth/refresh-token", {
+        refreshToken: auth.refreshToken,
+      });
+      if (res.status === 200) {
+        dispatch({
+          type: "USER_LOGGED_IN",
+          data: res.data.data,
+        });
+        const expiryTime = res.data.data.accessTokenExpiresIn;
+        setTimeout(() => {
+          refreshToken(dispatch, getState);
+        }, expiryTime - 300000);
+      }
+    }
+  } catch (e) {
+    dispatch({
+      type: "CLEAR_AUTH_LOADING",
+    });
+    console.log(e);
+  }
+};
 // export const editProfile = (data) => {
 //   return (dispatch, getState) => {
 //     axios
@@ -520,15 +613,6 @@ export const resetPassword = (user) => {
 //   };
 // };
 
-// export const logOut = (user) => {
-//   return (dispatch, getState) => {
-//     localStorage.setItem("token", "");
-//     localStorage.removeItem("profile");
-//     dispatch({ type: "logout", err: "User Out" });
-//     // cogoToast.success("Log Out Successful!");
-//   };
-// };
-
 // if (!localStorage.getItem("token")) {
 //   localStorage.setItem("token", "");
 // }
@@ -536,41 +620,6 @@ export const resetPassword = (user) => {
 // const getToken = () => {
 //   const token = localStorage.getItem("token");
 //   return token;
-// };
-
-// export const checkToken = () => {
-//   return (dispatch, getState) => {
-//     const string = localStorage.getItem("profile");
-//     if (string) {
-//       const data = JSON.parse(string);
-//       dispatch({ type: "Token_LoggedIn", data });
-//     }
-//     axios
-//       .post(
-//         apiUrl + "token",
-//         {},
-//         {
-//           headers: {
-//             Accept: "application/json",
-//             Authorization: "Bearer " + getToken(),
-//           },
-//         }
-//       )
-//       .then((res) => {
-//         if (res.status === 200) {
-//           localStorage.setItem("profile", JSON.stringify(res.data));
-//           dispatch({ type: "Token_LoggedIn", data: res.data });
-//         } else {
-//           dispatch({ type: "KILL_LOADING_AUTH" });
-//           return false;
-//         }
-//         dispatch({ type: "KILL_LOADING_AUTH" });
-//       })
-//       .catch((err) => {
-//         dispatch({ type: "KILL_LOADING_AUTH" });
-//         return false;
-//       });
-//   };
 // };
 
 // export const updateUser = async () => {

@@ -4,7 +4,7 @@ const initState = {
   isLoading: false,
   user: {},
   accessToken: "",
-  accessTokenExpiresIn: 1611538064,
+  accessTokenExpiresIn: 0,
   refreshToken: "",
   isVerified: false,
   errors: {},
@@ -24,7 +24,14 @@ const authReducer = (state = initState, action) => {
         isLoading: false,
       };
     case "USER_LOGGED_IN":
-      localStorage.setItem("authState", action.data);
+      localStorage.setItem(
+        "refresh_token",
+        JSON.stringify(action.data.refreshToken)
+      );
+      if (action.data.user) {
+        localStorage.setItem("profile", JSON.stringify(action.data.user));
+      }
+
       return {
         ...state,
         isAuthenticated: true,
@@ -68,6 +75,13 @@ const authReducer = (state = initState, action) => {
         ...action.data,
       };
 
+    case "LOGOUT":
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("profile");
+      return {
+        ...state,
+        isAuthenticated: false,
+      };
     // case "Token_LoggedIn":
     //   // console.log(action.data)
     //   return {
@@ -81,11 +95,6 @@ const authReducer = (state = initState, action) => {
     //     btcTransactions: action.data.btc_transactions,
     //   };
     // case "User_Error":
-    //   return {
-    //     ...state,
-    //     isAuthenticated: false,
-    //   };
-    // case "logout":
     //   return {
     //     ...state,
     //     isAuthenticated: false,

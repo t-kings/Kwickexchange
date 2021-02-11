@@ -1,6 +1,8 @@
 import React from "react";
 import style from "./Index.module.css";
-export default function index() {
+import { connect } from "react-redux";
+import { logout } from "../../store/actions/auth";
+const Index = ({ logout }) => {
   return (
     <section id="logout" className={style.modal}>
       <div className={style.modal_item + " " + style.card}>
@@ -22,6 +24,7 @@ export default function index() {
             <button
               onClick={(e) => {
                 e.preventDefault();
+                logout();
                 document.querySelector("#logout").style.display = "none";
               }}
               className={style.button + " " + style.red}
@@ -33,4 +36,11 @@ export default function index() {
       </div>
     </section>
   );
-}
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout()),
+  };
+};
+export default connect(null, mapDispatchToProps)(Index);

@@ -79,7 +79,7 @@ class ResetPassword extends Component {
           to={
             this.props.location.redirect_to
               ? this.props.location.redirect_to
-              : "/dashboard"
+              : "/home"
           }
         />
       );

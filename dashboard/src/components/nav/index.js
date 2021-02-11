@@ -1,7 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import style from "./Index.module.css";
-export default function index() {
+const Index = ({ user }) => {
   return (
     <nav className={style.nav}>
       <div className={style.main_nav}>
@@ -34,7 +35,7 @@ export default function index() {
                   />
                 </svg>
               </span>
-              <p>0.00000000 BTC</p>
+              <p>{user.bitcoin_in_satoshi_balance}</p>
             </Link>
           </li>
           <li className={style.balance}>
@@ -55,7 +56,7 @@ export default function index() {
                   <rect y="8.63428" width="14" height="2" fill="#161616" />
                 </svg>
               </span>
-              <p>0.00</p>
+              <p>{user.naira_balance}</p>
             </Link>
           </li>
         </ul>
@@ -123,7 +124,7 @@ export default function index() {
                   fill="black"
                 />
               </svg>
-              <p>Nwachukwu Kingsley</p>
+              <p>{user.fullname}</p>
               <svg
                 width="16"
                 height="10"
@@ -156,4 +157,9 @@ export default function index() {
       </div>
     </nav>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  return { ...state.auth };
+};
+export default connect(mapStateToProps, null)(Index);

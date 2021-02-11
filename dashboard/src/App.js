@@ -12,7 +12,11 @@ import RequestPassword from "./pages/auth/RequestPassword";
 import Password from "./pages/auth/Password";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ResetPasswordStatus from "./pages/auth/ResetPasswordStatus";
+import { checkToken } from "./store/actions/auth";
 class App extends Component {
+  componentDidMount = () => {
+    this.props.checkToken();
+  };
   render() {
     return (
       <BrowserRouter>
@@ -44,4 +48,10 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return { ...state };
 };
-export default connect(mapStateToProps, null)(App);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkToken: () => dispatch(checkToken()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);
