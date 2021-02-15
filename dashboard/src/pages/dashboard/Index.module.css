@@ -10,10 +10,28 @@
     flex: 10;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 80px 5vw 20px 5vw;
+    padding: 80px 2vw 20px 2vw;
     position: relative;
 }
 
 .main_body {
     min-height: 80vh;
+}
+
+.card {
+    position: relative;
+    border: 1px solid #D1D1D1;
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+
+.card:hover {
+    box-shadow: -14px 10px 25px rgba(77, 77, 77, 0.25), 10px 14px 25px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05, 1.05);
+}
+
+@media only screen and (max-width: 1000px) {
+    .main_section {
+        padding: 80px 6vw 20px 6vw;
+    }
 }

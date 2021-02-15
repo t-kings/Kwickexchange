@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import Nav from "../../components/nav";
 import Aside from "../../components/aside";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Switch, Route } from "react-router-dom";
+import Overview from "./overview";
 import Logout from "../../components/logout";
+import { getBitcoinRate, getGiftCardsRate } from "../../store/actions/rates";
 import style from "./Index.module.css";
 class Index extends Component {
   componentDidMount = () => {
@@ -39,6 +41,9 @@ class Index extends Component {
         }
       });
     } catch (e) {}
+
+    this.props.getBitcoinRate();
+    this.props.getGiftCardsRate();
   };
   render() {
     const { isAuthenticated } = this.props;
@@ -60,7 +65,10 @@ class Index extends Component {
         <main className={style.main}>
           <Aside />
           <section id="main_section" className={style.main_section}>
-            <main className={style.main_body}></main>
+            <Switch>
+              <Route exact path="/home" component={Overview} />
+              <Route path="/home/overview" component={Overview} />
+            </Switch>
           </section>
         </main>
       </>
@@ -71,6 +79,9 @@ const mapStateToProps = (state) => {
   return { ...state.auth };
 };
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    getBitcoinRate: () => dispatch(getBitcoinRate()),
+    getGiftCardsRate: () => dispatch(getGiftCardsRate()),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

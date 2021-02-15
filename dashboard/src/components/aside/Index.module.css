@@ -4,7 +4,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     padding-top: 100px;
-    min-width: 280px;
+    min-width: 200px;
     display: flex;
     justify-content: space-between;
     flex-flow: column nowrap;
@@ -38,7 +38,7 @@
 .aside a {
     color: grey;
     margin: 0;
-    padding: 20px 6vw;
+    padding: 20px 2vw;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -66,7 +66,7 @@
 }
 
 .logout {
-    margin: 10px 6vw 40px 6vw;
+    margin: 10px 2vw 40px 2vw;
 }
 
 .link_btn_gold:hover {
