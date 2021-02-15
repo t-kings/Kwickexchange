@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import style from "./Index.module.css";
 export default function index() {
   return (
     <aside id="aside" className={style.aside}>
       <ul className={style.overview}>
         <li>
-          <Link to="/home/overview">
+          <NavLink to="/home/overview">
             <svg
               width="17"
               height="17"
@@ -18,10 +18,10 @@ export default function index() {
             </svg>
 
             <span>Overview</span>
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/home/wallet">
+          <NavLink to="/home/wallet">
             <svg
               width="20"
               height="19"
@@ -33,10 +33,10 @@ export default function index() {
             </svg>
 
             <span>Wallet</span>
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/home/bitcoin">
+          <NavLink to="/home/bitcoin">
             <svg
               width="20"
               height="20"
@@ -48,10 +48,10 @@ export default function index() {
             </svg>
 
             <span>Bitcoin</span>
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/home/gift-cards">
+          <NavLink to="/home/gift-cards">
             <svg
               width="22"
               height="18"
@@ -67,10 +67,10 @@ export default function index() {
             </svg>
 
             <span>Gift Cards</span>
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/home/settings">
+          <NavLink to="/home/settings">
             <svg
               width="20"
               height="22"
@@ -82,7 +82,7 @@ export default function index() {
             </svg>
 
             <span>Settings</span>
-          </Link>
+          </NavLink>
         </li>
       </ul>
 
@@ -93,7 +93,7 @@ export default function index() {
               e.preventDefault();
               document.querySelector("#logout").style.display = "flex";
             }}
-            className={style.link_btn_gold}
+            className={style.NavLink_btn_gold}
           >
             LOGOUT
           </button>

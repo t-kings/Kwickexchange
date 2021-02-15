@@ -45,12 +45,12 @@
     flex-flow: row nowrap;
 }
 
-.aside a:hover {
+.aside a:hover, .aside a.active {
     background: var(--colorGold);
     color: black;
 }
 
-.aside a:hover path {
+.aside a:hover path, aside a.active path {
     fill: black;
 }
 
