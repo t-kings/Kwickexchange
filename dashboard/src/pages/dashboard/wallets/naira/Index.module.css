@@ -158,32 +158,10 @@
 }
 
 .balance_tab {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-flow: row nowrap;
-    padding: 20px;
+    padding: 40px 20px;
 }
 
-.text {
-    flex: 6;
-}
-
-.text span {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.text .btc {
-    background: rgb(0, 148, 255, 0.25);
-}
-
-.text .address {
+.balance_tab .address {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -192,37 +170,217 @@
     width: 100%;
 }
 
-.text .address p {
-    margin: 0;
-    margin-right: 20px;
+.balance_tab p {
+    margin: 20px 0;
     padding: 0;
     color: rgb(22, 22, 22, 0.8);
     font-size: var(--paragraphMidFontSize);
 }
 
-.text .address svg {
-    cursor: pointer;
+.balance_tab .address button {
+    text-align: center;
+    display: block;
+    min-width: 150px;
 }
 
-.text h4 {
-    font-size: var(--paragraphMidFontSize);
-    text-decoration: underline;
+.balance_tab .address button:first-child {
+    margin-right: 20px;
 }
 
-.qr {
-    flex: 6;
+.balance_tab .address button span {
+    margin-right: 20px;
+}
+
+.balance_tab .address button svg path {
+    fill: black;
+    transition: all 0.3s;
+}
+
+.balance_tab .address button:hover svg path {
+    fill: var(--colorGold);
+}
+
+.withdraw {
+    padding: 40px 20px;
+}
+
+.holdAccounts {
     display: flex;
-    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.holdAccounts>* {
+    width: 30%;
+}
+
+.holdAccounts>div {
+    display: flex;
     justify-content: flex-start;
     align-items: center;
 }
 
-.qr p {
+.holdAccounts>div:last-child {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.holdAccounts>div:last-child button {
+    text-align: center;
+    display: block;
+    min-width: 120px;
+}
+
+.accounts_list {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    background: rgb(196, 196, 196, 0.2);
+}
+
+.accounts_list li {
+    padding: 20px;
+    border-bottom: 1px solid rgb(128, 128, 128, 0.2);
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+    transition: all 0.3s;
+}
+
+.accounts_list li:hover {
+    background: rgb(128, 128, 128, 0.2);
+}
+
+.accounts_list li .first {
+    width: 50%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.accounts_list li .second {
+    width: 50%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.accounts_list li .second button {
+    display: block;
+    width: 100px;
+    text-align: left;
+}
+
+.accounts_list .red {
+    color: red;
+}
+
+.accounts_list li .first p {
+    color: black;
     margin: 0;
     padding: 0;
-    margin-top: 20px;
-    color: rgb(22, 22, 22, 0.8);
+    font-size: var(--paragraphFontSize);
+}
+
+.accounts_list li .first p:first-child {
+    font-weight: bolder;
+}
+
+.accounts_list li .first p:nth-child(2) {
+    margin: 10px 0;
+    opacity: 0.8;
+}
+
+.bank_lists {
+    padding: 40px 20px;
+}
+
+.holdAccounts h1 {
+    padding: 0;
+    margin: 0;
     font-size: var(--paragraphMidFontSize);
+    text-align: center;
+}
+
+.holdAccounts button span {
+    background: #FFC700;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    margin-right: 20px;
+    align-items: center;
+}
+
+.withDrawAccountsList {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.withDrawAccountsList .verify {
+    padding: 20px;
+    background: #F2994A;
+    line-height: 150%;
+    font-size: var(--paragraphFontSize);
+}
+
+.withDrawAccountsList .verify a {
+    text-decoration: underline;
+    font-weight: bolder;
+    display: inline-block;
+}
+
+.withDrawAccountsList .choose {
+    color: blue;
+    text-decoration: underline;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.control_label {
+    font-size: var(--paragraphMidFontSize);
+    margin-bottom: -20px;
+    margin-top: 20px;
+    display: block;
+    cursor: pointer;
+}
+
+.control_label.error {
+    color: red;
+}
+
+.form_control {
+    width: 100%;
+    font-size: var(--paragraphMidFontSize);
+    outline: none;
+    padding: 20px 30px;
+    background: white;
+    border: 1px solid #828282;
+    margin-top: 30px;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+}
+
+.form_control:focus {
+    border-color: #FFC700;
+}
+
+.form_control.error {
+    border-color: #E70000;
+}
+
+.box .link_btn_gold {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 15px 30px;
+    margin-top: 30px;
 }
 
 .vc {
