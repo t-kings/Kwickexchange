@@ -1,9 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import style from "./Index.module.css";
+import "./Index.css";
 export default function index() {
   return (
-    <aside id="aside" className={style.aside}>
+    <aside id="aside" className={style.aside + " aside"}>
       <ul className={style.overview}>
         <li>
           <NavLink to="/home/overview">
