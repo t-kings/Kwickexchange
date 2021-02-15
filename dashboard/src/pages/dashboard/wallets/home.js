@@ -10,10 +10,7 @@ export default class home extends Component {
     return (
       <section className={walletStyle.wallets}>
         <div className={walletStyle.balances}>
-          <div
-            to="/home/wallet"
-            className={style.card + " " + walletStyle.balance}
-          >
+          <div className={style.card + " " + walletStyle.balance}>
             <svg
               className={walletStyle.flier}
               viewBox="0 0 687 313"
@@ -65,10 +62,7 @@ export default class home extends Component {
               More
             </Link>
           </div>
-          <div
-            to="/home/wallet"
-            className={style.card + " " + walletStyle.balance}
-          >
+          <div className={style.card + " " + walletStyle.balance}>
             <svg
               className={walletStyle.flier}
               viewBox="0 0 687 313"

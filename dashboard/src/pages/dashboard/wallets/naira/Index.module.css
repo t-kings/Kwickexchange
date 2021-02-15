@@ -1,0 +1,420 @@
+.wallets {
+    padding: 20px 0;
+    min-height: 100vh;
+    position: relative;
+}
+
+.back {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.back a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.back span {
+    background: #FFC700;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    margin-right: 20px;
+    align-items: center;
+}
+
+.back p {
+    margin: 0;
+    padding: 0;
+    color: rgb(22, 22, 22, 0.8);
+    font-size: var(--paragraphMidFontSize);
+}
+
+.balances {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-flow: row nowrap;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.balances .balance {
+    padding: 20px;
+    overflow: hidden;
+    width: 45%;
+    display: flex;
+    background: white;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-flow: column nowrap;
+    margin-right: 20px;
+    max-width: 300px;
+}
+
+.balances .balance:last-child {
+    margin-right: 0;
+}
+
+.balance h3 {
+    padding: 0;
+    margin: 0;
+    color: rgb(0, 0, 0, 0.8);
+    font-weight: lighter;
+    margin-bottom: 20px;
+    font-size: var(--paragraphLargeFontSize);
+}
+
+.balance h2 {
+    padding: 0;
+    margin: 0;
+    color: black;
+    margin-bottom: 20px;
+    font-size: var(--headerLargeFontSize);
+}
+
+.balance h4 {
+    color: #0094FF;
+    font-size: var(--paragraphMidFontSize);
+}
+
+.balance p {
+    padding: 0;
+    margin: 0;
+    color: rgb(0, 0, 0, 0.6);
+    font-size: var(--paragraphMidFontSize);
+}
+
+.balance a {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.balance span {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.balance .btc {
+    background: rgb(0, 148, 255, 0.25);
+}
+
+.flier {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+}
+
+.second_flier {
+    position: absolute;
+    bottom: 20px;
+    right: -30px;
+    width: 50%;
+    transform: rotate(90deg);
+}
+
+.hold {
+    width: 100%;
+    border: 1px solid #D1D1D1;
+    position: relative;
+}
+
+.tabs {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    background: black;
+}
+
+.tabs button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    color: white;
+    padding: 20px;
+    border-bottom: 5px solid black;
+    max-width: 200px;
+}
+
+.tabs button.active {
+    background: var(--shadedBackground);
+    border-bottom: 5px solid var(--colorGold);
+    font-weight: bolder;
+}
+
+.tabs button:hover {
+    background: var(--shadedBackground);
+}
+
+.balance_tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-flow: row nowrap;
+    padding: 20px;
+}
+
+.text {
+    flex: 6;
+}
+
+.text span {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.text .btc {
+    background: rgb(0, 148, 255, 0.25);
+}
+
+.text .address {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.text .address p {
+    margin: 0;
+    margin-right: 20px;
+    padding: 0;
+    color: rgb(22, 22, 22, 0.8);
+    font-size: var(--paragraphMidFontSize);
+}
+
+.text .address svg {
+    cursor: pointer;
+}
+
+.text h4 {
+    font-size: var(--paragraphMidFontSize);
+    text-decoration: underline;
+}
+
+.qr {
+    flex: 6;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.qr p {
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+    color: rgb(22, 22, 22, 0.8);
+    font-size: var(--paragraphMidFontSize);
+}
+
+.vc {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: block;
+    height: 100%;
+    z-index: -1;
+}
+
+.transactions_empty {
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+}
+
+.transactions_empty p {
+    margin: 20px 0;
+    padding: 0;
+    color: rgb(22, 22, 22, 0.8);
+    font-size: var(--paragraphMidFontSize);
+}
+
+.link_btn {
+    color: white;
+    border: 1px solid white;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.link_btn_gold {
+    color: black;
+    border: 1px solid var(--colorGold);
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--colorGold);
+    font-size: var(--bigLinkFontSize);
+}
+
+.link_btn_gold:hover {
+    background: black;
+    border: 1px solid black;
+    color: var(--colorGold);
+}
+
+.transactions_empty .link_btn_gold {
+    text-align: center;
+    width: 30%;
+    min-width: 150px;
+}
+
+.transactions_list {
+    padding: 20px;
+    overflow: auto;
+    width: 100%;
+    background: white;
+}
+
+.transactions_list table {
+    min-width: 400px;
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+
+.transactions_list th {
+    text-align: left;
+    color: rgb(22, 22, 22, 0.5);
+    font-size: var(--paragraphMidFontSize);
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+    padding: 10px 0;
+}
+
+.transactions_list tr {
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+
+.transactions_list tr:last-child {
+    border-bottom: 0 solid rgb(0, 0, 0, 0.2);
+}
+
+.transactions_list tr:hover {
+    background: rgb(22, 22, 22, 0.2);
+    color: black;
+}
+
+.transactions_list tr:hover td, .transactions_list tr:hover th {
+    color: black;
+}
+
+.transactions_list td {
+    text-align: left;
+    color: rgb(22, 22, 22, 0.5);
+    font-size: var(--paragraphMidFontSize);
+    padding: 10px 0;
+}
+
+.transactions_list td.green {
+    color: green;
+}
+
+.transactions_list td.red {
+    color: red;
+}
+
+.send {
+    padding: 40px 20px;
+}
+
+.send h1 {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 20px;
+    font-size: var(--paragraphLargeFontSize);
+    color: #161616;
+    text-align: center;
+}
+
+.send .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-flow: row nowrap;
+}
+
+.send .action {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: column nowrap;
+    margin: 20px;
+}
+
+.send .action p {
+    margin: 20px 0;
+    padding: 0;
+    color: rgb(22, 22, 22, 0.8);
+    text-align: center;
+}
+
+.send button span {
+    margin-right: 20px;
+}
+
+.send button svg path {
+    fill: black;
+    transition: all 0.3s;
+}
+
+.send button:hover svg path {
+    fill: var(--colorGold);
+}
+
+@media only screen and (max-width: 700px) {
+    .balance_tab {
+        flex-flow: column nowrap;
+    }
+    .text {
+        width: 100%;
+    }
+    .qr {
+        width: 100%;
+        align-items: flex-start;
+    }
+    .send .actions {
+        align-items: center;
+        flex-flow: column nowrap;
+    }
+    .send .action {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .balances {
+        flex-flow: column nowrap;
+        margin-bottom: 0;
+    }
+    .balances .balance {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .flier {
+        opacity: 0.7;
+        right: 40%;
+    }
+    .second_flier {
+        right: -80px;
+        opacity: 0.5;
+    }
+}
