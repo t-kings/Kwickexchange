@@ -1,0 +1,144 @@
+.wallets {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-flow: row wrap;
+    padding: 20px 0;
+    min-height: 100vh;
+    position: relative;
+}
+
+.link_btn {
+    color: white;
+    border: 1px solid white;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.link_btn_gold {
+    color: black;
+    border: 1px solid var(--colorGold);
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--colorGold);
+    font-size: var(--bigLinkFontSize);
+}
+
+.link_btn_gold:hover {
+    background: black;
+    border: 1px solid black;
+    color: var(--colorGold);
+}
+
+.balances {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-flow: row nowrap;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.balances .balance {
+    padding: 20px;
+    overflow: hidden;
+    width: 45%;
+    display: flex;
+    background: white;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-flow: column nowrap;
+    margin-right: 20px;
+    max-width: 300px;
+}
+
+.balances .balance:last-child {
+    margin-right: 0;
+}
+
+.balance h3 {
+    padding: 0;
+    margin: 0;
+    color: black;
+    margin-bottom: 20px;
+    font-size: var(--paragraphLargestFontSize);
+}
+
+.balance p {
+    padding: 0;
+    margin: 0;
+    color: rgb(0, 0, 0, 0.6);
+    font-size: var(--paragraphMidFontSize);
+}
+
+.balance a {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.balance span {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.balance .btc {
+    background: rgb(0, 148, 255, 0.25);
+}
+
+.balance .naira {
+    background: rgb(0, 200, 68, 0.25);
+}
+
+.balance .trans {
+    background: rgb(172, 0, 200, 0.25);
+}
+
+.flier {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+}
+
+.second_flier {
+    position: absolute;
+    bottom: 20px;
+    right: -30px;
+    width: 50%;
+    transform: rotate(90deg);
+}
+
+._flier {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: -1;
+}
+
+._flier img {
+    width: 100%;
+}
+
+@media only screen and (max-width: 1000px) {
+    .wallets {
+        flex-flow: column nowrap;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .balances {
+        flex-flow: column nowrap;
+        margin-bottom: 0;
+    }
+    .balances .balance {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+}

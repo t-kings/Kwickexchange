@@ -4,6 +4,7 @@ import Aside from "../../components/aside";
 import { connect } from "react-redux";
 import { Redirect, Switch, Route } from "react-router-dom";
 import Overview from "./overview";
+import Wallets from "./wallets";
 import Logout from "../../components/logout";
 import Home from "./home";
 import { getBitcoinRate, getGiftCardsRate } from "../../store/actions/rates";
@@ -69,6 +70,7 @@ class Index extends Component {
             <Switch>
               <Route exact path="/home" component={Home} />
               <Route path="/home/overview" component={Overview} />
+              <Route path="/home/wallet" component={Wallets} />
             </Switch>
           </section>
         </main>

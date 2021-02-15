@@ -275,6 +275,7 @@
     width: 50%;
     color: white;
     padding: 20px;
+    border-bottom: 5px solid black;
 }
 
 .tabs button.active {

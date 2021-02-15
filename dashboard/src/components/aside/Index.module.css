@@ -91,4 +91,13 @@
             transform: scaleX(1);
         }
     }
+    .aside a {
+        padding: 20px 6vw !important;
+    }
+    .aside {
+        min-width: 260px;
+    }
+    .logout {
+        margin: 10px 6vw 40px 6vw;
+    }
 }
