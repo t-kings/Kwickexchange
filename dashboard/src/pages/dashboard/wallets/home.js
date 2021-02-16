@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import walletStyle from "./wallet.module.css";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import style from "../Index.module.css";
+import { connect } from "react-redux";
 import bg1 from "./images/bg.svg";
 import bg2 from "./images/bg2.svg";
 import bg3 from "./images/bg3.svg";
-export default class home extends Component {
+class Home extends Component {
   render() {
+    const { isAuthenticated } = this.props;
+    if (!isAuthenticated) {
+      return <Redirect to={{ pathname: "/", redirect_to: "/home/wallet" }} />;
+    }
     return (
       <section className={walletStyle.wallets}>
         <div className={walletStyle.balances}>
@@ -127,3 +132,8 @@ export default class home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return { ...state.auth };
+};
+export default connect(mapStateToProps, null)(Home);

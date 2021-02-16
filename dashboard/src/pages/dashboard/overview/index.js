@@ -7,7 +7,7 @@ import img2 from "../images/img2.png";
 import vc1 from "../images/vc1.png";
 import vc2 from "../images/vc2.png";
 import vc3 from "../images/vc3.png";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 class Overview extends Component {
   constructor(props) {
     super(props);
@@ -261,7 +261,10 @@ class Overview extends Component {
   }
   render() {
     const { formTab, giftCard, country, card } = this.state;
-    const { bitcoin, giftCards } = this.props;
+    const { bitcoin, giftCards, isAuthenticated } = this.props;
+    if (!isAuthenticated) {
+      return <Redirect to={{ pathname: "/", redirect_to: "/home/overview" }} />;
+    }
     return (
       <main className={style.main_body}>
         <section className={overviewStyle.overview}>
@@ -575,7 +578,7 @@ class Overview extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.rates };
+  return { ...state.rates, ...state.auth };
 };
 const mapDispatchToProps = (dispatch) => {
   return {};

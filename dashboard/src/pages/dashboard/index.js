@@ -48,18 +48,6 @@ class Index extends Component {
     this.props.getGiftCardsRate();
   };
   render() {
-    const { isAuthenticated } = this.props;
-    if (!isAuthenticated) {
-      return (
-        <Redirect
-          to={
-            this.props.location.redirect_to
-              ? this.props.location.redirect_to
-              : "/"
-          }
-        />
-      );
-    }
     return (
       <>
         <Nav />

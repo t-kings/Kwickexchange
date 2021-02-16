@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import walletStyle from "./Index.module.css";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import style from "../../Index.module.css";
+import { connect } from "react-redux";
 import vc1 from "../images/vc1.svg";
 import vc2 from "../images/vc2.svg";
 import vc3 from "../images/vc3.svg";
@@ -10,7 +11,7 @@ import SelectBank from "../../../../components/dashboard/wallets/naira/bank";
 import Summary from "../../../../components/dashboard/wallets/naira/summary";
 import Account from "../../../../components/dashboard/wallets/naira/account";
 import Delete from "../../../../components/dashboard/wallets/naira/delete";
-export default class home extends Component {
+class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +38,13 @@ export default class home extends Component {
 
   render() {
     const { formTab, transTab, errors } = this.state;
+
+    const { isAuthenticated } = this.props;
+    if (!isAuthenticated) {
+      return (
+        <Redirect to={{ pathname: "/", redirect_to: "/home/wallet/naira" }} />
+      );
+    }
     return (
       <>
         <SelectBank />
@@ -186,7 +194,7 @@ export default class home extends Component {
                 </div> */}
                 <div className={walletStyle.withdraw}>
                   <div className={walletStyle.holdAccounts}>
-                    <div>
+                    {/* <div>
                       <button
                         onClick={(e) => {
                           e.preventDefault();
@@ -213,9 +221,11 @@ export default class home extends Component {
                           </svg>
                         </span>
                       </button>
-                    </div>
-                    <h1>Withdraw to bank account</h1>
-                    <div></div>
+                    </div> */}
+                    <h1 style={{ width: "100%", textAlign: "center" }}>
+                      Withdraw to bank account
+                    </h1>
+                    {/* <div></div> */}
                   </div>
                   <div className={walletStyle.withDrawAccountsList}>
                     <p className={walletStyle.verify}>
@@ -378,7 +388,11 @@ export default class home extends Component {
                 </div>
               </>
             ) : formTab === 2 ? (
-              <div className={walletStyle.transactions}>
+              <div
+                className={
+                  walletStyle.transactions + " " + walletStyle.saved_accounts
+                }
+              >
                 <div className={walletStyle.transactions_empty}>
                   <h1>Saved Accounts</h1>
                   <img src={empty} alt="empty" />
@@ -488,3 +502,8 @@ export default class home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return { ...state.auth };
+};
+export default connect(mapStateToProps, null)(Index);

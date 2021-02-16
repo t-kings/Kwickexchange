@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import walletStyle from "./Index.module.css";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import style from "../../Index.module.css";
 import vc1 from "../images/vc1.svg";
 import vc2 from "../images/vc2.svg";
+import { connect } from "react-redux";
 import vc3 from "../images/vc3.svg";
 import qr from "../images/qr.png";
 import empty from "../images/empty.png";
@@ -12,7 +13,7 @@ import ad from "../images/ad.png";
 import Prompt from "../../../../components/dashboard/wallets/bitcoin/prompt";
 import Email from "../../../../components/dashboard/wallets/bitcoin/email";
 import Address from "../../../../components/dashboard/wallets/bitcoin/address";
-export default class home extends Component {
+class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,6 +33,12 @@ export default class home extends Component {
 
   render() {
     const { formTab } = this.state;
+    const { isAuthenticated } = this.props;
+    if (!isAuthenticated) {
+      return (
+        <Redirect to={{ pathname: "/", redirect_to: "/home/wallet/bitcoin" }} />
+      );
+    }
     return (
       <>
         <Prompt />
@@ -289,3 +296,8 @@ export default class home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return { ...state.auth };
+};
+export default connect(mapStateToProps, null)(Index);

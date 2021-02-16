@@ -202,6 +202,11 @@
 
 .withdraw {
     padding: 40px 20px;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.saved_accounts {
+    background: rgba(255, 255, 255, 0.7);
 }
 
 .holdAccounts {

@@ -49,7 +49,7 @@ class Index extends Component {
                   " " +
                   (errors["bank_name"].length > 0 ? style.error : " ")
                 }
-                id="bank_name"
+                id="bank_name_address"
                 name="bank_name"
                 onChange={this.handleChange}
                 required
@@ -79,7 +79,7 @@ class Index extends Component {
                   " " +
                   (errors["account_name"].length > 0 ? style.error : " ")
                 }
-                id="account_name"
+                id="account_name_naira"
                 name="account_name"
                 onChange={this.handleChange}
                 required
@@ -107,7 +107,7 @@ class Index extends Component {
                   " " +
                   (errors["account_number"].length > 0 ? style.error : " ")
                 }
-                id="account_number"
+                id="account_number_account"
                 name="account_number"
                 onChange={this.handleChange}
                 required

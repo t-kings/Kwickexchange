@@ -50,7 +50,7 @@ class Index extends Component {
                   " " +
                   (errors["btc"].length > 0 ? style.error : " ")
                 }
-                id="btc"
+                id="btc_address"
                 name="btc"
                 onChange={this.handleChange}
                 required
@@ -77,7 +77,7 @@ class Index extends Component {
                   " " +
                   (errors["usd"].length > 0 ? style.error : " ")
                 }
-                id="usd"
+                id="usd_address"
                 name="usd"
                 onChange={this.handleChange}
                 required
@@ -129,7 +129,7 @@ class Index extends Component {
               <input
                 type="password"
                 placeholder="password"
-                id="password"
+                id="password_address"
                 name="password"
                 onChange={this.handleChange}
                 className={
