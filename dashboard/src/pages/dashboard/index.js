@@ -9,6 +9,7 @@ import Logout from "../../components/logout";
 import Home from "./home";
 import Bitcoin from "./bitcoin";
 import GiftCards from "./giftCards";
+import Transactions from "./transactions";
 import { getBitcoinRate, getGiftCardsRate } from "../../store/actions/rates";
 import style from "./Index.module.css";
 class Index extends Component {
@@ -63,6 +64,7 @@ class Index extends Component {
               <Route path="/home/wallet" component={Wallets} />
               <Route path="/home/bitcoin" component={Bitcoin} />
               <Route path="/home/gift-cards" component={GiftCards} />
+              <Route path="/home/transactions" component={Transactions} />
             </Switch>
           </section>
         </main>

@@ -1,0 +1,265 @@
+.home {
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
+}
+
+.title {
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    font-size: var(--paragraphLargestFontSize);
+    letter-spacing: 0.13em;
+    padding: 0px 0;
+    color: #828282;
+}
+
+.hold {
+    width: 100%;
+    border: 1px solid #D1D1D1;
+    position: relative;
+    margin-top: 40px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    background: black;
+    overflow-x: auto;
+}
+
+.tabs button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    color: white;
+    padding: 20px;
+    border-bottom: 5px solid black;
+    max-width: 200px;
+}
+
+.tabs button.active {
+    background: var(--shadedBackground);
+    border-bottom: 5px solid var(--colorGold);
+    font-weight: bolder;
+}
+
+.tabs button:hover {
+    background: var(--shadedBackground);
+}
+
+.transactions_empty {
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+}
+
+.transactions_empty p {
+    margin: 20px 0;
+    padding: 0;
+    color: rgb(22, 22, 22, 0.8);
+    font-size: var(--paragraphMidFontSize);
+}
+
+.link_btn {
+    color: white;
+    border: 1px solid white;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.link_btn_gold {
+    color: black;
+    border: 1px solid var(--colorGold);
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--colorGold);
+    font-size: var(--bigLinkFontSize);
+}
+
+.link_btn_gold:hover {
+    background: black;
+    border: 1px solid black;
+    color: var(--colorGold);
+}
+
+.transactions_empty .link_btn_gold {
+    text-align: center;
+    width: 30%;
+    min-width: 150px;
+}
+
+.transactions_list {
+    padding: 20px;
+    overflow: auto;
+    width: 100%;
+    background: white;
+}
+
+.transactions_list table {
+    min-width: 400px;
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+
+.transactions_list th {
+    text-align: left;
+    color: rgb(22, 22, 22, 0.5);
+    font-size: var(--paragraphMidFontSize);
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+    padding: 10px 0;
+}
+
+.transactions_list tr {
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+
+.transactions_list tr:last-child {
+    border-bottom: 0 solid rgb(0, 0, 0, 0.2);
+}
+
+.transactions_list tr:hover {
+    background: rgb(22, 22, 22, 0.2);
+    color: black;
+}
+
+.transactions_list tr:hover td, .transactions_list tr:hover th {
+    color: black;
+}
+
+.transactions_list td {
+    text-align: left;
+    color: rgb(22, 22, 22, 0.5);
+    font-size: var(--paragraphMidFontSize);
+    padding: 10px 0;
+    min-width: 100px;
+}
+
+.transactions_list td.green {
+    color: green;
+}
+
+.transactions_list td.red {
+    color: red;
+}
+
+.transactions_list td.blue {
+    color: #2F80ED;
+}
+
+.back {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: rgb(22, 22, 22, 0.8);
+}
+
+.back span:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--colorGold);
+    width: 40px;
+    border-radius: 50%;
+    height: 40px;
+    margin-right: 20px;
+}
+
+.summary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+.summary .card {
+    background: #FFFFFF;
+    border: 1px solid #D1D1D1;
+    max-width: 500px;
+    width: 100%;
+}
+
+.cardTop {
+    background: rgb(130, 130, 130, 0.3);
+    padding: 20px;
+}
+
+.cardTop h2 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: black;
+    font-size: var(--paragraphMidFontSize);
+}
+
+.cardBody {
+    padding: 20px;
+}
+
+.cardBody h4 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: black;
+    font-size: var(--paragraphMidFontSize);
+}
+
+.cardBody h4.green {
+    color: green;
+}
+
+.cardBody h4.red {
+    color: red;
+}
+
+.cardBody h4.blue {
+    color: #2F80ED;
+}
+
+.cardBody p {
+    color: #161616;
+    opacity: 0.5;
+    margin: 0;
+    font-size: var(--paragraphMidFontSize);
+    padding: 0;
+}
+
+.cardBody h6 {
+    color: #161616;
+    margin: 0;
+    font-size: var(--paragraphMidFontSize);
+    padding: 0;
+}
+
+.cardBody li {
+    margin: 20px 0;
+}
+
+.btn_red {
+    background: red;
+    color: white;
+    text-transform: uppercase;
+    margin: 20px 0;
+}
+
+.btn_red:hover {
+    background: none;
+    color: red;
+    border: 1px solid red;
+}
+
+.cardBody .center {
+    display: flex;
+    justify-content: center;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
