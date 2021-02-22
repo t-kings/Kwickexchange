@@ -10,6 +10,7 @@ import Home from "./home";
 import Bitcoin from "./bitcoin";
 import GiftCards from "./giftCards";
 import Transactions from "./transactions";
+import Notifications from "./notifications";
 import { getBitcoinRate, getGiftCardsRate } from "../../store/actions/rates";
 import style from "./Index.module.css";
 class Index extends Component {
@@ -65,6 +66,7 @@ class Index extends Component {
               <Route path="/home/bitcoin" component={Bitcoin} />
               <Route path="/home/gift-cards" component={GiftCards} />
               <Route path="/home/transactions" component={Transactions} />
+              <Route path="/home/notifications" component={Notifications} />
             </Switch>
           </section>
         </main>
