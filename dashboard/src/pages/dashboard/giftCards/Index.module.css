@@ -1,0 +1,568 @@
+.home {
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
+}
+
+.title {
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    font-size: var(--paragraphLargestFontSize);
+    letter-spacing: 0.13em;
+    padding: 0px 0;
+    color: #828282;
+}
+
+.balances {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-flow: row wrap;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.balances a {
+    width: 20%;
+    margin: 0;
+    overflow: visible;
+    padding: 10px;
+}
+
+.balances a:first-child {
+    padding-left: 0;
+}
+
+.balances a:nth-child(5n) {
+    padding-right: 0;
+}
+
+.balances a:nth-child(5n+ 1) {
+    padding-left: 0;
+}
+
+.balances .balance {
+    background: white;
+    padding: 20px;
+}
+
+.balance p {
+    padding: 0;
+    margin: 0;
+    color: rgb(0, 0, 0, 0.6);
+    font-size: var(--paragraphMidFontSize);
+    text-align: center;
+}
+
+.balance img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.back {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: rgb(22, 22, 22, 0.8);
+}
+
+.back span:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--colorGold);
+    width: 40px;
+    border-radius: 50%;
+    height: 40px;
+    margin-right: 20px;
+}
+
+.hold {
+    width: 50%;
+    border: 1px solid #D1D1D1;
+    padding-bottom: 80px;
+    overflow: hidden;
+    position: relative;
+    margin: 20px 0;
+    padding-bottom: 100px;
+}
+
+.vc {
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+    bottom: -20px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    background: black;
+}
+
+.tabs button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    color: white;
+    padding: 20px;
+    border-bottom: 5px solid black;
+}
+
+.tabs button.active {
+    background: var(--shadedBackground);
+    border-bottom: 5px solid var(--colorGold);
+    font-weight: bolder;
+}
+
+.tabs button:hover {
+    background: var(--shadedBackground);
+}
+
+.hold form {
+    padding: 20px;
+}
+
+.hold .img {
+    width: 40%;
+    margin: 40px auto;
+    display: block;
+}
+
+.hold hr {
+    margin: 40px 0;
+}
+
+.input {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+    margin: 20px auto;
+    width: 80%;
+}
+
+.input>div {
+    padding: 0 40px 0 0;
+    width: 50%;
+}
+
+.input>div:last-child {
+    padding: 0 0 0 40px;
+}
+
+.input>div p {
+    color: #828282;
+    font-size: var(--paragraphFontSize);
+    text-align: right;
+    padding: 0;
+    font-weight: bold;
+    margin: 0;
+}
+
+.input>div:last-child p {
+    text-align: left;
+}
+
+.input select {
+    display: block;
+    background: none;
+    color: #828282;
+    padding: 10px;
+    font-size: var(--paragraphMidFontSize);
+    width: 100%;
+    cursor: pointer;
+}
+
+.input select option {
+    color: black;
+}
+
+.increments {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.increments span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    flex-grow: 0;
+    cursor: pointer;
+    background: var(--colorGold);
+}
+
+.input .increments input {
+    width: 50px;
+    padding: 10px;
+    text-align: center;
+    margin: 0 20px;
+    color: #828282;
+    border: 1px solid #D2D2D2;
+}
+
+.input .increments input:disabled {
+    margin: 0;
+    border: none;
+    text-align: left;
+    padding: 0;
+}
+
+.summary {
+    padding: 10px;
+    color: #828282;
+    margin: 0;
+}
+
+.input .total {
+    font-size: var(--paragraphMidFontSize);
+    color: rgb(0, 192, 19);
+    margin: 0;
+    font-size: var(--paragraphLargestFontSize);
+}
+
+.input .rates_text {
+    color: black;
+    font-size: var(--paragraphLargestFontSize);
+}
+
+.input input {
+    display: block;
+    background: none;
+    border: none;
+    outline: none;
+    color: black;
+    padding: 20px 10px;
+    font-size: var(--paragraphMidFontSize);
+    width: 80%;
+}
+
+input.link_btn_gold {
+    width: 100%;
+    display: block;
+    font-size: var(--paragraphMidFontSize);
+}
+
+input.link_btn_gold:hover {
+    background: black;
+}
+
+.link_btn {
+    color: white;
+    border: 1px solid white;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.link_btn_gold {
+    color: black;
+    border: 1px solid var(--colorGold);
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--colorGold);
+    font-size: var(--bigLinkFontSize);
+}
+
+.link_btn_gold:hover {
+    background: black;
+    border: 1px solid black;
+    color: var(--colorGold);
+}
+
+.transaction {
+    width: 100%;
+    max-width: 700px;
+    padding: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.transaction h3 {
+    padding: 0;
+    margin: 0;
+    color: green;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: var(--headerLargeFontSize);
+}
+
+.transaction p {
+    padding: 0;
+    margin: 0;
+    color: rgb(0, 0, 0, 0.6);
+    text-align: center;
+    font-size: var(--paragraphMidFontSize);
+}
+
+.transaction .link_btn_gold {
+    display: block;
+    margin: 20px 0;
+}
+
+.group {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-flow: row wrap;
+}
+
+.chat {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 99999999999999999999999999;
+    padding-right: 20px;
+    flex-flow: row nowrap;
+}
+
+.chatHold {
+    width: 40%;
+}
+
+.chatTop {
+    width: 100%;
+    background: #161616;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.chatTop div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.chatTop div p {
+    margin: 0;
+    padding: 0;
+    margin-left: 20px;
+}
+
+.chatTop button {
+    background: #E70000;
+    padding: 10px 20px;
+    color: white;
+}
+
+.body {
+    background: #FFFFFF;
+    border: 1px solid #D1D1D1;
+    min-height: 70vh;
+    position: relative;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.receiver {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-flow: row nowrap;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.receiver p, .sender p {
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.sender {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+    width: 70%;
+    margin: 10px 0;
+}
+
+.sender .avatar {
+    color: #161616;
+    background: #FFC700;
+}
+
+.sender p {
+    margin-right: 0;
+    margin-left: 20px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #161616;
+    border-radius: 50%;
+    color: #FFC700;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.body form {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 20px;
+}
+
+.text {
+    background: #E0E0E0;
+    width: 70%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.text input:first-child {
+    padding: 20px;
+    border: none;
+    background: none;
+    width: 70%;
+}
+
+.text div {
+    padding: 20px;
+    border: none;
+    background: none;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.text div input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.text div svg {
+    cursor: pointer;
+}
+
+.text input:focus {
+    outline: none;
+    border: none;
+}
+
+.body .link_btn_gold {
+    width: 25%;
+    max-width: 25%;
+}
+
+@media only screen and (max-width: 1000px) {
+    .hold {
+        padding-bottom: 120px;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .balances a {
+        width: 25%;
+    }
+    .balances a:nth-child(5n) {
+        padding-right: 10px;
+    }
+    .balances a:nth-child(5n+ 1) {
+        padding-left: 10px;
+    }
+    .balances a:nth-child(4n) {
+        padding-right: 0;
+    }
+    .balances a:nth-child(4n+ 1) {
+        padding-left: 0;
+    }
+    .input {
+        width: 100%;
+    }
+    .input>div {
+        width: 30%;
+    }
+    .input>div:last-child {
+        width: 70%;
+    }
+    .chatHold {
+        width: 60%;
+    }
+    .hold {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .balances a {
+        width: 50%;
+    }
+    .balances a:nth-child(4n) {
+        padding-right: 10px;
+    }
+    .balances a:nth-child(4n+ 1) {
+        padding-left: 10px;
+    }
+    .balances a:nth-child(2n) {
+        padding-right: 0;
+    }
+    .balances a:nth-child(2n+ 1) {
+        padding-left: 0;
+    }
+    .input>div {
+        padding: 0 20px 0 0;
+    }
+    .input>div:last-child {
+        padding: 0 0 0 20px;
+    }
+    .chatHold {
+        width: 70%;
+    }
+    .hold {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .chatHold {
+        width: 100%;
+    }
+    .chat {
+        justify-content: center;
+        padding-left: 0;
+        padding: 0 6vw;
+    }
+}
