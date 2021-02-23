@@ -22,6 +22,16 @@ const initialState = {
       value_in_naira: 0,
     },
   ],
+  notificationSettings: [
+    {
+      app_notification: true,
+      email_notification: true,
+      sms_notification: false,
+      email: "",
+      type: "Coin Incoming Unconfirmed",
+      slug: "coin_incoming_unonfirmed",
+    },
+  ],
 };
 
 const resourcesReducer = (state = initialState, action) => {
@@ -50,6 +60,18 @@ const resourcesReducer = (state = initialState, action) => {
       return {
         ...state,
         currencyList: action.data,
+      };
+    case "NOTIFICATIONS_SETTINGS_LIST":
+      return {
+        ...state,
+        notificationSettings: action.data,
+      };
+    case "CHANGE_NOTIFICATION":
+      const notificationSettings = state.notificationSettings;
+      notificationSettings[action.idx][action.key] = action.value;
+      return {
+        ...state,
+        notificationSettings,
       };
     default:
       return state;

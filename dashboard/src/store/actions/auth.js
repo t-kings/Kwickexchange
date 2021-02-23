@@ -698,7 +698,6 @@ export const updatePassword = (
   current_password,
   password_confirmation
 ) => {
-  console.log(password, current_password, password_confirmation);
   return async (dispatch, getState) => {
     try {
       dispatch({ type: "AUTH_LOADING" });
@@ -729,7 +728,6 @@ export const updatePassword = (
       }
       dispatch({ type: "CLEAR_AUTH_LOADING" });
     } catch (error) {
-      console.log(error?.response);
       if (error.response.status === 422) {
         dispatch({
           type: "AUTH_ERRORS",
@@ -758,6 +756,65 @@ export const updatePassword = (
         type: "SHOW_NOTIFICATION",
         data: {
           type: "Password",
+          isSuccess: false,
+          message: "Error!, please try again",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+    }
+  };
+};
+
+export const changeNotification = (idx, key, value) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "CHANGE_NOTIFICATION", idx, key, value });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateNotificationSettings = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "AUTH_LOADING" });
+      const res = await axios.patch(
+        apiUrl + "settings/notification",
+        getState().resources.notificationSettings,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + getState().auth.accessToken,
+          },
+        }
+      );
+      if (res.status === 200) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Notification",
+            isSuccess: true,
+            message: "Notification Settings Successfully Changed",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+    } catch (error) {
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Notification",
           isSuccess: false,
           message: "Error!, please try again",
         },

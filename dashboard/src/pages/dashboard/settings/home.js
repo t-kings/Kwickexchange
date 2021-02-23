@@ -9,6 +9,8 @@ import {
   uploadProfilePic,
   updateProfile,
   updatePassword,
+  changeNotification,
+  updateNotificationSettings,
 } from "../../../store/actions/auth";
 class Home extends Component {
   constructor(props) {
@@ -67,11 +69,15 @@ class Home extends Component {
     const {
       isAuthenticated,
       uploadProfilePic,
+      updateNotificationSettings,
       isLoading,
       user,
       updateProfile,
       currencyList,
+      notificationSettings,
+      changeNotification,
     } = this.props;
+    console.log(notificationSettings);
     const errors = { ...this.state.errors, ...this.props.errors };
     const { formTab, passwordType } = this.state;
     if (!isAuthenticated) {
@@ -199,94 +205,72 @@ class Home extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <p>Coin incoming confirmed</p>
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={false} />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>Coin incoming unconfirmed</p>
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={false} />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>Coin outgoing confirmed</p>
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={false} />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>New trade</p>
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={false} />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>Buy paid for trade</p>
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={false} />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>Trade cancelled or expired</p>
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={true} />
-                      </td>
-                      <td>
-                        <input type="checkbox" checked={false} />
-                      </td>
-                    </tr>
+                    {notificationSettings.map((itm, idx) => (
+                      <tr key={idx}>
+                        <td>
+                          <p>{itm.type}</p>
+                        </td>
+                        <td>
+                          <input
+                            type="checkbox"
+                            onChange={(e) => {
+                              changeNotification(
+                                idx,
+                                "app_notification",
+                                e.target.checked
+                              );
+                            }}
+                            defaultChecked={itm.app_notification}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="checkbox"
+                            onChange={(e) => {
+                              changeNotification(
+                                idx,
+                                "email_notification",
+                                e.target.checked
+                              );
+                            }}
+                            defaultChecked={itm.email_notification}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="checkbox"
+                            onChange={(e) => {
+                              changeNotification(
+                                idx,
+                                "sms_notification",
+                                e.target.checked
+                              );
+                            }}
+                            defaultChecked={itm.sms_notification}
+                          />
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
-              <button className={transStyle.link_btn_gold}>SAVE</button>
+              {isLoading ? (
+                <div
+                  className={transStyle.load + " " + transStyle.link_btn_gold}
+                >
+                  <div className={transStyle.loader}>Loading...</div>
+                </div>
+              ) : (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    updateNotificationSettings();
+                  }}
+                  className={transStyle.link_btn_gold}
+                >
+                  SAVE
+                </button>
+              )}
             </div>
           ) : (
             <div className={transStyle.password}>
@@ -491,11 +475,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     uploadProfilePic: (payload) => dispatch(uploadProfilePic(payload)),
+    changeNotification: (idx, key, value) =>
+      dispatch(changeNotification(idx, key, value)),
     updateProfile: (payload) => dispatch(updateProfile(payload)),
     updatePassword: (password, current_password, password_confirmation) =>
       dispatch(
         updatePassword(password, current_password, password_confirmation)
       ),
+    updateNotificationSettings: () => dispatch(updateNotificationSettings()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
