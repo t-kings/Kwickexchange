@@ -126,6 +126,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: white;
     flex-flow: column nowrap;
 }
 
@@ -166,6 +167,7 @@
 
 .transactions_list {
     padding: 20px;
+    background: white;
     overflow: auto;
     width: 100%;
     background: white;
@@ -244,6 +246,7 @@
 .summary {
     display: flex;
     justify-content: center;
+    background: white;
     align-items: center;
     min-height: 90vh;
 }
@@ -339,6 +342,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: white;
     flex-flow: row nowrap;
     position: relative;
     overflow: hidden;
@@ -415,6 +419,7 @@
 .profileInfo {
     margin-top: 40px;
     width: 100%;
+    background: white;
     border: 1px solid #D1D1D1;
     position: relative;
     margin-top: 40px;
@@ -464,6 +469,7 @@
 }
 
 .notification {
+    background: white;
     padding: 20px;
 }
 
@@ -514,6 +520,7 @@
 }
 
 .password {
+    background: white;
     padding: 20px;
 }
 

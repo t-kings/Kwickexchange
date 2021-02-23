@@ -31,6 +31,7 @@
     justify-content: space-between;
     align-items: stretch;
     flex-flow: column nowrap;
+    background: white;
 }
 
 .balance h3 {
@@ -182,6 +183,7 @@
     border: 1px solid #D1D1D1;
     padding-bottom: 80px;
     position: relative;
+    background: white;
 }
 
 .loader, .loader:before, .loader:after {

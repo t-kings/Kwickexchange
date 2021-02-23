@@ -12,6 +12,7 @@
     overflow-y: auto;
     padding: 80px 2vw 20px 2vw;
     position: relative;
+    background: #F4F5FA;
 }
 
 .main_body {
