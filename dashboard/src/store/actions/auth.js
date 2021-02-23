@@ -305,7 +305,6 @@ export const verifyEmail = (user) => {
         }, 5000);
       }
     } catch (err) {
-      console.log(err.response.data);
       dispatch({
         type: "CLEAR_AUTH_LOADING",
       });
@@ -663,7 +662,7 @@ export const updateProfile = (form) => {
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
-            type: "Avatar",
+            type: "Profile",
             isSuccess: true,
             message: "Profile Updated Successfully",
           },
@@ -679,7 +678,86 @@ export const updateProfile = (form) => {
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {
-          type: "Avatar",
+          type: "Profile",
+          isSuccess: false,
+          message: "Error!, please try again",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+    }
+  };
+};
+
+export const updatePassword = (
+  password,
+  current_password,
+  password_confirmation
+) => {
+  console.log(password, current_password, password_confirmation);
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "AUTH_LOADING" });
+      const res = await axios.patch(
+        apiUrl + "settings/change-password",
+        { password, current_password, password_confirmation },
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + getState().auth.accessToken,
+          },
+        }
+      );
+      if (res.status === 200) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Password",
+            isSuccess: true,
+            message: "Password Successfully Changed",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+    } catch (error) {
+      console.log(error?.response);
+      if (error.response.status === 422) {
+        dispatch({
+          type: "AUTH_ERRORS",
+          data: {
+            errors: error.response.data.data.errors,
+          },
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Password",
+            isSuccess: false,
+            message: "Check form errors",
+          },
+        });
+        dispatch({
+          type: "CLEAR_AUTH_LOADING",
+        });
+        return setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Password",
           isSuccess: false,
           message: "Error!, please try again",
         },
