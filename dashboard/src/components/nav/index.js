@@ -22,7 +22,17 @@ const Index = ({ user, balance, notifications }) => {
           <li className={style.balance}>
             <Link to="/home/wallet/bitcoin">
               <span>
-                <svg
+                <h1
+                  style={{
+                    margin: 0,
+                    padding: 0,
+                    color: "black",
+                    fontSize: "16px",
+                  }}
+                >
+                  {balance.fiat.symbol}
+                </h1>
+                {/* <svg
                   width="13"
                   height="18"
                   viewBox="0 0 13 18"
@@ -33,11 +43,9 @@ const Index = ({ user, balance, notifications }) => {
                     d="M2 10V14H0V16H3V18H5V16H7V18H9V15.949C10.968 15.7 12.5 14.034 12.5 12C12.5 10.68 11.85 9.516 10.86 8.787C11.5901 8.04302 11.9994 7.0424 12 6C12 4.142 10.721 2.589 9 2.142V0H7V2H5V0H3V2H0V4H2V10ZM8.5 14H4V10H8.5C9.603 10 10.5 10.897 10.5 12C10.5 13.103 9.603 14 8.5 14ZM4 4H8C9.103 4 10 4.897 10 6C10 7.103 9.103 8 8 8H4V4Z"
                     fill="#161616"
                   />
-                </svg>
+                </svg> */}
               </span>
-              <p>
-                {balance.fiat.symbol} {balance.bitcoin_in_fiat}
-              </p>
+              <p>{balance.bitcoin_in_fiat}</p>
             </Link>
           </li>
           <li className={style.balance}>
