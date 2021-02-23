@@ -523,12 +523,12 @@ export const logout = () => {
 export const checkToken = () => {
   return async (dispatch, getState) => {
     try {
+      dispatch({
+        type: "TOKEN_LOADING",
+      });
       const token = JSON.parse(localStorage.getItem("refresh_token"));
       const stringProfile = JSON.parse(localStorage.getItem("profile"));
       if (stringProfile && token) {
-        dispatch({
-          type: "AUTH_LOADING",
-        });
         dispatch({
           type: "USER_LOGGED_IN",
           data: {
@@ -548,18 +548,29 @@ export const checkToken = () => {
           setTimeout(() => {
             refreshToken(dispatch, getState);
           }, expiryTime - 300000);
+        } else {
+          dispatch({
+            type: "CLEAR_TOKEN_LOADING",
+          });
+          return false;
         }
         dispatch({
-          type: "CLEAR_AUTH_LOADING",
+          type: "CLEAR_TOKEN_LOADING",
         });
+        return true;
       } else {
         dispatch({ type: "LOGOUT" });
       }
+      dispatch({
+        type: "CLEAR_TOKEN_LOADING",
+      });
+      return false;
     } catch (e) {
       dispatch({
-        type: "CLEAR_AUTH_LOADING",
+        type: "CLEAR_TOKEN_LOADING",
       });
       console.log(e);
+      return false;
     }
   };
 };
@@ -567,7 +578,6 @@ export const checkToken = () => {
 export const refreshToken = async (dispatch, getState) => {
   try {
     const { auth } = getState();
-    console.log(auth);
     if (auth.refreshToken) {
       const res = await axios.post(apiUrl + "auth/refresh-token", {
         refreshToken: auth.refreshToken,

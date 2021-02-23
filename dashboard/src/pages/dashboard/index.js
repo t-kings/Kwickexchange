@@ -6,14 +6,15 @@ import { Switch, Route } from "react-router-dom";
 import Overview from "./overview";
 import Wallets from "./wallets";
 import Logout from "../../components/logout";
+import Loading from "../../components/loading";
 import Home from "./home";
 import Bitcoin from "./bitcoin";
 import GiftCards from "./giftCards";
 import Transactions from "./transactions";
 import Notifications from "./notifications";
 import Settings from "./settings";
-import { getBitcoinRate, getGiftCardsRate } from "../../store/actions/rates";
 import style from "./Index.module.css";
+import { getResources } from "../../store/actions/resources";
 class Index extends Component {
   componentDidMount = () => {
     try {
@@ -49,11 +50,14 @@ class Index extends Component {
       });
     } catch (e) {}
 
-    this.props.getBitcoinRate();
-    this.props.getGiftCardsRate();
+    const { getResources } = this.props;
+    getResources();
   };
   render() {
-    return (
+    const { isLoading } = this.props;
+    return isLoading ? (
+      <Loading />
+    ) : (
       <>
         <Nav />
         <Logout />
@@ -77,12 +81,11 @@ class Index extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  return { ...state.auth };
+  return { ...state.resources };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBitcoinRate: () => dispatch(getBitcoinRate()),
-    getGiftCardsRate: () => dispatch(getGiftCardsRate()),
+    getResources: () => dispatch(getResources()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

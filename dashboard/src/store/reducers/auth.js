@@ -7,6 +7,7 @@ const initState = {
   accessTokenExpiresIn: 0,
   refreshToken: "",
   isVerified: false,
+  tokenLoading: true,
   errors: {},
 };
 
@@ -81,6 +82,18 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         isAuthenticated: false,
+      };
+
+    case "TOKEN_LOADING":
+      return {
+        ...state,
+        tokenLoading: true,
+      };
+
+    case "CLEAR_TOKEN_LOADING":
+      return {
+        ...state,
+        tokenLoading: false,
       };
     // case "Token_LoggedIn":
     //   // console.log(action.data)

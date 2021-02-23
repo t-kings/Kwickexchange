@@ -10,15 +10,20 @@ import { connect } from "react-redux";
 import Notification from "./components/notification/index";
 import RequestPassword from "./pages/auth/RequestPassword";
 import Password from "./pages/auth/Password";
+import Loading from "./components/loading";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ResetPasswordStatus from "./pages/auth/ResetPasswordStatus";
 import { checkToken } from "./store/actions/auth";
 class App extends Component {
   componentDidMount = () => {
-    this.props.checkToken();
+    const { checkToken } = this.props;
+    checkToken();
   };
   render() {
-    return (
+    const { tokenLoading } = this.props;
+    return tokenLoading ? (
+      <Loading />
+    ) : (
       <BrowserRouter>
         <Notification />
         <Switch>
@@ -46,7 +51,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state };
+  return { ...state.auth };
 };
 
 const mapDispatchToProps = (dispatch) => {
