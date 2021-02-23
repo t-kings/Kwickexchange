@@ -1,83 +1,16 @@
 import React, { Component } from "react";
-import Nav from "../../components/nav";
-import Aside from "../../components/aside";
 import { connect } from "react-redux";
-import { Switch, Route } from "react-router-dom";
-import Overview from "./overview";
-import Wallets from "./wallets";
-import Logout from "../../components/logout";
 import Loading from "../../components/loading";
-import Home from "./home";
-import Bitcoin from "./bitcoin";
-import GiftCards from "./giftCards";
-import Transactions from "./transactions";
-import Notifications from "./notifications";
-import Settings from "./settings";
-import style from "./Index.module.css";
+import Dashboard from "./dashboard";
 import { getResources } from "../../store/actions/resources";
 class Index extends Component {
   componentDidMount = () => {
-    try {
-      const aside = document.querySelector("#aside");
-      const main_Section = document.querySelector("#main_section");
-      const bars = document.querySelector("#bars");
-      const crossBars = document.querySelector("#bars_cross");
-      bars.addEventListener("click", () => {
-        aside.style.display = "block";
-        bars.style.display = "none";
-        crossBars.style.display = "block";
-      });
-
-      crossBars.addEventListener("click", () => {
-        aside.style.display = "none";
-        bars.style.display = "block";
-        crossBars.style.display = "none";
-      });
-
-      main_Section.addEventListener("click", () => {
-        if (window.screen.width < 1000) {
-          aside.style.display = "none";
-          bars.style.display = "block";
-          crossBars.style.display = "none";
-        }
-      });
-
-      const logoutModal = document.querySelector("#logout");
-      logoutModal.addEventListener("click", (e) => {
-        if (e.target == logoutModal) {
-          logoutModal.style.display = "none";
-        }
-      });
-    } catch (e) {}
-
     const { getResources } = this.props;
     getResources();
   };
   render() {
     const { isLoading } = this.props;
-    return isLoading ? (
-      <Loading />
-    ) : (
-      <>
-        <Nav />
-        <Logout />
-        <main className={style.main}>
-          <Aside />
-          <section id="main_section" className={style.main_section}>
-            <Switch>
-              <Route exact path="/home" component={Home} />
-              <Route path="/home/overview" component={Overview} />
-              <Route path="/home/wallet" component={Wallets} />
-              <Route path="/home/bitcoin" component={Bitcoin} />
-              <Route path="/home/gift-cards" component={GiftCards} />
-              <Route path="/home/transactions" component={Transactions} />
-              <Route path="/home/notifications" component={Notifications} />
-              <Route path="/home/settings" component={Settings} />
-            </Switch>
-          </section>
-        </main>
-      </>
-    );
+    return isLoading ? <Loading /> : <Dashboard />;
   }
 }
 const mapStateToProps = (state) => {

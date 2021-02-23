@@ -80,6 +80,7 @@
         display: none;
         animation: scaleBlockSide 0.3s;
         transform-origin: right;
+        min-width: 100%;
     }
     @keyframes scaleBlockSide {
         from {
@@ -93,9 +94,6 @@
     }
     .aside a {
         padding: 20px 6vw !important;
-    }
-    .aside {
-        min-width: 260px;
     }
     .logout {
         margin: 10px 6vw 40px 6vw;
