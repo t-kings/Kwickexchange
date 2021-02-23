@@ -7,6 +7,7 @@ import img2 from "../images/img2.png";
 import vc1 from "../images/vc1.png";
 import vc2 from "../images/vc2.png";
 import vc3 from "../images/vc3.png";
+import { buyBitcoin, sellBitcoin } from "../../../store/actions/trade";
 import { Link, Redirect } from "react-router-dom";
 class Overview extends Component {
   constructor(props) {
@@ -15,31 +16,126 @@ class Overview extends Component {
       formTab: 1,
       dollar: 0.0,
       btc: 0.0,
+      naira: 0.0,
     };
   }
-
   handleBTC = (e) => {
+    const { bitcoinBuyRate, bitcoinSellRate } = this.props;
+    const { formTab } = this.state;
     const btc = parseFloat(e.target.value);
-    const dollar = btc * this.props.bitcoinContext.sell.usd;
+    let naira, dollar;
+    if (formTab === 1) {
+      dollar = btc * bitcoinBuyRate.usd;
+    } else {
+      dollar = btc * bitcoinSellRate.usd;
+    }
+    if (formTab === 1) {
+      naira = dollar * bitcoinBuyRate.naira;
+    } else {
+      naira = dollar * bitcoinSellRate.naira;
+    }
     this.setState({
       ...this.state,
       btc,
-      dollar,
+      dollar: dollar ? dollar : 0,
+      naira: naira ? naira : 0,
     });
   };
   handleDollar = (e) => {
+    const { bitcoinBuyRate, bitcoinSellRate } = this.props;
+    const { formTab } = this.state;
     const dollar = parseFloat(e.target.value);
-    const btc = dollar / this.props.bitcoinContext.sell.usd;
+    let naira, btc;
+    if (formTab === 1) {
+      naira = dollar * bitcoinBuyRate.naira;
+    } else {
+      naira = dollar * bitcoinSellRate.naira;
+    }
+    if (formTab === 1) {
+      btc = dollar / bitcoinBuyRate.usd;
+    } else {
+      btc = dollar / bitcoinSellRate.usd;
+    }
     this.setState({
       ...this.state,
       dollar,
-      btc,
+      naira: naira ? naira : 0,
+      btc: btc ? btc : 0,
     });
   };
 
-  render() {
+  handleNaira = (e) => {
+    const { bitcoinBuyRate, bitcoinSellRate } = this.props;
     const { formTab } = this.state;
-    const { isAuthenticated, transactionCount, balance } = this.props;
+    const naira = parseFloat(e.target.value);
+    let dollar, btc;
+    if (formTab === 1) {
+      dollar = naira / bitcoinBuyRate.naira;
+    } else {
+      dollar = naira / bitcoinSellRate.naira;
+    }
+
+    if (formTab === 1) {
+      btc = dollar / bitcoinBuyRate.usd;
+    } else {
+      btc = dollar / bitcoinSellRate.usd;
+    }
+
+    this.setState({
+      ...this.state,
+      dollar: dollar ? dollar : 0,
+      btc: btc ? btc : 0,
+      naira,
+    });
+  };
+
+  handleBuy = (e) => {
+    e.preventDefault();
+    const { naira, formTab } = this.state;
+    const { bitcoinSellRate } = this.props;
+    if (formTab === 2) {
+      const newNaira = naira === null || naira === undefined ? 0 : naira;
+      const dollar = naira / bitcoinSellRate.naira;
+      const btc = dollar / bitcoinSellRate.usd;
+      this.setState({
+        ...this.state,
+        dollar: dollar ? dollar : 0,
+        btc: btc ? btc : 0,
+        naira: newNaira ? newNaira : 0,
+        formTab: 1,
+      });
+    }
+  };
+
+  handleSell = (e) => {
+    e.preventDefault();
+    const { naira, formTab } = this.state;
+    const { bitcoinBuyRate } = this.props;
+    if (formTab === 1) {
+      const newNaira = naira === null || naira === undefined ? 0 : naira;
+      const dollar = naira / bitcoinBuyRate.naira;
+      const btc = dollar / bitcoinBuyRate.usd;
+      this.setState({
+        ...this.state,
+        dollar: dollar ? dollar : 0,
+        btc: btc ? btc : 0,
+        naira: newNaira ? newNaira : 0,
+        formTab: 2,
+      });
+    }
+  };
+  render() {
+    const { formTab, btc } = this.state;
+    const {
+      isAuthenticated,
+      transactionCount,
+      balance,
+      bitcoinBuyRate,
+      bitcoinSellRate,
+      buyBitcoin,
+      sellBitcoin,
+      isLoading,
+    } = this.props;
     if (!isAuthenticated) {
       return <Redirect to={{ pathname: "/", redirect_to: "/home/overview" }} />;
     }
@@ -239,27 +335,34 @@ class Overview extends Component {
             <div className={overviewStyle.hold}>
               <div className={overviewStyle.tabs}>
                 <button
-                  onClick={() => this.setState({ ...this.state, formTab: 1 })}
+                  onClick={this.handleBuy}
                   className={formTab === 1 ? overviewStyle.active : ""}
                 >
                   Buy
                 </button>
                 <button
-                  onClick={() => this.setState({ ...this.state, formTab: 2 })}
+                  onClick={this.handleSell}
                   className={formTab === 1 ? "" : overviewStyle.active}
                 >
                   Sell
                 </button>
               </div>
               {formTab === 1 ? (
-                <form onSubmit={this.handleBuy}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    buyBitcoin({
+                      amount: btc,
+                    });
+                  }}
+                >
                   <div className={overviewStyle.rates_text}>
                     <h2>Exchange Rate</h2>
                     <p>
                       $
-                      {/* {bitcoin.sell.usd
+                      {bitcoinBuyRate.usd
                         .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       /BTC
                     </p>
                   </div>
@@ -267,6 +370,7 @@ class Overview extends Component {
                     <span>BTC</span>
                     <input
                       type="number"
+                      step="any"
                       min={0}
                       name="btc"
                       id="btc"
@@ -278,6 +382,7 @@ class Overview extends Component {
                     <span>$</span>
                     <input
                       type="number"
+                      step="any"
                       min={0}
                       name="dollars"
                       id="dollars"
@@ -289,6 +394,7 @@ class Overview extends Component {
                     <span>₦</span>
                     <input
                       type="number"
+                      step="any"
                       min={0}
                       name="naira"
                       id="naira"
@@ -296,21 +402,38 @@ class Overview extends Component {
                       onChange={this.handleNaira}
                     />
                   </div>
-                  <input
-                    className={overviewStyle.link_btn_gold}
-                    type="submit"
-                    value="SELL"
-                  />
+                  {isLoading ? (
+                    <div
+                      className={
+                        overviewStyle.load + " " + overviewStyle.link_btn_gold
+                      }
+                    >
+                      <div className={overviewStyle.loader}>Loading...</div>
+                    </div>
+                  ) : (
+                    <input
+                      className={overviewStyle.link_btn_gold}
+                      type="submit"
+                      value="BUY BITCOIN"
+                    />
+                  )}
                 </form>
               ) : (
-                <form onSubmit={this.handleBuy}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    sellBitcoin({
+                      amount: btc,
+                    });
+                  }}
+                >
                   <div className={overviewStyle.rates_text}>
                     <h2>Exchange Rate</h2>
                     <p>
                       $
-                      {/* {bitcoin.sell.usd
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
+                      {bitcoinSellRate.usd
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       /BTC
                     </p>
                   </div>
@@ -318,6 +441,7 @@ class Overview extends Component {
                     <span>BTC</span>
                     <input
                       type="number"
+                      step="any"
                       min={0}
                       name="btc"
                       id="btc"
@@ -329,6 +453,7 @@ class Overview extends Component {
                     <span>$</span>
                     <input
                       type="number"
+                      step="any"
                       min={0}
                       name="dollars"
                       id="dollars"
@@ -340,6 +465,7 @@ class Overview extends Component {
                     <span>₦</span>
                     <input
                       type="number"
+                      step="any"
                       min={0}
                       name="naira"
                       id="naira"
@@ -347,11 +473,21 @@ class Overview extends Component {
                       onChange={this.handleNaira}
                     />
                   </div>
-                  <input
-                    className={overviewStyle.link_btn_gold}
-                    type="submit"
-                    value="SELL"
-                  />
+                  {isLoading ? (
+                    <div
+                      className={
+                        overviewStyle.load + " " + overviewStyle.link_btn_gold
+                      }
+                    >
+                      <div className={overviewStyle.loader}>Loading...</div>
+                    </div>
+                  ) : (
+                    <input
+                      className={overviewStyle.link_btn_gold}
+                      type="submit"
+                      value="SELL BITCOIN"
+                    />
+                  )}
                 </form>
               )}
               <img src={vc1} className={overviewStyle.vc} alt="vector" />
@@ -366,9 +502,12 @@ class Overview extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.auth, ...state.resources };
+  return { ...state.auth, ...state.resources, ...state.trade };
 };
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    buyBitcoin: (payload) => dispatch(buyBitcoin(payload)),
+    sellBitcoin: (payload) => dispatch(sellBitcoin(payload)),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Overview);
