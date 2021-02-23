@@ -35,7 +35,9 @@ class Dashboard extends Component {
       for (let k = 0; k < asideLinks.length; k++) {
         const element = asideLinks[k];
         element.addEventListener("click", () => {
-          close();
+          if (window.screen.width < 1000) {
+            close();
+          }
         });
       }
       bars.addEventListener("click", () => {

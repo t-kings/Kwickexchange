@@ -9,6 +9,11 @@ export const getResources = () => {
       await getCurrencyList(dispatch, getState);
       await getNotificationSettingsList(dispatch, getState);
       await getNotifications(dispatch, getState);
+      await getAllTradeHistory(dispatch, getState);
+      await getActiveTradeHistory(dispatch, getState);
+      await getPendingTradeHistory(dispatch, getState);
+      await getCancelledTradeHistory(dispatch, getState);
+      await getCompletedTradeHistory(dispatch, getState);
       dispatch({ type: "KILL_RESOURCES_LOADING" });
     } catch (error) {
       console.log(error);
@@ -94,6 +99,91 @@ export const getNotifications = async (dispatch, getState) => {
     });
     if (res.status === 200) {
       dispatch({ type: "NOTIFICATIONS_LIST", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getAllTradeHistory = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "trade/history/all", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "ALL_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getActiveTradeHistory = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "trade/history/active", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "ACTIVE_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getPendingTradeHistory = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "trade/history/pending", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "PENDING_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getCancelledTradeHistory = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "trade/history/cancelled", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "CANCELLED_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getCompletedTradeHistory = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "trade/history/completed", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "COMPLETED_TRADE_HISTORY", data: res.data.data });
     }
     return true;
   } catch (err) {

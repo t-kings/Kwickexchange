@@ -5,19 +5,20 @@ import { connect } from "react-redux";
 class Transaction extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      formTab: 1,
-    };
+    this.state = {};
   }
   render() {
-    const { isAuthenticated } = this.props;
-    const { formTab } = this.state;
+    const { isAuthenticated, transaction } = this.props;
     if (!isAuthenticated) {
       return (
         <Redirect
           to={{
             pathname: "/",
-            redirect_to: "/home/transactions/" + this.props.match.params.id,
+            redirect_to:
+              "/home/transactions/" +
+              this.props.match.params.tab +
+              "/" +
+              this.props.match.params.id,
           }}
         />
       );
@@ -49,23 +50,38 @@ class Transaction extends Component {
               <h2>Transaction Summary</h2>
             </div>
             <div className={transStyle.cardBody}>
-              <h4 className={transStyle.red}>Cancelled</h4>
-              <h4 className={transStyle.blue}>Active</h4>
-              <h4 className={transStyle.green}>Successful</h4>
+              {}
+              <h4
+                className={
+                  transaction.status === "cancelled"
+                    ? transStyle.red
+                    : transaction.status === "completed"
+                    ? transStyle.green
+                    : transStyle.blue
+                }
+              >
+                {transaction.status}
+              </h4>
               <ul>
                 <li>
                   <p>Transaction Type</p>
-                  <h6>Send BTC</h6>
+                  <h6>
+                    {transaction.type} - {transaction.description}
+                  </h6>
                 </li>
                 <li>
                   <p>Amount</p>
-                  <h6>0.00000000 BTC</h6>
+                  <h6> ₦{transaction.amount_in_naira}</h6>
                 </li>
-                <li>
-                  <p>Recipient</p>
-                  <h6>ox5dgvr5g1gr5rsjh5jbfgxd</h6>
-                </li>
-                <li className={transStyle.flex}>
+
+                {transaction.recipient ? (
+                  <li>
+                    <p>Recipient</p>
+                    <h6>{transaction.recipient}</h6>
+                  </li>
+                ) : null}
+
+                {/* <li className={transStyle.flex}>
                   <div>
                     <p>Quantity</p>
                     <h6>23</h6>
@@ -74,21 +90,28 @@ class Transaction extends Component {
                     <p>Amount</p>
                     <h6>₦ 20,000</h6>
                   </div>
-                </li>
+                </li> */}
                 <li>
                   <p>Date</p>
-                  <h6>27th Jan. 2021</h6>
+                  <h6>
+                    {transaction.createdAt.replace("T", " ").replace("Z", "")}
+                  </h6>
                 </li>
               </ul>
-              <div className={transStyle.center}>
-                <button
-                  className={
-                    transStyle.link_btn_gold + " " + transStyle.btn_red
-                  }
-                >
-                  Cancel
-                </button>
-              </div>
+              {transaction.can_cancell ? (
+                <div className={transStyle.center}>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                    className={
+                      transStyle.link_btn_gold + " " + transStyle.btn_red
+                    }
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -97,7 +120,40 @@ class Transaction extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { ...state.auth };
+const mapStateToProps = (state, props) => {
+  const {
+    pendingTradeHistory,
+    allTradeHistory,
+    activeTradeHistory,
+    cancelledTradeHistory,
+    completedTradeHistory,
+  } = state.resources;
+  let transaction = {};
+  if (props.match.params.tab === "all") {
+    transaction = allTradeHistory.data.find(
+      (itm) => itm.transaction_hash === props.match.params.id
+    );
+  }
+  if (props.match.params.tab === "pending") {
+    transaction = pendingTradeHistory.data.find(
+      (itm) => itm.transaction_hash === props.match.params.id
+    );
+  }
+  if (props.match.params.tab === "active") {
+    transaction = activeTradeHistory.data.find(
+      (itm) => itm.transaction_hash === props.match.params.id
+    );
+  }
+  if (props.match.params.tab === "cancelled") {
+    transaction = cancelledTradeHistory.data.find(
+      (itm) => itm.transaction_hash === props.match.params.id
+    );
+  }
+  if (props.match.params.tab === "completed") {
+    transaction = completedTradeHistory.data.find(
+      (itm) => itm.transaction_hash === props.match.params.id
+    );
+  }
+  return { ...state.auth, ...state.resources, transaction };
 };
 export default connect(mapStateToProps, null)(Transaction);

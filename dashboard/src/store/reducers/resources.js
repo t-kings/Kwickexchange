@@ -22,16 +22,7 @@ const initialState = {
       value_in_naira: 0,
     },
   ],
-  notificationSettings: [
-    {
-      app_notification: true,
-      email_notification: true,
-      sms_notification: false,
-      email: "",
-      type: "Coin Incoming Unconfirmed",
-      slug: "coin_incoming_unonfirmed",
-    },
-  ],
+  notificationSettings: [],
   notifications: [
     {
       read_status: false,
@@ -41,6 +32,73 @@ const initialState = {
       message: "",
     },
   ],
+  allTradeHistory: {
+    data: [],
+    meta: {},
+  },
+  activeTradeHistory: {
+    data: [],
+    meta: {},
+  },
+  pendingTradeHistory: {
+    data: [],
+    meta: {},
+  },
+  cancelledTradeHistory: {
+    data: [],
+    meta: {},
+  },
+  completedTradeHistory: {
+    data: [
+      {
+        status: "completed",
+        email: "harrysjil@gmail.com",
+        transaction_hash: "bbb2-2d70350341c7",
+        type: "deposit",
+        asset: "naira",
+        amount_in_naira: "5000",
+        amount: "5000",
+        description: "Deposit 5000 naira to harrysjil@gmail.com",
+        createdAt: "2021-01-29T13:51:21.798Z",
+        can_cancell: false,
+      },
+      {
+        status: "completed",
+        email: "harrysjil@gmail.com",
+        transaction_hash: "a7b2-2c41eac41103",
+        type: "deposit",
+        asset: "naira",
+        amount_in_naira: "5000",
+        amount: "5000",
+        description: "Deposit 5000 naira to harrysjil@gmail.com",
+        createdAt: "2021-01-29T14:39:31.558Z",
+        can_cancell: false,
+      },
+      {
+        status: "completed",
+        email: "harrysjil@gmail.com",
+        transaction_hash: "b466-bea2a6c854fc",
+        type: "deposit",
+        asset: "naira",
+        amount_in_naira: "5000",
+        amount: "5000",
+        description: "Deposit 5000 naira to harrysjil@gmail.com",
+        createdAt: "2021-01-29T14:41:38.527Z",
+        can_cancell: false,
+      },
+    ],
+    meta: {
+      total: 3,
+      last_page: 1,
+      first_page: 1,
+      current_page: 1,
+      items_per_page: 5,
+      next_page: null,
+      previous_page: null,
+      next_url: null,
+      previous_url: null,
+    },
+  },
 };
 
 const resourcesReducer = (state = initialState, action) => {
@@ -86,6 +144,31 @@ const resourcesReducer = (state = initialState, action) => {
       return {
         ...state,
         notifications: action.data,
+      };
+    case "ALL_TRADE_HISTORY":
+      return {
+        ...state,
+        allTradeHistory: action.data,
+      };
+    case "ACTIVE_TRADE_HISTORY":
+      return {
+        ...state,
+        activeTradeHistory: action.data,
+      };
+    case "PENDING_TRADE_HISTORY":
+      return {
+        ...state,
+        pendingTradeHistory: action.data,
+      };
+    case "CANCELLED_TRADE_HISTORY":
+      return {
+        ...state,
+        cancelledTradeHistory: action.data,
+      };
+    case "COMPLETED_TRADE_HISTORY":
+      return {
+        ...state,
+        // completedTradeHistory: action.data,
       };
     default:
       return state;

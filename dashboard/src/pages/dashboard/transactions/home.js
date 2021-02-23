@@ -10,7 +10,14 @@ class Home extends Component {
     };
   }
   render() {
-    const { isAuthenticated } = this.props;
+    const {
+      isAuthenticated,
+      allTradeHistory,
+      activeTradeHistory,
+      pendingTradeHistory,
+      cancelledTradeHistory,
+      completedTradeHistory,
+    } = this.props;
     const { formTab } = this.state;
     if (!isAuthenticated) {
       return (
@@ -54,16 +61,264 @@ class Home extends Component {
             </button>
           </div>
           {formTab === 1 ? (
-            <div></div>
+            allTradeHistory.data.length === 0 ? (
+              <div className={transStyle.transactions}>
+                <div className={transStyle.transactions_empty}>
+                  <p>You have no trades yet!</p>
+                </div>
+              </div>
+            ) : (
+              <div className={transStyle.transactions}>
+                <div className={transStyle.transactions_list}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Trans. Type</th>
+                        <th>NGN</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                        <th>Token</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {allTradeHistory.data.map((itm, idx) => (
+                        <tr key={idx}>
+                          <td>{itm.type}</td>
+                          <td className={transStyle.green}>
+                            ₦{itm.amount_in_naira}
+                          </td>
+                          <td className={transStyle.green}>₦ {itm.amount}</td>
+                          <td
+                            className={
+                              itm.status === "cancelled"
+                                ? transStyle.red
+                                : itm.status === "completed"
+                                ? transStyle.green
+                                : transStyle.blue
+                            }
+                          >
+                            {itm.status}
+                          </td>
+                          <td>{itm.transaction_hash}</td>
+                          <td>
+                            {itm.createdAt.replace("T", " ").replace("Z", "")}
+                          </td>
+                          <td>
+                            <Link
+                              to={
+                                "/home/transactions/all/" + itm.transaction_hash
+                              }
+                              className={transStyle.link_btn_gold}
+                            >
+                              View
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )
           ) : formTab === 2 ? (
+            pendingTradeHistory.data.length === 0 ? (
+              <div className={transStyle.transactions}>
+                <div className={transStyle.transactions_empty}>
+                  <p>You have no pending trade</p>
+                </div>
+              </div>
+            ) : (
+              <div className={transStyle.transactions}>
+                <div className={transStyle.transactions_list}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Trans. Type</th>
+                        <th>NGN</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                        <th>Token</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {pendingTradeHistory.data.map((itm, idx) => (
+                        <tr key={idx}>
+                          <td>{itm.type}</td>
+                          <td className={transStyle.green}>
+                            ₦{itm.amount_in_naira}
+                          </td>
+                          <td className={transStyle.green}>₦ {itm.amount}</td>
+                          <td
+                            className={
+                              itm.status === "cancelled"
+                                ? transStyle.red
+                                : itm.status === "completed"
+                                ? transStyle.green
+                                : transStyle.blue
+                            }
+                          >
+                            {itm.status}
+                          </td>
+                          <td>{itm.transaction_hash}</td>
+                          <td>
+                            {itm.createdAt.replace("T", " ").replace("Z", "")}
+                          </td>
+                          <td>
+                            <Link
+                              to={
+                                "/home/transactions/pending/" +
+                                itm.transaction_hash
+                              }
+                              className={transStyle.link_btn_gold}
+                            >
+                              View
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )
+          ) : formTab === 3 ? (
+            activeTradeHistory.data.length === 0 ? (
+              <div className={transStyle.transactions}>
+                <div className={transStyle.transactions_empty}>
+                  <p>You have no active trade</p>
+                </div>
+              </div>
+            ) : (
+              <div className={transStyle.transactions}>
+                <div className={transStyle.transactions_list}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Trans. Type</th>
+                        <th>NGN</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                        <th>Token</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {activeTradeHistory.data.map((itm, idx) => (
+                        <tr key={idx}>
+                          <td>{itm.type}</td>
+                          <td className={transStyle.green}>
+                            ₦{itm.amount_in_naira}
+                          </td>
+                          <td className={transStyle.green}>₦ {itm.amount}</td>
+                          <td
+                            className={
+                              itm.status === "cancelled"
+                                ? transStyle.red
+                                : itm.status === "completed"
+                                ? transStyle.green
+                                : transStyle.blue
+                            }
+                          >
+                            {itm.status}
+                          </td>
+                          <td>{itm.transaction_hash}</td>
+                          <td>
+                            {itm.createdAt.replace("T", " ").replace("Z", "")}
+                          </td>
+                          <td>
+                            <Link
+                              to={
+                                "/home/transactions/active/" +
+                                itm.transaction_hash
+                              }
+                              className={transStyle.link_btn_gold}
+                            >
+                              View
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )
+          ) : formTab === 4 ? (
+            completedTradeHistory.data.length === 0 ? (
+              <div className={transStyle.transactions}>
+                <div className={transStyle.transactions_empty}>
+                  <p>You have no completed trade</p>
+                </div>
+              </div>
+            ) : (
+              <div className={transStyle.transactions}>
+                <div className={transStyle.transactions_list}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Trans. Type</th>
+                        <th>NGN</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                        <th>Token</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {completedTradeHistory.data.map((itm, idx) => (
+                        <tr key={idx}>
+                          <td>{itm.type}</td>
+                          <td className={transStyle.green}>
+                            ₦{itm.amount_in_naira}
+                          </td>
+                          <td className={transStyle.green}>₦ {itm.amount}</td>
+                          <td
+                            className={
+                              itm.status === "cancelled"
+                                ? transStyle.red
+                                : itm.status === "completed"
+                                ? transStyle.green
+                                : transStyle.blue
+                            }
+                          >
+                            {itm.status}
+                          </td>
+                          <td>{itm.transaction_hash}</td>
+                          <td>
+                            {itm.createdAt.replace("T", " ").replace("Z", "")}
+                          </td>
+                          <td>
+                            <Link
+                              to={
+                                "/home/transactions/completed/" +
+                                itm.transaction_hash
+                              }
+                              className={transStyle.link_btn_gold}
+                            >
+                              View
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )
+          ) : cancelledTradeHistory.data.length === 0 ? (
             <div className={transStyle.transactions}>
               <div className={transStyle.transactions_empty}>
-                {/* <img src={empty} alt="empty" /> */}
-                <p>You have no transactions yet!</p>
-                <Link to="/home/bitcoin" className={transStyle.link_btn_gold}>
-                  BUY BTC
-                </Link>
+                <p>You have no cancelled trade</p>
               </div>
+            </div>
+          ) : (
+            <div className={transStyle.transactions}>
               <div className={transStyle.transactions_list}>
                 <table>
                   <thead>
@@ -78,64 +333,46 @@ class Home extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Gift card - Sell</td>
-                      <td className={transStyle.green}>₦ 23,000</td>
-                      <td className={transStyle.green}>₦ 23,000</td>
-                      <td className={transStyle.blue}>Active</td>
-                      <td>xghjk453</td>
-                      <td>27th Oct. 2020</td>
-                      <td>
-                        <Link
-                          to="/home/transactions/id"
-                          className={transStyle.link_btn_gold}
+                    {cancelledTradeHistory.data.map((itm, idx) => (
+                      <tr key={idx}>
+                        <td>{itm.type}</td>
+                        <td className={transStyle.green}>
+                          ₦{itm.amount_in_naira}
+                        </td>
+                        <td className={transStyle.green}>₦ {itm.amount}</td>
+                        <td
+                          className={
+                            itm.status === "cancelled"
+                              ? transStyle.red
+                              : itm.status === "completed"
+                              ? transStyle.green
+                              : transStyle.blue
+                          }
                         >
-                          View
-                        </Link>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Gift card - Sell</td>
-                      <td className={transStyle.red}>₦ 23,000</td>
-                      <td className={transStyle.red}>₦ 23,000</td>
-                      <td className={transStyle.red}>Cancelled</td>
-                      <td>xghjk453</td>
-                      <td>27th Oct. 2020</td>
-                      <td>
-                        <Link
-                          to="/home/transactions/id"
-                          className={transStyle.link_btn_gold}
-                        >
-                          View
-                        </Link>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Gift card - Sell</td>
-                      <td className={transStyle.green}>₦ 23,000</td>
-                      <td className={transStyle.green}>₦ 23,000</td>
-                      <td className={transStyle.green}>Suspended</td>
-                      <td>xghjk453</td>
-                      <td>27th Oct. 2020</td>
-                      <td>
-                        <Link
-                          to="/home/transactions/id"
-                          className={transStyle.link_btn_gold}
-                        >
-                          View
-                        </Link>
-                      </td>
-                    </tr>
+                          {itm.status}
+                        </td>
+                        <td>{itm.transaction_hash}</td>
+                        <td>
+                          {itm.createdAt.replace("T", " ").replace("Z", "")}
+                        </td>
+                        <td>
+                          <Link
+                            to={
+                              "/home/transactions/cancelled/" +
+                              itm.transaction_hash
+                            }
+                            className={transStyle.link_btn_gold}
+                          >
+                            View
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
-          ) : (
-            <div></div>
           )}
-          {/* <img src={vc1} className={transStyle.vc} alt="vector" />
-          <img src={vc2} className={transStyle.vc} alt="vector" />
-          <img src={vc3} className={transStyle.vc} alt="vector" /> */}
         </div>
       </section>
     );
@@ -143,6 +380,6 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.auth };
+  return { ...state.auth, ...state.resources };
 };
 export default connect(mapStateToProps, null)(Home);
