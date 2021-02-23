@@ -82,12 +82,13 @@
 }
 
 .hold {
-    width: 50%;
+    width: 70%;
     border: 1px solid #D1D1D1;
     padding-bottom: 80px;
     overflow: hidden;
     position: relative;
     margin: 20px 0;
+    max-width: 500px;
     padding-bottom: 100px;
 }
 
@@ -315,7 +316,7 @@ input.link_btn_gold:hover {
 
 .group {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
     flex-flow: row wrap;
 }
@@ -327,7 +328,7 @@ input.link_btn_gold:hover {
     bottom: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.7);
-    display: flex;
+    display: none;
     justify-content: flex-end;
     align-items: center;
     z-index: 99999999999999999999999999;

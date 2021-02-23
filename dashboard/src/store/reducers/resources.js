@@ -47,6 +47,14 @@ const initialState = {
   },
   bitcoinBuyRate: {},
   bitcoinSellRate: {},
+  giftCards: {
+    data: [],
+    meta: {},
+  },
+  giftCardsHistory: {
+    data: [],
+    meta: {},
+  },
 };
 
 const resourcesReducer = (state = initialState, action) => {
@@ -137,6 +145,16 @@ const resourcesReducer = (state = initialState, action) => {
       return {
         ...state,
         bitcoinSellRate: action.data,
+      };
+    case "GIFT_CARDS_LIST":
+      return {
+        ...state,
+        giftCards: action.data,
+      };
+    case "GIFT_CARDS_TRADE_HISTORY":
+      return {
+        ...state,
+        giftCardsHistory: action.data,
       };
     default:
       return state;

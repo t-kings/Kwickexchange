@@ -18,6 +18,8 @@ export const getResources = () => {
       await getBitcoinBuyRate(dispatch, getState);
       await getBitcoinBuyHistory(dispatch, getState);
       await getBitcoinSellHistory(dispatch, getState);
+      await getGiftCards(dispatch, getState);
+      await getGiftCardsTradeHistory(dispatch, getState);
 
       dispatch({ type: "KILL_RESOURCES_LOADING" });
     } catch (error) {
@@ -257,6 +259,39 @@ export const getBitcoinBuyHistory = async (dispatch, getState) => {
     });
     if (res.status === 200) {
       dispatch({ type: "BITCOIN_BUY_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+export const getGiftCards = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "transaction/giftcard/all", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "GIFT_CARDS_LIST", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getGiftCardsTradeHistory = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "transaction/giftcard/list/sell", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "GIFT_CARDS_TRADE_HISTORY", data: res.data.data });
     }
     return true;
   } catch (err) {

@@ -5,36 +5,143 @@ import itunes from "./images/itunes.png";
 import vc1 from "../images/vc1.png";
 import vc2 from "../images/vc2.png";
 import vc3 from "../images/vc3.png";
+import { connect } from "react-redux";
+
 class Status extends Component {
   constructor(props) {
     super(props);
     this.state = {
       formTab: 1,
-      dollar: 0.0,
-      btc: 0.0,
+      currency: 0,
+      card: 0,
+      denomination: 0,
+      qty: 0,
+      total: 0,
+      rate: 0,
     };
   }
-  handleBTC = (e) => {
-    const btc = parseFloat(e.target.value);
-    const dollar = btc * this.props.bitcoinContext.sell.usd;
+
+  handleCurrency = (e) => {
+    const currency = e.target.value;
+    const { giftCard } = this.props;
+    const { card, denomination, qty } = this.state;
+    let rate = 0;
+    let total = 0;
+    const chosenCountry = giftCard.currency[currency];
+    if (chosenCountry.cards.length > 0) {
+      const chosenCard = chosenCountry.cards[card];
+      if (chosenCard.denomination) {
+        const chosenCard = chosenCountry.cards[card];
+        if (chosenCard.denomination.length > 0) {
+          const chosenDenomination = chosenCard.denomination[denomination];
+          rate = chosenDenomination.rate;
+          const value = chosenDenomination.value;
+          total = rate * value * qty;
+        }
+      } else {
+        rate = chosenCard.rate;
+        total = rate * qty;
+      }
+    }
     this.setState({
       ...this.state,
-      btc,
-      dollar,
-    });
-  };
-  handleDollar = (e) => {
-    const dollar = parseFloat(e.target.value);
-    const btc = dollar / this.props.bitcoinContext.sell.usd;
-    this.setState({
-      ...this.state,
-      dollar,
-      btc,
+      currency,
+      total,
+      rate,
     });
   };
 
+  handleCard = (e) => {
+    const card = e.target.value;
+    const { giftCard } = this.props;
+    const { currency, denomination, qty } = this.state;
+    let rate = 0;
+    let total = 0;
+    const chosenCountry = giftCard.currency[currency];
+    if (chosenCountry.cards.length > 0) {
+      const chosenCard = chosenCountry.cards[card];
+      if (chosenCard.denomination) {
+        const chosenCard = chosenCountry.cards[card];
+        if (chosenCard.denomination.length > 0) {
+          const chosenDenomination = chosenCard.denomination[denomination];
+          rate = chosenDenomination.rate;
+          const value = chosenDenomination.value;
+          total = rate * value * qty;
+        }
+      } else {
+        rate = chosenCard.rate;
+        total = rate * qty;
+      }
+    }
+    this.setState({
+      ...this.state,
+      card,
+      total,
+      rate,
+    });
+  };
+
+  handleDenomination = (e) => {
+    const denomination = e.target.value;
+    const { giftCard } = this.props;
+    const { currency, card, qty } = this.state;
+    let rate = 0;
+    let total = 0;
+    const chosenCountry = giftCard.currency[currency];
+    if (chosenCountry.cards.length > 0) {
+      const chosenCard = chosenCountry.cards[card];
+      if (chosenCard.denomination) {
+        const chosenCard = chosenCountry.cards[card];
+        if (chosenCard.denomination.length > 0) {
+          const chosenDenomination = chosenCard.denomination[denomination];
+          rate = chosenDenomination.rate;
+          const value = chosenDenomination.value;
+          total = rate * value * qty;
+        }
+      } else {
+        rate = chosenCard.rate;
+        total = rate * qty;
+      }
+    }
+    this.setState({
+      ...this.state,
+      denomination,
+      total,
+      rate,
+    });
+  };
+  handleQTY = (e) => {
+    const qty = parseFloat(e);
+    const { giftCard } = this.props;
+    const { currency, card, denomination } = this.state;
+    let rate = 0;
+    let total = 0;
+    const chosenCountry = giftCard.currency[currency];
+    if (chosenCountry.cards.length > 0) {
+      const chosenCard = chosenCountry.cards[card];
+      if (chosenCard.denomination) {
+        const chosenCard = chosenCountry.cards[card];
+        if (chosenCard.denomination.length > 0) {
+          const chosenDenomination = chosenCard.denomination[denomination];
+          rate = chosenDenomination.rate;
+          const value = chosenDenomination.value;
+          total = rate * value * qty;
+        }
+      } else {
+        rate = chosenCard.rate;
+        total = rate * qty;
+      }
+    }
+    this.setState({
+      ...this.state,
+      qty,
+      total,
+      rate,
+    });
+  };
   render() {
-    const { formTab } = this.state;
+    const { formTab, currency, card, denomination, qty, total } = this.state;
+    const { giftCard, processGiftCard } = this.props;
     return (
       <section className={bitcoinStyle.home}>
         <Link className={bitcoinStyle.back}>
@@ -72,44 +179,126 @@ class Status extends Component {
                 Sell
               </button>
             </div>
-            <form onSubmit={this.handleBuy}>
-              <img className={bitcoinStyle.img} src={itunes} alt="itunes" />
+
+            <form
+              onSubmit={() => {
+                processGiftCard(this.state);
+              }}
+            >
+              <img
+                className={bitcoinStyle.img}
+                src={giftCard.image}
+                alt={giftCard.name}
+              />
               <div className={bitcoinStyle.input}>
                 <div>
                   <p>Product</p>
                 </div>
                 <div>
-                  <p>Itunes Card</p>
+                  <p>{giftCard.name}</p>
                 </div>
               </div>
-              <div className={bitcoinStyle.input}>
-                <div>
-                  <p>Currency</p>
+              {giftCard.currency.length > 0 ? (
+                <div className={bitcoinStyle.input}>
+                  <div>
+                    <p>Currency</p>
+                  </div>
+                  <div>
+                    <select
+                      name="currency"
+                      id="currency"
+                      onChange={this.handleCurrency}
+                    >
+                      {giftCard.currency.map((itm, index) => (
+                        <option key={index} value={index}>
+                          {itm.country}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <select>
-                    <option>Select Currency</option>
-                  </select>
+              ) : null}
+              {giftCard.currency[currency].cards.length > 0 ? (
+                <div className={bitcoinStyle.input}>
+                  <div>
+                    <p>Card</p>
+                  </div>
+                  <div>
+                    <select name="card" id="card" onChange={this.handleCard}>
+                      {giftCard.currency[currency].cards.map((itm, index) => (
+                        <option key={index} value={index}>
+                          {itm.card_type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
+              ) : null}
+              {giftCard.currency[currency].cards[card].denomination ? (
+                <div className={bitcoinStyle.input}>
+                  <div>
+                    <p>Denomination</p>
+                  </div>
+                  <div>
+                    <select
+                      name="denomination"
+                      id="denomination"
+                      onChange={this.handleDenomination}
+                    >
+                      {giftCard.currency[currency].cards[card].denomination.map(
+                        (itm, index) => (
+                          <option key={index} value={index}>
+                            {itm.value}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </div>
+                </div>
+              ) : null}
               <div className={bitcoinStyle.input}>
                 <div>
                   <p>Quantity</p>
                 </div>
                 <div>
                   <div className={bitcoinStyle.increments}>
-                    <span>-</span>
-                    <input type="number" defaultValue="12" />
-                    <span>+</span>
+                    <span
+                      onClick={() => {
+                        this.setState({
+                          ...this.state,
+                          qty: qty - 1 < 0 ? 0 : qty - 1,
+                        });
+                        this.handleQTY(qty - 1 < 0 ? 0 : qty - 1);
+                      }}
+                    >
+                      -
+                    </span>
+                    <input type="number" defaultValue={0} value={qty} />
+                    <span
+                      onClick={() => {
+                        this.setState({ ...this.state, qty: qty + 1 });
+                        this.handleQTY(qty + 1);
+                      }}
+                    >
+                      +
+                    </span>
                   </div>
                 </div>
               </div>
+
               <div className={bitcoinStyle.input}>
                 <div>
                   <p>Rate</p>
                 </div>
                 <div>
-                  <p className={bitcoinStyle.rates_text}>₦ 234/CAD</p>
+                  <p className={bitcoinStyle.rates_text}>
+                    ₦{" "}
+                    {giftCard.currency[currency].cards[card].denomination
+                      ? giftCard.currency[currency].cards[card].denomination[
+                          denomination
+                        ].rate
+                      : giftCard.currency[currency].cards[card].rate}
+                  </p>
                 </div>
               </div>
               <div className={bitcoinStyle.input}>
@@ -117,7 +306,7 @@ class Status extends Component {
                   <p>Total</p>
                 </div>
                 <div>
-                  <p className={bitcoinStyle.total}>₦ 234/CAD</p>
+                  <p className={bitcoinStyle.total}>₦ {total}</p>
                 </div>
               </div>
               <hr />
@@ -126,8 +315,15 @@ class Status extends Component {
                   <p>Payment Method</p>
                 </div>
                 <div>
-                  <select>
-                    <option>Select Currency</option>
+                  <select
+                    onChange={(e) => {
+                      this.setState({
+                        ...this.state,
+                        method: e.target.value,
+                      });
+                    }}
+                  >
+                    <option value={"naira"}>Naira wallet</option>
                   </select>
                 </div>
               </div>
@@ -207,4 +403,12 @@ class Status extends Component {
     );
   }
 }
-export default Status;
+
+const mapStateToProps = (state, props) => {
+  const { giftCards } = state.resources;
+  const giftCard = giftCards.data.find(
+    (itm) => itm.id === props.match.params.id
+  );
+  return { ...state.auth, ...state.resources, giftCard };
+};
+export default connect(mapStateToProps, null)(Status);
