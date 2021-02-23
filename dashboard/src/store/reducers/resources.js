@@ -1,7 +1,7 @@
 const initialState = {
   balance: {
-    naira: 0,
-    bitcoin: 0,
+    naira: "0.00",
+    bitcoin: "0.00000000",
     bitcoin_in_fiat: 0,
     fiat: {
       symbol: "",
@@ -29,6 +29,7 @@ const resourcesReducer = (state = initialState, action) => {
         isLoading: false,
       };
     case "USER_BALANCES":
+      console.log(action.data);
       return {
         ...state,
         balance: action.data,

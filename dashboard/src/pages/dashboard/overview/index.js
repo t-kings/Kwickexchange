@@ -39,7 +39,7 @@ class Overview extends Component {
 
   render() {
     const { formTab } = this.state;
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, transactionCount, balance } = this.props;
     if (!isAuthenticated) {
       return <Redirect to={{ pathname: "/", redirect_to: "/home/overview" }} />;
     }
@@ -94,7 +94,7 @@ class Overview extends Component {
                     />
                   </svg>
                 </span>
-                <h3>0.00000000 BTC</h3>
+                <h3>{balance.bitcoin} BTC</h3>
                 <p>BTC Wallet Balance</p>
               </Link>
               <Link
@@ -145,7 +145,7 @@ class Overview extends Component {
                     <rect y="9" width="14" height="2" fill="#00C844" />
                   </svg>
                 </span>
-                <h3>₦ 0.00</h3>
+                <h3>₦ {balance.naira}</h3>
                 <p>Naira Wallet Balance</p>
               </Link>
               <Link
@@ -195,7 +195,7 @@ class Overview extends Component {
                     />
                   </svg>
                 </span>
-                <h3>12</h3>
+                <h3>{transactionCount.count}</h3>
                 <p>Total Transactions </p>
               </Link>
             </div>
@@ -222,7 +222,17 @@ class Overview extends Component {
               </div>
             </div>
             <div className={overviewStyle.graph}>
-              <img src={img2} alt="graph" />
+              <iframe
+                title="."
+                src="https://widget.coinlib.io/widget?type=chart&theme=light&coin_id=859&pref_coin_id=1505"
+                width="100%"
+                height="536px"
+                scrolling="auto"
+                marginWidth="0"
+                marginHeight="0"
+                frameBorder="0"
+                border="0"
+              ></iframe>
             </div>
           </div>
           <div className={overviewStyle.rates}>
@@ -356,7 +366,7 @@ class Overview extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.rates, ...state.auth };
+  return { ...state.auth, ...state.resources };
 };
 const mapDispatchToProps = (dispatch) => {
   return {};

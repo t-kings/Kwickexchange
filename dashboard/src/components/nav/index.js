@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import style from "./Index.module.css";
-const Index = ({ user }) => {
+const Index = ({ user, balance }) => {
   return (
     <nav className={style.nav}>
       <div className={style.main_nav}>
@@ -20,7 +20,7 @@ const Index = ({ user }) => {
             </div>
           </li>
           <li className={style.balance}>
-            <Link to="/home/wallet">
+            <Link to="/home/wallet/bitcoin">
               <span>
                 <svg
                   width="13"
@@ -35,11 +35,11 @@ const Index = ({ user }) => {
                   />
                 </svg>
               </span>
-              <p>{user.bitcoin_in_satoshi_balance}</p>
+              <p>{balance.bitcoin}</p>
             </Link>
           </li>
           <li className={style.balance}>
-            <Link to="/home/wallet">
+            <Link to="/home/wallet/naira">
               <span>
                 <svg
                   width="14"
@@ -56,7 +56,7 @@ const Index = ({ user }) => {
                   <rect y="8.63428" width="14" height="2" fill="#161616" />
                 </svg>
               </span>
-              <p>{user.naira_balance}</p>
+              <p>{balance.naira}</p>
             </Link>
           </li>
         </ul>
@@ -160,6 +160,6 @@ const Index = ({ user }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { ...state.auth };
+  return { ...state.auth, ...state.resources };
 };
 export default connect(mapStateToProps, null)(Index);
