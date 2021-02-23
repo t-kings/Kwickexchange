@@ -14,24 +14,9 @@ const initialState = {
     meta: "",
   },
   isLoading: true,
-  currencyList: [
-    {
-      fiat: "US Dollar",
-      fiat_slug: "dollar",
-      symbol: "$",
-      value_in_naira: 0,
-    },
-  ],
+  currencyList: [],
   notificationSettings: [],
-  notifications: [
-    {
-      read_status: false,
-      _id: "",
-      email: "",
-      title: "",
-      message: "",
-    },
-  ],
+  notifications: [],
   allTradeHistory: {
     data: [],
     meta: {},
@@ -49,56 +34,19 @@ const initialState = {
     meta: {},
   },
   completedTradeHistory: {
-    data: [
-      {
-        status: "completed",
-        email: "harrysjil@gmail.com",
-        transaction_hash: "bbb2-2d70350341c7",
-        type: "deposit",
-        asset: "naira",
-        amount_in_naira: "5000",
-        amount: "5000",
-        description: "Deposit 5000 naira to harrysjil@gmail.com",
-        createdAt: "2021-01-29T13:51:21.798Z",
-        can_cancell: false,
-      },
-      {
-        status: "completed",
-        email: "harrysjil@gmail.com",
-        transaction_hash: "a7b2-2c41eac41103",
-        type: "deposit",
-        asset: "naira",
-        amount_in_naira: "5000",
-        amount: "5000",
-        description: "Deposit 5000 naira to harrysjil@gmail.com",
-        createdAt: "2021-01-29T14:39:31.558Z",
-        can_cancell: false,
-      },
-      {
-        status: "completed",
-        email: "harrysjil@gmail.com",
-        transaction_hash: "b466-bea2a6c854fc",
-        type: "deposit",
-        asset: "naira",
-        amount_in_naira: "5000",
-        amount: "5000",
-        description: "Deposit 5000 naira to harrysjil@gmail.com",
-        createdAt: "2021-01-29T14:41:38.527Z",
-        can_cancell: false,
-      },
-    ],
-    meta: {
-      total: 3,
-      last_page: 1,
-      first_page: 1,
-      current_page: 1,
-      items_per_page: 5,
-      next_page: null,
-      previous_page: null,
-      next_url: null,
-      previous_url: null,
-    },
+    data: [],
+    meta: {},
   },
+  bitcoinBuyHistory: {
+    data: [],
+    meta: {},
+  },
+  bitcoinSellHistory: {
+    data: [],
+    meta: {},
+  },
+  bitcoinBuyRate: {},
+  bitcoinSellRate: {},
 };
 
 const resourcesReducer = (state = initialState, action) => {
@@ -168,7 +116,27 @@ const resourcesReducer = (state = initialState, action) => {
     case "COMPLETED_TRADE_HISTORY":
       return {
         ...state,
-        // completedTradeHistory: action.data,
+        completedTradeHistory: action.data,
+      };
+    case "BITCOIN_BUY_HISTORY":
+      return {
+        ...state,
+        bitcoinBuyHistory: action.data,
+      };
+    case "BITCOIN_SELL_HISTORY":
+      return {
+        ...state,
+        bitcoinSellHistory: action.data,
+      };
+    case "BITCOIN_BUY_RATE":
+      return {
+        ...state,
+        bitcoinBuyRate: action.data,
+      };
+    case "BITCOIN_SELL_RATE":
+      return {
+        ...state,
+        bitcoinSellRate: action.data,
       };
     default:
       return state;

@@ -33,7 +33,7 @@ class Index extends Component {
 
   render() {
     const { formTab } = this.state;
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, balance } = this.props;
     if (!isAuthenticated) {
       return (
         <Redirect to={{ pathname: "/", redirect_to: "/home/wallet/bitcoin" }} />
@@ -100,8 +100,10 @@ class Index extends Component {
                 />
               </svg>
               <h4>BTC Wallet Ballance</h4>
-              <h2> $0.00</h2>
-              <h3>0.00000000 BTC</h3>
+              <h2>
+                {balance.fiat.symbol} {balance.bitcoin_in_fiat}
+              </h2>
+              <h3>{balance.bitcoin} BTC</h3>
             </div>
           </div>
           <div className={walletStyle.hold}>
@@ -298,6 +300,6 @@ class Index extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.auth };
+  return { ...state.auth, ...state.resources };
 };
 export default connect(mapStateToProps, null)(Index);

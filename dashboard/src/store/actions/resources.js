@@ -14,6 +14,11 @@ export const getResources = () => {
       await getPendingTradeHistory(dispatch, getState);
       await getCancelledTradeHistory(dispatch, getState);
       await getCompletedTradeHistory(dispatch, getState);
+      await getBitcoinSellRate(dispatch, getState);
+      await getBitcoinBuyRate(dispatch, getState);
+      await getBitcoinBuyHistory(dispatch, getState);
+      await getBitcoinSellHistory(dispatch, getState);
+
       dispatch({ type: "KILL_RESOURCES_LOADING" });
     } catch (error) {
       console.log(error);
@@ -184,6 +189,74 @@ export const getCompletedTradeHistory = async (dispatch, getState) => {
     });
     if (res.status === 200) {
       dispatch({ type: "COMPLETED_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinSellRate = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "transaction/bitcoin/rate/sell", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_SELL_RATE", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinBuyRate = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "transaction/bitcoin/rate/buy", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_BUY_RATE", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinSellHistory = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "transaction/bitcoin/list/sell", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_SELL_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinBuyHistory = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "transaction/bitcoin/list/buy", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_BUY_HISTORY", data: res.data.data });
     }
     return true;
   } catch (err) {
