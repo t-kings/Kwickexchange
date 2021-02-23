@@ -431,7 +431,7 @@ class Home extends Component {
                   <option value="">select currency</option>
                   {currencyList.map((itm, idx) => (
                     <option value={itm.fiat_slug} key={idx}>
-                      {itm.fiat_slug}
+                      {itm.fiat} ({itm.fiat_slug})
                     </option>
                   ))}
                 </select>

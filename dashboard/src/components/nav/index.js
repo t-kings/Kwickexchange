@@ -35,7 +35,9 @@ const Index = ({ user, balance, notifications }) => {
                   />
                 </svg>
               </span>
-              <p>{balance.bitcoin}</p>
+              <p>
+                {balance.fiat.symbol} {balance.bitcoin_in_fiat}
+              </p>
             </Link>
           </li>
           <li className={style.balance}>

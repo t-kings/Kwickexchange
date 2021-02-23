@@ -134,7 +134,7 @@ export const startGiftCardTrade = (
     try {
       dispatch({ type: "TRADE_LOADING" });
       const res = await axios.post(
-        apiUrl + "transaction/gift-card/sell/initiate",
+        apiUrl + "transaction/giftcard/sell/initiate",
         {
           giftcard_id,
           currency,
