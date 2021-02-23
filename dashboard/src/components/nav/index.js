@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import style from "./Index.module.css";
-const Index = ({ user, balance }) => {
+const Index = ({ user, balance, notifications }) => {
   return (
     <nav className={style.nav}>
       <div className={style.main_nav}>
@@ -91,24 +91,30 @@ const Index = ({ user, balance }) => {
                   fill="black"
                 />
               </svg>
-              <p>2</p>
+              {notifications.length > 0 ? <p>{notifications.length}</p> : null}
             </div>
-            <div className={style.nav_dropdown_menu}>
-              <ul className={style.notifications_list}>
-                <li>
-                  <h4>Introducing quicker payout</h4>
-                  <p>With Transfers, you can send money to any bank account.</p>
-                </li>
-                <li>
-                  <h4>New dashboard!</h4>
-                  <p>
-                    We set out to build a set of tools to make payments in
-                    Africa easy and reliable. We have redesigned the entire
-                    dashboard experience based on your feedback.
-                  </p>
-                </li>
-              </ul>
-            </div>
+            {notifications.length > 0 ? (
+              <div className={style.nav_dropdown_menu}>
+                <ul className={style.notifications_list}>
+                  {notifications
+                    .slice(
+                      0,
+                      notifications.length > 4 ? 4 : notifications.length
+                    )
+                    .map((itm, idx) => (
+                      <li key={idx}>
+                        <Link to={"/home/notifications/" + itm._id}>
+                          <h4>{itm.title}</h4>
+                          <p>{itm.message}</p>
+                        </Link>
+                      </li>
+                    ))}
+                  <li>
+                    <Link to={"/home/notifications"}>See more</Link>
+                  </li>
+                </ul>
+              </div>
+            ) : null}
           </li>
           <li className={style.nav_dropdown}>
             <div className={style.account_icons}>
@@ -160,6 +166,14 @@ const Index = ({ user, balance }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { ...state.auth, ...state.resources };
+  const { notifications } = state.resources;
+  const notificationsList = notifications.filter(
+    (itm) => itm.read_status === false
+  );
+  return {
+    ...state.auth,
+    ...state.resources,
+    notifications: notificationsList,
+  };
 };
 export default connect(mapStateToProps, null)(Index);

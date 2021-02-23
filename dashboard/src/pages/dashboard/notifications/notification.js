@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import transStyle from "./Index.module.css";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { markNotification } from "../../../store/actions/auth";
 class Notification extends Component {
   constructor(props) {
     super(props);
@@ -9,9 +10,15 @@ class Notification extends Component {
       formTab: 1,
     };
   }
+  componentDidMount = () => {
+    const { markNotification, notification } = this.props;
+    if (notification.read_status === false) {
+      markNotification(this.props.match.params.id);
+    }
+  };
   render() {
-    const { isAuthenticated } = this.props;
-    const { formTab } = this.state;
+    const { isAuthenticated, notification } = this.props;
+    console.log(notification);
     if (!isAuthenticated) {
       return (
         <Redirect
@@ -46,20 +53,17 @@ class Notification extends Component {
         <div className={transStyle.summary}>
           <div className={transStyle.card}>
             <div className={transStyle.cardTop}>
-              <h2>Notification</h2>
+              <h2>{notification.title}</h2>
             </div>
             <div className={transStyle.cardBody}>
               <ul>
                 <li>
-                  <p>
-                    Your transaction to sell 0.0000342BTC was not successful was
-                    no successful
-                  </p>
+                  <p>{notification.message}</p>
                 </li>
-                <li>
+                {/* <li>
                   <p>Date</p>
                   <h6>27th Jan. 2021</h6>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
@@ -69,7 +73,16 @@ class Notification extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { ...state.auth };
+const mapStateToProps = (state, props) => {
+  const { notifications } = state.resources;
+  const notification = notifications.find(
+    (itm) => itm._id === props.match.params.id
+  );
+  return { ...state.auth, notification };
 };
-export default connect(mapStateToProps, null)(Notification);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    markNotification: (id) => dispatch(markNotification(id)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Notification);

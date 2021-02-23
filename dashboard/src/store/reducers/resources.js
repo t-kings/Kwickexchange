@@ -32,6 +32,15 @@ const initialState = {
       slug: "coin_incoming_unonfirmed",
     },
   ],
+  notifications: [
+    {
+      read_status: false,
+      _id: "",
+      email: "",
+      title: "",
+      message: "",
+    },
+  ],
 };
 
 const resourcesReducer = (state = initialState, action) => {
@@ -72,6 +81,11 @@ const resourcesReducer = (state = initialState, action) => {
       return {
         ...state,
         notificationSettings,
+      };
+    case "NOTIFICATIONS_LIST":
+      return {
+        ...state,
+        notifications: action.data,
       };
     default:
       return state;

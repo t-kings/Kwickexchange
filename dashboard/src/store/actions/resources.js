@@ -8,6 +8,7 @@ export const getResources = () => {
       await getTransactionCount(dispatch, getState);
       await getCurrencyList(dispatch, getState);
       await getNotificationSettingsList(dispatch, getState);
+      await getNotifications(dispatch, getState);
       dispatch({ type: "KILL_RESOURCES_LOADING" });
     } catch (error) {
       console.log(error);
@@ -76,6 +77,23 @@ export const getNotificationSettingsList = async (dispatch, getState) => {
     });
     if (res.status === 200) {
       dispatch({ type: "NOTIFICATIONS_SETTINGS_LIST", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getNotifications = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "notification/all", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "NOTIFICATIONS_LIST", data: res.data.data });
     }
     return true;
   } catch (err) {

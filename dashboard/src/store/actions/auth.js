@@ -828,3 +828,23 @@ export const updateNotificationSettings = () => {
     }
   };
 };
+
+export const markNotification = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.post(
+        apiUrl + "notification/mark/" + id,
+        {},
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + getState().auth.accessToken,
+          },
+        }
+      );
+      console.log(res.status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
