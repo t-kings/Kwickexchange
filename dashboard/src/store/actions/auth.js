@@ -1,6 +1,5 @@
 import { apiUrl } from "../../helpers/config";
 import axios from "axios";
-
 export const signIn = (user) => {
   return async (dispatch, getState) => {
     dispatch({
@@ -600,52 +599,97 @@ export const refreshToken = async (dispatch, getState) => {
     console.log(e);
   }
 };
-// export const editProfile = (data) => {
-//   return (dispatch, getState) => {
-//     axios
-//       .put(apiUrl + "user", data, {
-//         headers: {
-//           Accept: "application/json",
-//           Authorization: "Bearer " + getToken(),
-//         },
-//       })
-//       .then((res) => {
-//         if (res.status === 201) {
-//           //   cogoToast.success("Profile updated successfully");
-//           dispatch({ type: "Token_LoggedIn", data: res.data });
-//         } else {
-//           //   cogoToast.error(res?.data?.message);
-//         }
-//       })
-//       .catch((err) => {
-//         // cogoToast.error(err.response?.data?.message);
-//       });
-//   };
-// };
 
-// if (!localStorage.getItem("token")) {
-//   localStorage.setItem("token", "");
-// }
+export const uploadProfilePic = (form) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "AUTH_LOADING" });
+      const res = await axios.patch(apiUrl + "settings/update-avatar", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + getState().auth.accessToken,
+        },
+      });
+      if (res.status === 200) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Avatar",
+            isSuccess: true,
+            message: res.data.data,
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+    } catch (error) {
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Avatar",
+          isSuccess: false,
+          message: error?.response?.data?.data,
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+    }
+  };
+};
 
-// const getToken = () => {
-//   const token = localStorage.getItem("token");
-//   return token;
-// };
-
-// export const updateUser = async () => {
-//   try {
-//     const res = await axios.post(
-//       apiUrl + "token",
-//       {},
-//       {
-//         headers: {
-//           Accept: "application/json",
-//           Authorization: "Bearer " + getToken(),
-//         },
-//       }
-//     );
-//     if (res.status === 200) {
-//       return res;
-//     }
-//   } catch (err) {}
-// };
+export const updateProfile = (form) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "AUTH_LOADING" });
+      const res = await axios.patch(apiUrl + "settings/update-profile", form, {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + getState().auth.accessToken,
+        },
+      });
+      if (res.status === 200) {
+        dispatch({
+          type: "PROFILE_UPDATED",
+          data: res.data.data,
+        });
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Avatar",
+            isSuccess: true,
+            message: "Profile Updated Successfully",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+    } catch (error) {
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Avatar",
+          isSuccess: false,
+          message: "Error!, please try again",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+    }
+  };
+};

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import bg1 from "./images/1.png";
 import bg2 from "./images/2.png";
 import bg3 from "./images/3.png";
+import { uploadProfilePic, updateProfile } from "../../../store/actions/auth";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +14,14 @@ class Home extends Component {
     };
   }
   render() {
-    const { isAuthenticated } = this.props;
+    const {
+      isAuthenticated,
+      uploadProfilePic,
+      isLoading,
+      user,
+      updateProfile,
+      currencyList,
+    } = this.props;
     const { formTab } = this.state;
     if (!isAuthenticated) {
       return <Redirect to={{ pathname: "/", redirect_to: "/home/settings" }} />;
@@ -53,31 +61,63 @@ class Home extends Component {
               <div className={transStyle.profilePic}>
                 <div>
                   <div className={transStyle.avatar}>
-                    <svg
-                      width="54"
-                      height="60"
-                      viewBox="0 0 54 60"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle cx="27" cy="13" r="13" fill="#161616" />
-                      <path
-                        d="M54 53C54 67.9117 41.9117 53 27 53C12.0883 53 0 67.9117 0 53C0 38.0883 12.0883 26 27 26C41.9117 26 54 38.0883 54 53Z"
-                        fill="#161616"
-                      />
-                    </svg>
+                    {user.avatar ? (
+                      <img src={user.avatar} alt={user.fullname} />
+                    ) : (
+                      <svg
+                        width="54"
+                        height="60"
+                        viewBox="0 0 54 60"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle cx="27" cy="13" r="13" fill="#161616" />
+                        <path
+                          d="M54 53C54 67.9117 41.9117 53 27 53C12.0883 53 0 67.9117 0 53C0 38.0883 12.0883 26 27 26C41.9117 26 54 38.0883 54 53Z"
+                          fill="#161616"
+                        />
+                      </svg>
+                    )}
                   </div>
                 </div>
                 <div>
                   <h2>Change Profile Picture</h2>
                   <p>Size must not be more than 20MB</p>
-                  <form>
-                    <input type="file" />
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const input = document.getElementById("file");
+                      if ("files" in input) {
+                        const file = input.files[0];
+                        const formData = new FormData();
+                        formData.append("file", file);
+                        uploadProfilePic(formData);
+                      }
+                    }}
+                  >
                     <input
-                      type="submit"
-                      value="UPLOAD"
-                      className={transStyle.link_btn_gold}
+                      type="file"
+                      name="file"
+                      id="file"
+                      accept="image/*"
+                      required
+                      multiple={false}
                     />
+                    {isLoading ? (
+                      <div
+                        className={
+                          transStyle.load + " " + transStyle.link_btn_gold
+                        }
+                      >
+                        <div className={transStyle.loader}>Loading...</div>
+                      </div>
+                    ) : (
+                      <input
+                        type="submit"
+                        value="UPLOAD"
+                        className={transStyle.link_btn_gold}
+                      />
+                    )}
                   </form>
                 </div>
                 <span className={transStyle._flier}>
@@ -237,25 +277,76 @@ class Home extends Component {
               <h2>Personal Information</h2>
             </div>
             <div className={transStyle.profileBody}>
-              <form>
-                <div>
-                  <input type="text" placeholder="First Name" />
-                  <input type="text" placeholder="username" />
-                  <input type="text" placeholder="Last Name" />
-                  <input type="email" placeholder="Email" />
-                  <select>
-                    <option value="timezone">Timezone</option>
-                  </select>
-                  <input type="tel" placeholder="Phone Number" />
-                  <select>
-                    <option value="timezone">Select Currency</option>
-                  </select>
-                </div>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  updateProfile({
+                    currency_slug: this.state.currency_slug ?? user.fiat.slug,
+                    phone_number: this.state.phone_number ?? user.phone,
+                    full_name: user.fullname,
+                  });
+                }}
+              >
                 <input
-                  type="submit"
-                  value="SAVE"
-                  className={transStyle.link_btn_gold}
+                  type="text"
+                  placeholder="Full Name"
+                  defaultValue={user.fullname}
+                  readOnly
                 />
+                <input
+                  type="text"
+                  placeholder="Username"
+                  defaultValue={user.username}
+                  readOnly
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  defaultValue={user.email}
+                  readOnly
+                />
+                <select
+                  defaultValue={user.fiat.slug}
+                  required
+                  onChange={(e) => {
+                    this.setState({
+                      ...this.state,
+                      currency_slug: e.target.value,
+                    });
+                  }}
+                >
+                  <option value="">select currency</option>
+                  {currencyList.map((itm, idx) => (
+                    <option value={itm.fiat_slug} key={idx}>
+                      {itm.fiat_slug}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="tel"
+                  defaultValue={user.phone}
+                  required
+                  onChange={(e) => {
+                    this.setState({
+                      ...this.state,
+                      phone_number: e.target.value,
+                    });
+                  }}
+                  placeholder="Phone Number"
+                />
+                {isLoading ? (
+                  <div
+                    className={transStyle.load + " " + transStyle.link_btn_gold}
+                  >
+                    <div className={transStyle.loader}>Loading...</div>
+                  </div>
+                ) : (
+                  <input
+                    type="submit"
+                    value="SAVE"
+                    className={transStyle.link_btn_gold}
+                  />
+                )}
               </form>
             </div>
           </div>
@@ -266,6 +357,12 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.auth };
+  return { ...state.resources, ...state.auth };
 };
-export default connect(mapStateToProps, null)(Home);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    uploadProfilePic: (payload) => dispatch(uploadProfilePic(payload)),
+    updateProfile: (payload) => dispatch(updateProfile(payload)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

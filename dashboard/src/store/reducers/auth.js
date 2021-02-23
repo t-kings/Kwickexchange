@@ -32,13 +32,28 @@ const authReducer = (state = initState, action) => {
       if (action.data.user) {
         localStorage.setItem("profile", JSON.stringify(action.data.user));
       }
-
       return {
         ...state,
         isAuthenticated: true,
         toVerify: false,
         isLoading: false,
         ...action.data,
+      };
+    case "PROFILE_UPDATED":
+      localStorage.setItem(
+        "profile",
+        JSON.stringify({
+          ...state.user,
+          ...action.data,
+          avatar: state.user.avatar,
+        })
+      );
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.data,
+        },
       };
     case "USER_REGISTERED":
       return {

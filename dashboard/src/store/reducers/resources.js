@@ -14,6 +14,14 @@ const initialState = {
     meta: "",
   },
   isLoading: true,
+  currencyList: [
+    {
+      fiat: "US Dollar",
+      fiat_slug: "dollar",
+      symbol: "$",
+      value_in_naira: 0,
+    },
+  ],
 };
 
 const resourcesReducer = (state = initialState, action) => {
@@ -29,7 +37,6 @@ const resourcesReducer = (state = initialState, action) => {
         isLoading: false,
       };
     case "USER_BALANCES":
-      console.log(action.data);
       return {
         ...state,
         balance: action.data,
@@ -38,6 +45,11 @@ const resourcesReducer = (state = initialState, action) => {
       return {
         ...state,
         transactionCount: action.data,
+      };
+    case "CURRENCY_LIST":
+      return {
+        ...state,
+        currencyList: action.data,
       };
     default:
       return state;
