@@ -8,7 +8,7 @@ import bg2 from "./images/bg2.svg";
 import bg3 from "./images/bg3.svg";
 class Home extends Component {
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, balance } = this.props;
     if (!isAuthenticated) {
       return <Redirect to={{ pathname: "/", redirect_to: "/home/wallet" }} />;
     }
@@ -58,7 +58,7 @@ class Home extends Component {
                 />
               </svg>
             </span>
-            <h3>0.00000000 BTC</h3>
+            <h3>{balance.bitcoin} BTC</h3>
             <p>BTC Wallet Balance</p>
             <Link
               to="/home/wallet/bitcoin"
@@ -112,7 +112,7 @@ class Home extends Component {
                 <rect y="9" width="14" height="2" fill="#00C844" />
               </svg>
             </span>
-            <h3>₦ 0.00</h3>
+            <h3>₦ {balance.bitcoin}</h3>
             <p>Naira Wallet Balance</p>
             <Link to="/home/wallet/naira" className={walletStyle.link_btn_gold}>
               More
@@ -134,6 +134,6 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.auth };
+  return { ...state.auth, ...state.resources };
 };
 export default connect(mapStateToProps, null)(Home);

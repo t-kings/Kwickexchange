@@ -5,6 +5,10 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      btc: "",
+      usd: "",
+      email: "",
+      password: "",
       errors: {
         btc: [],
         usd: [],
@@ -13,10 +17,81 @@ class Index extends Component {
       },
     };
   }
-  handleSubmit = () => {};
-  handleChange = () => {};
+
+  handleBTC = (e) => {
+    const { bitcoinSellRate } = this.props;
+    const btc = parseFloat(e.target.value);
+    const usd = btc * bitcoinSellRate.usd;
+    this.setState({
+      ...this.state,
+      btc,
+      usd: usd ? usd : 0,
+    });
+  };
+  handleUSD = (e) => {
+    const { bitcoinSellRate } = this.props;
+    const usd = parseFloat(e.target.value);
+    const btc = usd / bitcoinSellRate.usd;
+    this.setState({
+      ...this.state,
+      usd,
+      btc: btc ? btc : 0,
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const errors = {
+      btc: [],
+      usd: [],
+      email: [],
+      password: [],
+    };
+    this.setState({
+      ...this.state,
+      errors,
+    });
+    const { password, btc, usd, email } = this.state;
+    const { setBtcTransfer } = this.props;
+    if (btc.length < 1) {
+      errors.btc.push("BTC value is required");
+    }
+    if (password.length < 1) {
+      errors.password.push("Password is required");
+    }
+    if (usd.length < 1) {
+      errors.usd.push("USD value is required");
+    }
+
+    if (email.length < 1) {
+      errors.email.push("BTC email is required");
+    }
+
+    if (
+      errors.btc.length > 0 ||
+      errors.usd.length > 0 ||
+      errors.email.length > 0 ||
+      errors.password.length > 0
+    ) {
+      this.setState({
+        ...this.state,
+        errors,
+      });
+    } else {
+      e.preventDefault();
+      setBtcTransfer({ password, btc, usd, email, address: "" });
+      document.querySelector("#sendBtcEmail").style.display = "none";
+      document.querySelector("#btcSummary").style.display = "flex";
+    }
+  };
+  handleChange = (e) => {
+    this.setState({
+      ...this.state,
+      [e.target.name]: e.target.value,
+    });
+  };
   render() {
-    const { errors } = this.state;
+    const { errors, btc, usd } = this.state;
     return (
       <section
         id="sendBtcEmail"
@@ -50,9 +125,11 @@ class Index extends Component {
                   " " +
                   (errors["btc"].length > 0 ? style.error : " ")
                 }
-                id="btc"
+                id="btc_email"
                 name="btc"
-                onChange={this.handleChange}
+                step="any"
+                value={btc.toString()}
+                onChange={this.handleBTC}
                 required
               />
               {errors["btc"].map((item, idx) => (
@@ -77,9 +154,11 @@ class Index extends Component {
                   " " +
                   (errors["usd"].length > 0 ? style.error : " ")
                 }
-                id="usd"
+                id="usd_email"
                 name="usd"
-                onChange={this.handleChange}
+                value={usd.toString()}
+                step="any"
+                onChange={this.handleUSD}
                 required
               />
               {errors["usd"].map((item, idx) => (
@@ -129,7 +208,7 @@ class Index extends Component {
               <input
                 type="password"
                 placeholder="password"
-                id="password"
+                id="password_email"
                 name="password"
                 onChange={this.handleChange}
                 className={
@@ -156,12 +235,7 @@ class Index extends Component {
                 Cancel
               </button>
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector("#sendBtcEmail").style.display =
-                    "none";
-                  document.querySelector("#btcSummary").style.display = "flex";
-                }}
+                onClick={this.handleSubmit}
                 className={style.button + " " + style.link_btn_gold}
               >
                 SEND
@@ -173,7 +247,21 @@ class Index extends Component {
     );
   }
 }
-const mapDispatchToProps = (dispatch) => {
-  return {};
+const mapStateToProps = (state) => {
+  return { ...state.auth, ...state.resources, ...state.trade };
 };
-export default connect(null, mapDispatchToProps)(Index);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setBtcTransfer: (payload) =>
+      dispatch(async (dispatch, getState) => {
+        dispatch((dispatch, getState) => {
+          dispatch({
+            type: "SET_BTC_WITHDRAWAL",
+            data: { ...payload },
+          });
+        });
+      }),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

@@ -20,7 +20,14 @@ export const getResources = () => {
       await getBitcoinSellHistory(dispatch, getState);
       await getGiftCards(dispatch, getState);
       await getGiftCardsTradeHistory(dispatch, getState);
-
+      await getBitcoinDepositAddress(dispatch, getState);
+      await getBitcoinDepositAddresses(dispatch, getState);
+      await getBitcoinTransactions(dispatch, getState);
+      await getBitcoinWithdrawalFee(dispatch, getState);
+      await getBanks(dispatch, getState);
+      await getNairaTransactions(dispatch, getState);
+      await getNairaWithdrawalFee(dispatch, getState);
+      await getUserBanks(dispatch, getState);
       dispatch({ type: "KILL_RESOURCES_LOADING" });
     } catch (error) {
       console.log(error);
@@ -292,6 +299,142 @@ export const getGiftCardsTradeHistory = async (dispatch, getState) => {
     });
     if (res.status === 200) {
       dispatch({ type: "GIFT_CARDS_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinDepositAddress = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "wallet/bitcoin/deposit", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_DEPOSIT_ADDRESS", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinDepositAddresses = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "wallet/bitcoin/list", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_DEPOSIT_ADDRESSES", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinTransactions = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "wallet/bitcoin/history", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_TRANSACTIONS_LIST", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinWithdrawalFee = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "wallet/bitcoin/fee", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_WITHDRAWAL_FEE", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBanks = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "wallet/naira/banklists", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BANKS", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getNairaTransactions = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "wallet/naira/history", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "NAIRA_TRANSACTIONS_LIST", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getNairaWithdrawalFee = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "wallet/naira/fee", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "NAIRA_WITHDRAWAL_FEE", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getUserBanks = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "wallet/naira/list", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "USER_NAIRA_BANKS", data: res.data.data });
     }
     return true;
   } catch (err) {

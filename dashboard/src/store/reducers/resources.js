@@ -55,6 +55,29 @@ const initialState = {
     data: [],
     meta: {},
   },
+  bitcoinDepositAddresses: {
+    data: [],
+    meta: {},
+  },
+  bitcoinDepositAddress: {},
+  bitcoinTransactionList: {
+    data: [],
+    meta: {},
+  },
+  bitcoinWithdrawalFee: {},
+  banks: {
+    data: [],
+    meta: {},
+  },
+  nairaTransactions: {
+    data: [],
+    meta: {},
+  },
+  nairaWithdrawalFee: {},
+  userBanks: {
+    data: [],
+    meta: {},
+  },
 };
 
 const resourcesReducer = (state = initialState, action) => {
@@ -155,6 +178,49 @@ const resourcesReducer = (state = initialState, action) => {
       return {
         ...state,
         giftCardsHistory: action.data,
+      };
+
+    case "BITCOIN_DEPOSIT_ADDRESS":
+      return {
+        ...state,
+        bitcoinDepositAddress: action.data,
+      };
+
+    case "BITCOIN_DEPOSIT_ADDRESSES":
+      return {
+        ...state,
+        bitcoinDepositAddresses: action.data,
+      };
+    case "BITCOIN_TRANSACTIONS_LIST":
+      return {
+        ...state,
+        bitcoinTransactionList: action.data,
+      };
+    case "BITCOIN_WITHDRAWAL_FEE":
+      return {
+        ...state,
+        bitcoinWithdrawalFee: action.data,
+      };
+
+    case "BANKS":
+      return {
+        ...state,
+        banks: action.data,
+      };
+    case "NAIRA_TRANSACTIONS_LIST":
+      return {
+        ...state,
+        nairaTransactions: action.data,
+      };
+    case "NAIRA_WITHDRAWAL_FEE":
+      return {
+        ...state,
+        nairaWithdrawalFee: action.data,
+      };
+    case "USER_NAIRA_BANKS":
+      return {
+        ...state,
+        userBanks: action.data,
       };
     default:
       return state;

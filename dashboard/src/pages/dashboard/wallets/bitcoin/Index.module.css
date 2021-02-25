@@ -204,9 +204,14 @@
     cursor: pointer;
 }
 
-.text h4 {
+.text input, .text input:focus {
     font-size: var(--paragraphMidFontSize);
     text-decoration: underline;
+    border: none;
+    background: none;
+    display: block;
+    width: 100%;
+    outline: none;
 }
 
 .qr {

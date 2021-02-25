@@ -2,6 +2,7 @@ const initialState = {
   isLoading: false,
   giftCardDetails: {},
   currentGiftCardTrade: {},
+  btcWithdrawal: {},
 };
 
 const tradeReducer = (state = initialState, action) => {
@@ -25,6 +26,11 @@ const tradeReducer = (state = initialState, action) => {
       return {
         ...state,
         currentGiftCardTrade: action.data,
+      };
+    case "SET_BTC_WITHDRAWAL":
+      return {
+        ...state,
+        btcWithdrawal: action.data,
       };
     default:
       return state;

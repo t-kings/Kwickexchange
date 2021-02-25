@@ -33,7 +33,13 @@ class Index extends Component {
 
   render() {
     const { formTab } = this.state;
-    const { isAuthenticated, balance } = this.props;
+    const {
+      isAuthenticated,
+      balance,
+      bitcoinDepositAddress,
+      showNotification,
+      bitcoinTransactionList,
+    } = this.props;
     if (!isAuthenticated) {
       return (
         <Redirect to={{ pathname: "/", redirect_to: "/home/wallet/bitcoin" }} />
@@ -144,10 +150,19 @@ class Index extends Component {
                       />
                     </svg>
                   </span>
-
                   <div className={walletStyle.address}>
                     <p>Your BTC Wallet Address</p>
                     <svg
+                      onClick={() => {
+                        const copyText = document.querySelector("#myInput");
+                        copyText.select();
+                        document.execCommand("copy");
+                        showNotification(
+                          "Address",
+                          true,
+                          "Copied to clip board"
+                        );
+                      }}
                       width="14"
                       height="16"
                       viewBox="0 0 14 16"
@@ -164,48 +179,63 @@ class Index extends Component {
                       />
                     </svg>
                   </div>
-                  <h4>x0rnf43knfJ4F45sfsdf543g5s64sdgFAs</h4>
+                  <input
+                    type="text"
+                    value={bitcoinDepositAddress.address}
+                    readOnly
+                    id="myInput"
+                  />
                 </div>
                 <div className={walletStyle.qr}>
-                  <img src={qr} alt="qr-code" />
-                  <p>Scan QR code to receive BTC in your wallet</p>
+                  {/* <img src={qr} alt="qr-code" />
+                  <p>Scan QR code to receive BTC in your wallet</p> */}
                 </div>
               </div>
             ) : formTab === 2 ? (
               <div className={walletStyle.transactions}>
-                <div className={walletStyle.transactions_empty}>
-                  <img src={empty} alt="empty" />
-                  <p>You have no transactions yet!</p>
-                  <Link
-                    to="/home/bitcoin"
-                    className={walletStyle.link_btn_gold}
-                  >
-                    BUY BTC
-                  </Link>
-                </div>
-                <div className={walletStyle.transactions_list}>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Trans. Type</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>27th Oct. 2020</td>
-                        <td>Gift card - Sell</td>
-                        <td className={walletStyle.green}>₦ 23,000</td>
-                      </tr>
-                      <tr>
-                        <td>27th Oct. 2020</td>
-                        <td> Gift card - Sell</td>
-                        <td className={walletStyle.red}>₦ 23,000</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                {bitcoinTransactionList.data.length > 0 ? (
+                  <div className={walletStyle.transactions_list}>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Trans. Type</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {bitcoinTransactionList.data.map((itm, idx) => (
+                          <tr key={idx}>
+                            <td>{itm.createdAt}</td>
+                            <td>
+                              {itm.asset} - {itm.type}
+                            </td>
+                            <td
+                              className={
+                                itm.status === "successful"
+                                  ? walletStyle.green
+                                  : walletStyle.red
+                              }
+                            >
+                              {itm.amount} BTC
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className={walletStyle.transactions_empty}>
+                    <img src={empty} alt="empty" />
+                    <p>You have no transactions yet!</p>
+                    <Link
+                      to="/home/bitcoin"
+                      className={walletStyle.link_btn_gold}
+                    >
+                      BUY BTC
+                    </Link>
+                  </div>
+                )}
               </div>
             ) : (
               <div className={walletStyle.send}>
@@ -302,4 +332,20 @@ class Index extends Component {
 const mapStateToProps = (state) => {
   return { ...state.auth, ...state.resources };
 };
-export default connect(mapStateToProps, null)(Index);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showNotification: (type, isSuccess, message) =>
+      dispatch((dispatch, getState) => {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: { type, isSuccess, message },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Index);
