@@ -186,6 +186,11 @@
     background: white;
 }
 
+.rates .hold .holder {
+    position: relative;
+    z-index: 2;
+}
+
 .loader, .loader:before, .loader:after {
     background: #ffffff;
     -webkit-animation: load1 1s infinite ease-in-out;
@@ -263,6 +268,7 @@
     bottom: 0;
     display: block;
     width: 100%;
+    /* z-index: -1; */
 }
 
 .hold form {
@@ -382,9 +388,9 @@ input.link_btn_gold:hover {
     .rates .hold {
         padding-bottom: 120px;
     }
-    .vc {
+    /* .vc {
         display: none;
-    }
+    } */
 }
 
 @media only screen and (max-width: 550px) {

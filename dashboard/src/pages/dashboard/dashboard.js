@@ -29,13 +29,13 @@ class Dashboard extends Component {
       const close = () => {
         aside.style.display = "none";
         bars.style.display = "block";
-        main_Section.style.display = "flex";
+        main_Section.style.display = "block";
         crossBars.style.display = "none";
       };
       for (let k = 0; k < asideLinks.length; k++) {
         const element = asideLinks[k];
         element.addEventListener("click", () => {
-          if (window.screen.width < 1000) {
+          if (window.screen.width < 1001) {
             close();
           }
         });
@@ -49,7 +49,7 @@ class Dashboard extends Component {
       });
 
       main_Section.addEventListener("click", () => {
-        if (window.screen.width < 1000) {
+        if (window.screen.width < 1001) {
           close();
         }
       });

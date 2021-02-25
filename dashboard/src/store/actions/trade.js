@@ -35,6 +35,23 @@ export const buyBitcoin = (payload) => {
       dispatch({ type: "CLEAR_TRADE_LOADING" });
       return false;
     } catch (error) {
+      if (error?.response?.status === 402) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Trade",
+            isSuccess: false,
+            message: error.response.data.message,
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return false;
+      }
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {
@@ -85,6 +102,23 @@ export const sellBitcoin = (payload) => {
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
     } catch (error) {
+      if (error?.response?.status === 402) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Trade",
+            isSuccess: false,
+            message: error.response.data.message,
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return false;
+      }
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {

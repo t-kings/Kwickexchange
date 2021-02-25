@@ -145,7 +145,7 @@ class Overview extends Component {
           <div className={overviewStyle.actions}>
             <div className={overviewStyle.balances}>
               <Link
-                to="/home/wallet"
+                to="/home/wallet/bitcoin"
                 className={style.card + " " + overviewStyle.balance}
               >
                 <svg
@@ -176,25 +176,27 @@ class Overview extends Component {
                     fill="#0094FF"
                   />
                 </svg>
-                <span className={overviewStyle.btc}>
-                  <svg
-                    width="13"
-                    height="18"
-                    viewBox="0 0 13 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M2 10V14H0V16H3V18H5V16H7V18H9V15.949C10.968 15.7 12.5 14.034 12.5 12C12.5 10.68 11.85 9.516 10.86 8.787C11.5901 8.04302 11.9994 7.0424 12 6C12 4.142 10.721 2.589 9 2.142V0H7V2H5V0H3V2H0V4H2V10ZM8.5 14H4V10H8.5C9.603 10 10.5 10.897 10.5 12C10.5 13.103 9.603 14 8.5 14ZM4 4H8C9.103 4 10 4.897 10 6C10 7.103 9.103 8 8 8H4V4Z"
-                      fill="#0094FF"
-                    />
-                  </svg>
-                </span>
-                <h3>{balance.bitcoin} BTC</h3>
-                <p>BTC Wallet Balance</p>
+                <div>
+                  <span className={overviewStyle.btc}>
+                    <svg
+                      width="13"
+                      height="18"
+                      viewBox="0 0 13 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M2 10V14H0V16H3V18H5V16H7V18H9V15.949C10.968 15.7 12.5 14.034 12.5 12C12.5 10.68 11.85 9.516 10.86 8.787C11.5901 8.04302 11.9994 7.0424 12 6C12 4.142 10.721 2.589 9 2.142V0H7V2H5V0H3V2H0V4H2V10ZM8.5 14H4V10H8.5C9.603 10 10.5 10.897 10.5 12C10.5 13.103 9.603 14 8.5 14ZM4 4H8C9.103 4 10 4.897 10 6C10 7.103 9.103 8 8 8H4V4Z"
+                        fill="#0094FF"
+                      />
+                    </svg>
+                  </span>
+                  <h3>{balance.bitcoin} BTC</h3>
+                  <p>BTC Wallet Balance</p>
+                </div>
               </Link>
               <Link
-                to="/home/wallet"
+                to="/home/wallet/naira"
                 className={style.card + " " + overviewStyle.balance}
               >
                 <svg
@@ -225,24 +227,26 @@ class Overview extends Component {
                     fill=" #00C844"
                   />
                 </svg>
-                <span className={overviewStyle.naira}>
-                  <svg
-                    width="14"
-                    height="16"
-                    viewBox="0 0 14 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M1.13708 15.0743H2.84451V2.46401L10.2708 15.0743H12.3279V0.365723H10.6205V12.5234L3.46166 0.365723H1.13708V15.0743Z"
-                      fill="#00C844"
-                    />
-                    <rect y="5" width="14" height="2" fill="#00C844" />
-                    <rect y="9" width="14" height="2" fill="#00C844" />
-                  </svg>
-                </span>
-                <h3>₦ {balance.naira}</h3>
-                <p>Naira Wallet Balance</p>
+                <div>
+                  <span className={overviewStyle.naira}>
+                    <svg
+                      width="14"
+                      height="16"
+                      viewBox="0 0 14 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1.13708 15.0743H2.84451V2.46401L10.2708 15.0743H12.3279V0.365723H10.6205V12.5234L3.46166 0.365723H1.13708V15.0743Z"
+                        fill="#00C844"
+                      />
+                      <rect y="5" width="14" height="2" fill="#00C844" />
+                      <rect y="9" width="14" height="2" fill="#00C844" />
+                    </svg>
+                  </span>
+                  <h3>₦ {balance.naira}</h3>
+                  <p>Naira Wallet Balance</p>
+                </div>
               </Link>
               <Link
                 to="/home/transactions"
@@ -276,23 +280,25 @@ class Overview extends Component {
                     fill="#AC00C8"
                   />
                 </svg>
-                <span className={overviewStyle.trans}>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M1 4.5H13.6M10.8 1L14.3 4.5L10.8 8M15 11.5H2.4M5.2 8L1.7 11.5L5.2 15"
-                      stroke="#AC00C8"
-                      strokeWidth="2"
-                    />
-                  </svg>
-                </span>
-                <h3>{transactionCount.count}</h3>
-                <p>Total Transactions </p>
+                <div>
+                  <span className={overviewStyle.trans}>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 4.5H13.6M10.8 1L14.3 4.5L10.8 8M15 11.5H2.4M5.2 8L1.7 11.5L5.2 15"
+                        stroke="#AC00C8"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  </span>
+                  <h3>{transactionCount.count}</h3>
+                  <p>Total Transactions </p>
+                </div>
               </Link>
             </div>
             <div className={overviewStyle.sell}>
@@ -333,163 +339,165 @@ class Overview extends Component {
           </div>
           <div className={overviewStyle.rates}>
             <div className={overviewStyle.hold}>
-              <div className={overviewStyle.tabs}>
-                <button
-                  onClick={this.handleBuy}
-                  className={formTab === 1 ? overviewStyle.active : ""}
-                >
-                  Buy
-                </button>
-                <button
-                  onClick={this.handleSell}
-                  className={formTab === 1 ? "" : overviewStyle.active}
-                >
-                  Sell
-                </button>
+              <div className={overviewStyle.holder}>
+                <div className={overviewStyle.tabs}>
+                  <button
+                    onClick={this.handleBuy}
+                    className={formTab === 1 ? overviewStyle.active : ""}
+                  >
+                    Buy
+                  </button>
+                  <button
+                    onClick={this.handleSell}
+                    className={formTab === 1 ? "" : overviewStyle.active}
+                  >
+                    Sell
+                  </button>
+                </div>
+                {formTab === 1 ? (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      buyBitcoin({
+                        amount: btc,
+                      });
+                    }}
+                  >
+                    <div className={overviewStyle.rates_text}>
+                      <h2>Exchange Rate</h2>
+                      <p>
+                        $
+                        {bitcoinBuyRate.usd
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        /BTC
+                      </p>
+                    </div>
+                    <div className={overviewStyle.input}>
+                      <span>BTC</span>
+                      <input
+                        type="number"
+                        step="any"
+                        min={0}
+                        name="btc"
+                        id="btc"
+                        onChange={this.handleBTC}
+                        value={this.state.btc}
+                      />
+                    </div>
+                    <div className={overviewStyle.input}>
+                      <span>$</span>
+                      <input
+                        type="number"
+                        step="any"
+                        min={0}
+                        name="dollars"
+                        id="dollars"
+                        value={this.state.dollar}
+                        onChange={this.handleDollar}
+                      />
+                    </div>
+                    <div className={overviewStyle.input}>
+                      <span>₦</span>
+                      <input
+                        type="number"
+                        step="any"
+                        min={0}
+                        name="naira"
+                        id="naira"
+                        value={this.state.naira}
+                        onChange={this.handleNaira}
+                      />
+                    </div>
+                    {isLoading ? (
+                      <div
+                        className={
+                          overviewStyle.load + " " + overviewStyle.link_btn_gold
+                        }
+                      >
+                        <div className={overviewStyle.loader}>Loading...</div>
+                      </div>
+                    ) : (
+                      <input
+                        className={overviewStyle.link_btn_gold}
+                        type="submit"
+                        value="BUY BITCOIN"
+                      />
+                    )}
+                  </form>
+                ) : (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      sellBitcoin({
+                        amount: btc,
+                      });
+                    }}
+                  >
+                    <div className={overviewStyle.rates_text}>
+                      <h2>Exchange Rate</h2>
+                      <p>
+                        $
+                        {bitcoinSellRate.usd
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        /BTC
+                      </p>
+                    </div>
+                    <div className={overviewStyle.input}>
+                      <span>BTC</span>
+                      <input
+                        type="number"
+                        step="any"
+                        min={0}
+                        name="btc"
+                        id="btc"
+                        onChange={this.handleBTC}
+                        value={this.state.btc}
+                      />
+                    </div>
+                    <div className={overviewStyle.input}>
+                      <span>$</span>
+                      <input
+                        type="number"
+                        step="any"
+                        min={0}
+                        name="dollars"
+                        id="dollars"
+                        value={this.state.dollar}
+                        onChange={this.handleDollar}
+                      />
+                    </div>
+                    <div className={overviewStyle.input}>
+                      <span>₦</span>
+                      <input
+                        type="number"
+                        step="any"
+                        min={0}
+                        name="naira"
+                        id="naira"
+                        value={this.state.naira}
+                        onChange={this.handleNaira}
+                      />
+                    </div>
+                    {isLoading ? (
+                      <div
+                        className={
+                          overviewStyle.load + " " + overviewStyle.link_btn_gold
+                        }
+                      >
+                        <div className={overviewStyle.loader}>Loading...</div>
+                      </div>
+                    ) : (
+                      <input
+                        className={overviewStyle.link_btn_gold}
+                        type="submit"
+                        value="SELL BITCOIN"
+                      />
+                    )}
+                  </form>
+                )}
               </div>
-              {formTab === 1 ? (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    buyBitcoin({
-                      amount: btc,
-                    });
-                  }}
-                >
-                  <div className={overviewStyle.rates_text}>
-                    <h2>Exchange Rate</h2>
-                    <p>
-                      $
-                      {bitcoinBuyRate.usd
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                      /BTC
-                    </p>
-                  </div>
-                  <div className={overviewStyle.input}>
-                    <span>BTC</span>
-                    <input
-                      type="number"
-                      step="any"
-                      min={0}
-                      name="btc"
-                      id="btc"
-                      onChange={this.handleBTC}
-                      value={this.state.btc}
-                    />
-                  </div>
-                  <div className={overviewStyle.input}>
-                    <span>$</span>
-                    <input
-                      type="number"
-                      step="any"
-                      min={0}
-                      name="dollars"
-                      id="dollars"
-                      value={this.state.dollar}
-                      onChange={this.handleDollar}
-                    />
-                  </div>
-                  <div className={overviewStyle.input}>
-                    <span>₦</span>
-                    <input
-                      type="number"
-                      step="any"
-                      min={0}
-                      name="naira"
-                      id="naira"
-                      value={this.state.naira}
-                      onChange={this.handleNaira}
-                    />
-                  </div>
-                  {isLoading ? (
-                    <div
-                      className={
-                        overviewStyle.load + " " + overviewStyle.link_btn_gold
-                      }
-                    >
-                      <div className={overviewStyle.loader}>Loading...</div>
-                    </div>
-                  ) : (
-                    <input
-                      className={overviewStyle.link_btn_gold}
-                      type="submit"
-                      value="BUY BITCOIN"
-                    />
-                  )}
-                </form>
-              ) : (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    sellBitcoin({
-                      amount: btc,
-                    });
-                  }}
-                >
-                  <div className={overviewStyle.rates_text}>
-                    <h2>Exchange Rate</h2>
-                    <p>
-                      $
-                      {bitcoinSellRate.usd
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                      /BTC
-                    </p>
-                  </div>
-                  <div className={overviewStyle.input}>
-                    <span>BTC</span>
-                    <input
-                      type="number"
-                      step="any"
-                      min={0}
-                      name="btc"
-                      id="btc"
-                      onChange={this.handleBTC}
-                      value={this.state.btc}
-                    />
-                  </div>
-                  <div className={overviewStyle.input}>
-                    <span>$</span>
-                    <input
-                      type="number"
-                      step="any"
-                      min={0}
-                      name="dollars"
-                      id="dollars"
-                      value={this.state.dollar}
-                      onChange={this.handleDollar}
-                    />
-                  </div>
-                  <div className={overviewStyle.input}>
-                    <span>₦</span>
-                    <input
-                      type="number"
-                      step="any"
-                      min={0}
-                      name="naira"
-                      id="naira"
-                      value={this.state.naira}
-                      onChange={this.handleNaira}
-                    />
-                  </div>
-                  {isLoading ? (
-                    <div
-                      className={
-                        overviewStyle.load + " " + overviewStyle.link_btn_gold
-                      }
-                    >
-                      <div className={overviewStyle.loader}>Loading...</div>
-                    </div>
-                  ) : (
-                    <input
-                      className={overviewStyle.link_btn_gold}
-                      type="submit"
-                      value="SELL BITCOIN"
-                    />
-                  )}
-                </form>
-              )}
               <img src={vc1} className={overviewStyle.vc} alt="vector" />
               <img src={vc2} className={overviewStyle.vc} alt="vector" />
               <img src={vc3} className={overviewStyle.vc} alt="vector" />
