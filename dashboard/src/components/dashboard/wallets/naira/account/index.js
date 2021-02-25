@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import style from "./Index.module.css";
 import { connect } from "react-redux";
 import { addBank } from "../../../../../store/actions/trade";
-import bank from "../bank";
 class Index extends Component {
   constructor(props) {
     super(props);

@@ -22,6 +22,7 @@ class Index extends Component {
       bank_name: "",
       account_name: "",
       amount: "",
+      bank: {},
       account_number: "",
       errors: {
         bank_name: [],
@@ -71,7 +72,7 @@ class Index extends Component {
             });
           }}
         />
-        <Summary />
+        <Summary onwProps={this.state} />
         <Account />
         <Delete accountToDelete={accountToDelete} />
         <section className={walletStyle.wallets}>
@@ -302,7 +303,16 @@ class Index extends Component {
                           }
                           id="bank_name"
                           name="bank_name"
-                          onChange={this.handleChange}
+                          onChange={(e) => {
+                            this.handleChange(e);
+                            this.setState({
+                              ...this.state,
+                              bank: banks.find(
+                                (bank) =>
+                                  bank.code.toString() === e.target.value
+                              ),
+                            });
+                          }}
                           required
                         >
                           <option value="">Select Bank</option>
@@ -403,6 +413,7 @@ class Index extends Component {
                           id="amount"
                           step="any"
                           name="amount"
+                          required
                           onChange={this.handleChange}
                           className={
                             walletStyle.form_control +
@@ -443,55 +454,71 @@ class Index extends Component {
                 </div>
               </>
             ) : formTab === 2 ? (
-              <div
-                className={
-                  walletStyle.transactions + " " + walletStyle.saved_accounts
-                }
-              >
-                {userBanks.length > 0 ? (
-                  <div className={walletStyle.bank_lists}>
-                    <div className={walletStyle.holdAccounts}>
-                      <div></div>
-                      <h1>Saved Accounts</h1>
-                      <div>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            document.querySelector("#addBank").style.display =
-                              "flex";
-                          }}
-                          className={walletStyle.link_btn_gold}
-                        >
-                          Add +
-                        </button>
+              <div className={walletStyle.saved_accountsHold}>
+                <img
+                  src={vcc1}
+                  alt="holders"
+                  className={walletStyle.vcHolders}
+                />
+                <img
+                  src={vcc2}
+                  alt="holders"
+                  className={walletStyle.vcHolders}
+                />
+                <img
+                  src={vcc3}
+                  alt="holders"
+                  className={walletStyle.vcHolders}
+                />
+                <div
+                  className={
+                    walletStyle.transactions + " " + walletStyle.saved_accounts
+                  }
+                >
+                  {userBanks.length > 0 ? (
+                    <div className={walletStyle.bank_lists}>
+                      <div className={walletStyle.holdAccounts}>
+                        <div></div>
+                        <h1>Saved Accounts</h1>
+                        <div>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              document.querySelector("#addBank").style.display =
+                                "flex";
+                            }}
+                            className={walletStyle.link_btn_gold}
+                          >
+                            Add +
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <ul className={walletStyle.accounts_list}>
-                      {userBanks.map((itm, idx) => (
-                        <li key={idx}>
-                          <div className={walletStyle.first}>
-                            <p>{itm.account_name}</p>
-                            <p>{itm.bank_name}</p>
-                            <p>{itm.account_number}</p>
-                          </div>
+                      <ul className={walletStyle.accounts_list}>
+                        {userBanks.map((itm, idx) => (
+                          <li key={idx}>
+                            <div className={walletStyle.first}>
+                              <p>{itm.account_name}</p>
+                              <p>{itm.bank_name}</p>
+                              <p>{itm.account_number}</p>
+                            </div>
 
-                          <div className={walletStyle.second}>
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                this.setState({
-                                  ...this.state,
-                                  accountToDelete: itm.id,
-                                });
-                                document.querySelector(
-                                  "#deleteAccountPrompt"
-                                ).style.display = "flex";
-                              }}
-                              className={walletStyle.red}
-                            >
-                              Delete
-                            </button>
-                            {/* <button
+                            <div className={walletStyle.second}>
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  this.setState({
+                                    ...this.state,
+                                    accountToDelete: itm.id,
+                                  });
+                                  document.querySelector(
+                                    "#deleteAccountPrompt"
+                                  ).style.display = "flex";
+                                }}
+                                className={walletStyle.red}
+                              >
+                                Delete
+                              </button>
+                              {/* <button
                               onClick={(e) => {
                                 e.preventDefault();
                                 document.querySelector(
@@ -501,70 +528,88 @@ class Index extends Component {
                             >
                               Edit
                             </button> */}
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : (
-                  <div className={walletStyle.transactions_empty}>
-                    <h1>Saved Accounts</h1>
-                    <img src={empty} alt="empty" />
-                    <p>No account added yet!</p>
-                    <Link
-                      to="/home/wallet/naira"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        document.querySelector("#addBank").style.display =
-                          "flex";
-                      }}
-                      className={walletStyle.link_btn_gold}
-                    >
-                      <span>ADD ACCOUNT</span>
-                      <span>+</span>
-                    </Link>
-                  </div>
-                )}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <div className={walletStyle.transactions_empty}>
+                      <h1>Saved Accounts</h1>
+                      <img src={empty} alt="empty" />
+                      <p>No account added yet!</p>
+                      <Link
+                        to="/home/wallet/naira"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          document.querySelector("#addBank").style.display =
+                            "flex";
+                        }}
+                        className={walletStyle.link_btn_gold}
+                      >
+                        <span>ADD ACCOUNT</span>
+                        <span>+</span>
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
-              <div className={walletStyle.transactions}>
-                {nairaTransactions.data.length > 0 ? (
-                  <div className={walletStyle.transactions_list}>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Trans. Type</th>
-                          <th>Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {nairaTransactions.data.map((itm, idx) => (
-                          <tr key={idx}>
-                            <td>{itm.createdAt}</td>
-                            <td>
-                              {itm.asset} - {itm.type}
-                            </td>
-                            <td
-                              className={
-                                itm.status === "successful"
-                                  ? walletStyle.green
-                                  : walletStyle.red
-                              }
-                            >
-                              {itm.amount} BTC
-                            </td>
+              <div className={walletStyle.transactionsHold}>
+                <img
+                  src={vcc1}
+                  alt="holders"
+                  className={walletStyle.vcHolders}
+                />
+                <img
+                  src={vcc2}
+                  alt="holders"
+                  className={walletStyle.vcHolders}
+                />
+                <img
+                  src={vcc3}
+                  alt="holders"
+                  className={walletStyle.vcHolders}
+                />
+                <div className={walletStyle.transactions}>
+                  {nairaTransactions.data.length > 0 ? (
+                    <div className={walletStyle.transactions_list}>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Date</th>
+                            <th>Trans. Type</th>
+                            <th>Amount</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className={walletStyle.transactions_empty}>
-                    <img src={empty} alt="empty" />
-                    <p>You have no naira transactions yet!</p>
-                  </div>
-                )}
+                        </thead>
+                        <tbody>
+                          {nairaTransactions.data.map((itm, idx) => (
+                            <tr key={idx}>
+                              <td>{itm.createdAt}</td>
+                              <td>
+                                {itm.asset} - {itm.type}
+                              </td>
+                              <td
+                                className={
+                                  itm.status === "successful"
+                                    ? walletStyle.green
+                                    : walletStyle.red
+                                }
+                              >
+                                {itm.amount} BTC
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className={walletStyle.transactions_empty}>
+                      <img src={empty} alt="empty" />
+                      <p>You have no naira transactions yet!</p>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
             <img src={vc1} className={walletStyle.vc} alt="vector" />

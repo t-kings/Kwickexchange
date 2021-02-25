@@ -1,17 +1,64 @@
 import React, { Component } from "react";
 import style from "./Index.module.css";
+import { withdrawNaira } from "../../../../../store/actions/trade";
 import { connect } from "react-redux";
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: [],
+      password: "",
+      errors: {
+        password: [],
+      },
     };
   }
-  handleSubmit = () => {};
-  handleChange = () => {};
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    const errors = {
+      password: [],
+    };
+    this.setState({
+      ...this.state,
+      errors,
+    });
+    const { password } = this.state;
+    const { withdraw, onwProps } = this.props;
+    const { amount, account_name, account_number, bank } = onwProps;
+    if (password.length < 1) {
+      errors.password.push("Password is required");
+    }
+    if (errors.password.length > 0) {
+      this.setState({
+        ...this.state,
+        errors,
+      });
+    } else {
+      if (
+        await withdraw({
+          account_number,
+          account_name,
+          amount,
+          bank_slug: bank.slug,
+          bank_name: bank.name,
+          bank_code: bank.code,
+          bank_type: bank.type,
+          bank_currency: bank.currency,
+        })
+      ) {
+        document.querySelector("#nairaSummary").style.display = "none";
+      }
+    }
+  };
+  handleChange = (e) => {
+    this.setState({
+      ...this.state,
+      [e.target.name]: e.target.value,
+    });
+  };
   render() {
     const { errors } = this.state;
+    const { nairaWithdrawalFee, onwProps } = this.props;
+    const { amount, account_name, account_number, bank, isLoading } = onwProps;
     return (
       <section
         onClick={(e) => {
@@ -27,39 +74,35 @@ class Index extends Component {
             <div className={style.top}>
               <h3>Withdrawal Summary</h3>
             </div>
-            <p>Service charge cost ₦55</p>
-            <div className={style.amounts}>
-              <p>₦ 0.00</p>
-              <p>Nwachukwu, Kingsley</p>
-              <p>United Bank for Africa</p>
-              <p>02220565481</p>
-            </div>
-            <form className={style.box} onSubmit={this.handleSubmit}>
-              <input
-                type="password"
-                placeholder="Password"
-                required
-                onChange={this.handleChange}
-                id="password"
-                name="password"
-                className={
-                  style.form_control +
-                  " " +
-                  (errors.filter((error) => error.param === "password").length >
-                  0
-                    ? style.error
-                    : " ")
-                }
-              />
-              {errors
-                .filter((error) => error.param === "password")
-                .map((item, idx) => (
+            <div className={style.box_}>
+              <p>Service charge cost {nairaWithdrawalFee.percentage}</p>
+              <div className={style.amounts}>
+                <p>₦ {amount}</p>
+                <p>{account_name}</p>
+                <p>{bank.name}</p>
+                <p>{account_number}</p>
+              </div>
+              <form className={style.box} onSubmit={this.handleSubmit}>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  required
+                  onChange={this.handleChange}
+                  id="password"
+                  name="password"
+                  className={
+                    style.form_control +
+                    " " +
+                    (errors.password.length > 0 ? style.error : " ")
+                  }
+                />
+                {errors.password.map((item, idx) => (
                   <p key={idx} className={style.error_par}>
                     {item.msg}
                   </p>
                 ))}
-            </form>
-
+              </form>
+            </div>
             <div className={style.actions}>
               <button
                 onClick={(e) => {
@@ -71,16 +114,18 @@ class Index extends Component {
               >
                 Cancel
               </button>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector("#nairaSummary").style.display =
-                    "none";
-                }}
-                className={style.button + " " + style.link_btn_gold}
-              >
-                Withdraw
-              </button>
+              {isLoading ? (
+                <div className={style.load + " " + style.link_btn_gold}>
+                  <div className={style.loader}>Loading...</div>
+                </div>
+              ) : (
+                <button
+                  onClick={this.handleSubmit}
+                  className={style.button + " " + style.link_btn_gold}
+                >
+                  Withdraw
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -89,9 +134,12 @@ class Index extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return { ...state.auth, ...state.resources, ...state.trade };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
-    // logout: () => dispatch(logout()),
+    withdraw: (payload) => dispatch(withdrawNaira(payload)),
   };
 };
-export default connect(null, mapDispatchToProps)(Index);
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

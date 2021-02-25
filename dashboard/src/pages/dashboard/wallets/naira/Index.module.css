@@ -149,11 +149,13 @@
     justify-content: flex-start;
     align-items: stretch;
     background: black;
+    overflow-y: auto;
 }
 
 .tabs button {
     display: flex;
     justify-content: center;
+    min-width: 100px;
     align-items: center;
     width: 30%;
     color: white;
@@ -226,8 +228,21 @@
     z-index: 2;
 }
 
-.saved_accounts {
-    background: rgba(255, 255, 255, 0.7);
+.saved_accountsHold {
+    background: rgba(255, 255, 255);
+    position: relative;
+    min-height: 50vh;
+}
+
+.transactionsHold {
+    position: relative;
+    background: white;
+    min-height: 50vh;
+}
+
+.saved_accounts, .transactions {
+    position: relative;
+    z-index: 2;
 }
 
 .holdAccounts {
@@ -422,6 +437,8 @@
     padding: 40px 20px;
     display: flex;
     align-items: center;
+    position: relative;
+    z-index: 2;
     justify-content: center;
     flex-flow: column nowrap;
 }
