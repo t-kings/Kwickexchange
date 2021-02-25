@@ -1,6 +1,6 @@
 .wallets {
-    padding: 20px 0;
     min-height: 100vh;
+    padding: 80px 6vw 20px 6vw;
     position: relative;
 }
 
@@ -44,16 +44,22 @@
 }
 
 .balances .balance {
-    padding: 20px;
     overflow: hidden;
     width: 45%;
-    display: flex;
     background: white;
+    margin-right: 20px;
+    position: relative;
+    max-width: 300px;
+}
+
+.balances .balance div {
+    display: flex;
     justify-content: space-between;
     align-items: stretch;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
     flex-flow: column nowrap;
-    margin-right: 20px;
-    max-width: 300px;
 }
 
 .balances .balance:last-child {
@@ -134,6 +140,7 @@
     justify-content: flex-start;
     align-items: stretch;
     background: black;
+    overflow-y: auto;
 }
 
 .tabs button {
@@ -141,6 +148,7 @@
     justify-content: center;
     align-items: center;
     width: 30%;
+    min-width: 100px;
     color: white;
     padding: 20px;
     border-bottom: 5px solid black;
@@ -158,11 +166,27 @@
 }
 
 .balance_tab {
+    position: relative;
+}
+
+.balance_tab_hold {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    width: 100%;
     flex-flow: row nowrap;
     padding: 20px;
+    position: relative;
+    z-index: 2;
+    min-height: 50vh;
+}
+
+.vcHolders {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    bottom: 0;
 }
 
 .text {
@@ -239,12 +263,19 @@
     z-index: -1;
 }
 
-.transactions_empty {
+.transactions_empty_hold {
     padding: 40px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-flow: column nowrap;
+    position: relative;
+    min-height: 50vh;
+    z-index: 2;
+}
+
+.transactions_empty {
+    position: relative;
 }
 
 .transactions_empty p {
@@ -282,11 +313,19 @@
     min-width: 150px;
 }
 
-.transactions_list {
+.transactions_list_hold {
     padding: 20px;
     overflow: auto;
     width: 100%;
+    position: relative;
+    z-index: 2;
+    min-height: 50vh;
+}
+
+.transactions_list {
     background: white;
+    width: 100%;
+    position: relative;
 }
 
 .transactions_list table {
@@ -337,7 +376,13 @@
 }
 
 .send {
+    position: relative;
+}
+
+.send_hold {
     padding: 40px 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .send h1 {
@@ -385,8 +430,14 @@
     fill: var(--colorGold);
 }
 
+@media only screen and (max-width: 1000px) {
+    .wallets {
+        padding: 80px 6vw 20px 6vw;
+    }
+}
+
 @media only screen and (max-width: 700px) {
-    .balance_tab {
+    .balance_tab_hold {
         flex-flow: column nowrap;
     }
     .text {

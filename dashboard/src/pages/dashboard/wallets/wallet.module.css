@@ -1,11 +1,16 @@
 .wallets {
+    position: relative;
+}
+
+.walletsHolder {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     flex-flow: row wrap;
-    padding: 20px 0;
-    min-height: 100vh;
     position: relative;
+    padding: 80px 2vw 20px 2vw;
+    z-index: 2;
+    min-height: 100vh;
 }
 
 .link_btn {
@@ -40,16 +45,20 @@
 }
 
 .balances .balance {
-    padding: 20px;
-    overflow: hidden;
     width: 45%;
-    display: flex;
     background: white;
+    margin-right: 20px;
+    overflow: hidden;
+    max-width: 300px;
+}
+
+.balance div {
+    padding: 20px;
+    display: flex;
     justify-content: space-between;
     align-items: stretch;
+    position: relative;
     flex-flow: column nowrap;
-    margin-right: 20px;
-    max-width: 300px;
 }
 
 .balances .balance:last-child {
@@ -118,7 +127,6 @@
     bottom: 0;
     right: 0;
     left: 0;
-    z-index: -1;
 }
 
 ._flier img {
@@ -126,8 +134,9 @@
 }
 
 @media only screen and (max-width: 1000px) {
-    .wallets {
+    .walletsHolder {
         flex-flow: column nowrap;
+        padding: 80px 6vw 20px 6vw;
     }
 }
 

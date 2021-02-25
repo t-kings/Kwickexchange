@@ -3,7 +3,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     flex-flow: row wrap;
-    padding: 20px 0;
+    padding: 80px 2vw 20px 2vw;
 }
 
 .actions {
@@ -371,6 +371,7 @@ input.link_btn_gold:hover {
 
 @media only screen and (max-width: 1000px) {
     .overview {
+        padding: 80px 6vw 20px 6vw;
         flex-flow: column nowrap;
     }
     .actions {

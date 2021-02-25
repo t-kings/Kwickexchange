@@ -191,6 +191,7 @@ const resourcesReducer = (state = initialState, action) => {
         bitcoinTransactionList: action.data,
       };
     case "BITCOIN_WITHDRAWAL_FEE":
+      console.log(action.data);
       return {
         ...state,
         bitcoinWithdrawalFee: action.data,

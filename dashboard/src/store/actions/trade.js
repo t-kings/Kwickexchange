@@ -282,7 +282,7 @@ export const withdrawBTC = () => {
     try {
       dispatch({ type: "TRADE_LOADING" });
       const res = await axios.post(
-        apiUrl + "",
+        apiUrl + "wallet/bitcoin/withdraw",
         {
           ...getState().trade.btcWithdrawal,
           amount: getState().trade.btcWithdrawal.btc,
@@ -308,9 +308,46 @@ export const withdrawBTC = () => {
             type: "CLEAR_NOTIFICATION",
           });
         }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     } catch (error) {
+      if (error?.response?.status == 400) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Wallet",
+            isSuccess: false,
+            message: "Account not verified",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return false;
+      }
+      if (error?.response?.status == 403) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Wallet",
+            isSuccess: false,
+            message: "Incorrect password",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return false;
+      }
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {
@@ -325,6 +362,7 @@ export const withdrawBTC = () => {
         });
       }, 5000);
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     }
   };
 };
@@ -360,9 +398,46 @@ export const emailBTC = () => {
             type: "CLEAR_NOTIFICATION",
           });
         }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     } catch (error) {
+      if (error?.response?.status == 403) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Wallet",
+            isSuccess: false,
+            message: "Incorrect password",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return false;
+      }
+      if (error?.response?.status == 400) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Wallet",
+            isSuccess: false,
+            message: JSON.stringify(error.response.data.data),
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return false;
+      }
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {
@@ -377,6 +452,7 @@ export const emailBTC = () => {
         });
       }, 5000);
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     }
   };
 };

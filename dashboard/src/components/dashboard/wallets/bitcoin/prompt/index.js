@@ -8,7 +8,13 @@ class Index extends Component {
     this.state = {};
   }
   render() {
-    const { btcWithdrawal, withdrawBTC, isLoading, emailBTC } = this.props;
+    const {
+      btcWithdrawal,
+      withdrawBTC,
+      isLoading,
+      emailBTC,
+      bitcoinWithdrawalFee,
+    } = this.props;
     return (
       <section id="btcSummary" className={style.modal}>
         <div className={style.modal_item + " " + style.card}>
@@ -17,7 +23,14 @@ class Index extends Component {
               <h3>Withdrawal Summary</h3>
             </div>
             <div className={style.amounts}>
-              <p>{btcWithdrawal.usd} BTC</p>
+              {bitcoinWithdrawalFee.percentage ? (
+                <div>
+                  <span>
+                    Service charge is {bitcoinWithdrawalFee.percentage}
+                  </span>
+                </div>
+              ) : null}
+              <p>{btcWithdrawal.btc} BTC</p>
               <p>$ {btcWithdrawal.usd}</p>
               <p>
                 {btcWithdrawal.address && btcWithdrawal.address.length > 0
@@ -47,12 +60,16 @@ class Index extends Component {
                       btcWithdrawal.address &&
                       btcWithdrawal.address.length > 0
                     ) {
-                      await withdrawBTC();
+                      if (await withdrawBTC()) {
+                        document.querySelector("#btcSummary").style.display =
+                          "none";
+                      }
                     } else {
-                      await emailBTC();
+                      if (await emailBTC()) {
+                        document.querySelector("#btcSummary").style.display =
+                          "none";
+                      }
                     }
-                    document.querySelector("#btcSummary").style.display =
-                      "none";
                   }}
                   className={style.button + " " + style.link_btn_gold}
                 >
