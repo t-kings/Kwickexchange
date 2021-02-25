@@ -65,6 +65,14 @@ class Home extends Component {
       updatePassword(password, current_password, password_confirmation);
     }
   };
+  componentDidMount = () => {
+    if (this.props.match.params.id) {
+      this.setState({
+        ...this.state,
+        formTab: this.props.match.params.id,
+      });
+    }
+  };
   render() {
     const {
       isAuthenticated,
@@ -77,7 +85,6 @@ class Home extends Component {
       notificationSettings,
       changeNotification,
     } = this.props;
-    console.log(notificationSettings);
     const errors = { ...this.state.errors, ...this.props.errors };
     const { formTab, passwordType } = this.state;
     if (!isAuthenticated) {

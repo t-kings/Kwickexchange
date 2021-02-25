@@ -37,15 +37,6 @@
     background: white;
 }
 
-.modal_item {
-    width: 70%;
-    max-width: 600px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    position: relative;
-    max-height: 70%;
-}
-
 .prompt .top {
     display: flex;
     justify-content: space-between;
@@ -202,4 +193,16 @@
 
 .box {
     padding: 20px 3vw;
+    overflow: auto;
+}
+
+.prompt {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-flow: column nowrap;
+    width: 70vw;
+    max-height: 70vh;
+    max-width: 600px;
+    overflow: hidden;
 }

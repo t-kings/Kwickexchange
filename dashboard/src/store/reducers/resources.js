@@ -65,19 +65,13 @@ const initialState = {
     meta: {},
   },
   bitcoinWithdrawalFee: {},
-  banks: {
-    data: [],
-    meta: {},
-  },
+  banks: [],
   nairaTransactions: {
     data: [],
     meta: {},
   },
   nairaWithdrawalFee: {},
-  userBanks: {
-    data: [],
-    meta: {},
-  },
+  userBanks: [],
 };
 
 const resourcesReducer = (state = initialState, action) => {
@@ -220,7 +214,7 @@ const resourcesReducer = (state = initialState, action) => {
     case "USER_NAIRA_BANKS":
       return {
         ...state,
-        userBanks: action.data,
+        userBanks: action.data.banks,
       };
     default:
       return state;

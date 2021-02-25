@@ -16,17 +16,10 @@ class Index extends Component {
     super(props);
     this.state = {
       formTab: 1,
-      transTab: 1,
-      dollar: 0.0,
-      btc: 0.0,
-      qty: 1,
-      giftCard: 0,
-      country: 0,
-      type: 25,
-      total: 0,
-      card: 0,
-      denomination: 0,
-      giftCards: [],
+      bank_name: "",
+      account_name: "",
+      amount: "",
+      account_number: "",
       errors: {
         bank_name: [],
         account_name: [],
@@ -35,11 +28,31 @@ class Index extends Component {
       },
     };
   }
-
+  handleChange = (e) => {
+    this.setState({
+      ...this.state,
+      [e.target.name]: e.target.value,
+    });
+  };
   render() {
-    const { formTab, transTab, errors } = this.state;
+    const {
+      formTab,
+      errors,
+      bank_name,
+      amount,
+      account_name,
+      account_number,
+      accountToDelete,
+    } = this.state;
 
-    const { isAuthenticated } = this.props;
+    const {
+      isAuthenticated,
+      balance,
+      user,
+      banks,
+      userBanks,
+      nairaTransactions,
+    } = this.props;
     if (!isAuthenticated) {
       return (
         <Redirect to={{ pathname: "/", redirect_to: "/home/wallet/naira" }} />
@@ -47,10 +60,17 @@ class Index extends Component {
     }
     return (
       <>
-        <SelectBank />
+        <SelectBank
+          mySetState={(e) => {
+            this.setState({
+              ...this.state,
+              ...e,
+            });
+          }}
+        />
         <Summary />
         <Account />
-        <Delete />
+        <Delete accountToDelete={accountToDelete} />
         <section className={walletStyle.wallets}>
           <div className={walletStyle.back}>
             <Link to="/home/wallet">
@@ -107,7 +127,7 @@ class Index extends Component {
                 />
               </svg>
               <h4>Naira Wallet Ballance</h4>
-              <h2>₦0.00</h2>
+              <h2>₦{balance.naira}</h2>
             </div>
           </div>
           <div className={walletStyle.hold}>
@@ -228,10 +248,12 @@ class Index extends Component {
                     {/* <div></div> */}
                   </div>
                   <div className={walletStyle.withDrawAccountsList}>
-                    <p className={walletStyle.verify}>
-                      Your amount and Phone number are not verified.{" "}
-                      <Link to="/home/settings/verify">Verify Now</Link>
-                    </p>
+                    {!user.phoneNumberVerified ? (
+                      <p className={walletStyle.verify}>
+                        Your Phone number is not verified.{" "}
+                        <Link to={"/home/settings/" + 4}>Verify Now</Link>
+                      </p>
+                    ) : null}
                     <button
                       onClick={(e) => {
                         e.preventDefault();
@@ -263,6 +285,7 @@ class Index extends Component {
                         Select Bank
                       </label>
                       <select
+                        value={bank_name}
                         className={
                           walletStyle.form_control +
                           " " +
@@ -275,7 +298,12 @@ class Index extends Component {
                         onChange={this.handleChange}
                         required
                       >
-                        <option value="first bank">First Bank</option>
+                        <option value="">Select Bank</option>
+                        {banks.map((itm, idx) => (
+                          <option key={idx} value={itm.code.toString()}>
+                            {itm.name}
+                          </option>
+                        ))}
                       </select>
                       {errors["bank_name"].map((item, idx) => (
                         <p key={idx} className={walletStyle.error_par}>
@@ -296,6 +324,7 @@ class Index extends Component {
                         Account Name
                       </label>
                       <input
+                        value={account_name}
                         type="text"
                         className={
                           walletStyle.form_control +
@@ -328,6 +357,7 @@ class Index extends Component {
                         Account Number
                       </label>
                       <input
+                        value={account_number}
                         type="text"
                         className={
                           walletStyle.form_control +
@@ -360,9 +390,11 @@ class Index extends Component {
                         Amount
                       </label>
                       <input
+                        value={amount}
                         type="number"
                         placeholder="amount"
                         id="amount"
+                        step="any"
                         name="amount"
                         onChange={this.handleChange}
                         className={
@@ -393,104 +425,123 @@ class Index extends Component {
                   walletStyle.transactions + " " + walletStyle.saved_accounts
                 }
               >
-                <div className={walletStyle.transactions_empty}>
-                  <h1>Saved Accounts</h1>
-                  <img src={empty} alt="empty" />
-                  <p>No account added yet!</p>
-                  <Link
-                    to="/home/bitcoin"
-                    className={walletStyle.link_btn_gold}
-                  >
-                    <span>BUY BTC</span>
-                    <span>+</span>
-                  </Link>
-                </div>
-                <div className={walletStyle.bank_lists}>
-                  <div className={walletStyle.holdAccounts}>
-                    <div></div>
-                    <h1>Saved Accounts</h1>
-                    <div>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          document.querySelector("#addBank").style.display =
-                            "flex";
-                        }}
-                        className={walletStyle.link_btn_gold}
-                      >
-                        Add +
-                      </button>
-                    </div>
-                  </div>
-                  <ul className={walletStyle.accounts_list}>
-                    <li>
-                      <div className={walletStyle.first}>
-                        <p>John Ebrima Kalls</p>
-                        <p>United Bank for Africa</p>
-                        <p>02220565481</p>
-                      </div>
-
-                      <div className={walletStyle.second}>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            document.querySelector(
-                              "#deleteAccountPrompt"
-                            ).style.display = "flex";
-                          }}
-                          className={walletStyle.red}
-                        >
-                          Delete
-                        </button>
+                {userBanks.length > 0 ? (
+                  <div className={walletStyle.bank_lists}>
+                    <div className={walletStyle.holdAccounts}>
+                      <div></div>
+                      <h1>Saved Accounts</h1>
+                      <div>
                         <button
                           onClick={(e) => {
                             e.preventDefault();
                             document.querySelector("#addBank").style.display =
                               "flex";
                           }}
+                          className={walletStyle.link_btn_gold}
                         >
-                          Edit
+                          Add +
                         </button>
                       </div>
-                    </li>
-                  </ul>
-                </div>
+                    </div>
+                    <ul className={walletStyle.accounts_list}>
+                      {userBanks.map((itm, idx) => (
+                        <li key={idx}>
+                          <div className={walletStyle.first}>
+                            <p>{itm.account_name}</p>
+                            <p>{itm.bank_name}</p>
+                            <p>{itm.account_number}</p>
+                          </div>
+
+                          <div className={walletStyle.second}>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.setState({
+                                  ...this.state,
+                                  accountToDelete: itm.id,
+                                });
+                                document.querySelector(
+                                  "#deleteAccountPrompt"
+                                ).style.display = "flex";
+                              }}
+                              className={walletStyle.red}
+                            >
+                              Delete
+                            </button>
+                            {/* <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                document.querySelector(
+                                  "#addBank"
+                                ).style.display = "flex";
+                              }}
+                            >
+                              Edit
+                            </button> */}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <div className={walletStyle.transactions_empty}>
+                    <h1>Saved Accounts</h1>
+                    <img src={empty} alt="empty" />
+                    <p>No account added yet!</p>
+                    <Link
+                      to="/home/wallet/naira"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.querySelector("#addBank").style.display =
+                          "flex";
+                      }}
+                      className={walletStyle.link_btn_gold}
+                    >
+                      <span>ADD ACCOUNT</span>
+                      <span>+</span>
+                    </Link>
+                  </div>
+                )}
               </div>
             ) : (
               <div className={walletStyle.transactions}>
-                <div className={walletStyle.transactions_empty}>
-                  <img src={empty} alt="empty" />
-                  <p>You have no transactions yet!</p>
-                  <Link
-                    to="/home/bitcoin"
-                    className={walletStyle.link_btn_gold}
-                  >
-                    BUY BTC
-                  </Link>
-                </div>
-                <div className={walletStyle.transactions_list}>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Trans. Type</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>27th Oct. 2020</td>
-                        <td>Gift card - Sell</td>
-                        <td className={walletStyle.green}>₦ 23,000</td>
-                      </tr>
-                      <tr>
-                        <td>27th Oct. 2020</td>
-                        <td> Gift card - Sell</td>
-                        <td className={walletStyle.red}>₦ 23,000</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                {nairaTransactions.data.length > 0 ? (
+                  <div className={walletStyle.transactions_list}>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Trans. Type</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {nairaTransactions.data.map((itm, idx) => (
+                          <tr key={idx}>
+                            <td>{itm.createdAt}</td>
+                            <td>
+                              {itm.asset} - {itm.type}
+                            </td>
+                            <td
+                              className={
+                                itm.status === "successful"
+                                  ? walletStyle.green
+                                  : walletStyle.red
+                              }
+                            >
+                              {itm.amount} BTC
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className={walletStyle.transactions_empty}>
+                    <img src={empty} alt="empty" />
+                    <p>You have no naira transactions yet!</p>
+                  </div>
+                )}
               </div>
             )}
             <img src={vc1} className={walletStyle.vc} alt="vector" />
@@ -504,6 +555,6 @@ class Index extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.auth };
+  return { ...state.auth, ...state.resources, ...state.trade };
 };
 export default connect(mapStateToProps, null)(Index);

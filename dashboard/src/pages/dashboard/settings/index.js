@@ -8,6 +8,7 @@ class Index extends Component {
       <main className={style.main_body}>
         <Switch>
           <Route exact path="/home/settings" component={Home} />
+          <Route exact path="/home/settings/:id" component={Home} />
         </Switch>
       </main>
     );

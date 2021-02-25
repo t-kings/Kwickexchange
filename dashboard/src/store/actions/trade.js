@@ -1,5 +1,6 @@
 import { apiUrl } from "../../helpers/config";
 import axios from "axios";
+import { getUserBanks } from "./resources";
 export const buyBitcoin = (payload) => {
   return async (dispatch, getState) => {
     try {
@@ -28,10 +29,12 @@ export const buyBitcoin = (payload) => {
             type: "CLEAR_NOTIFICATION",
           });
         }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     } catch (error) {
-      console.log(error.response.data);
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {
@@ -46,6 +49,7 @@ export const buyBitcoin = (payload) => {
         });
       }, 5000);
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     }
   };
 };
@@ -339,6 +343,108 @@ export const emailBTC = () => {
         });
       }, 5000);
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+    }
+  };
+};
+
+export const addBank = (payload) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "TRADE_LOADING" });
+      const res = await axios.post(apiUrl + "wallet/naira/addbank", payload, {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + getState().auth.accessToken,
+        },
+      });
+      if (res.status === 200) {
+        await getUserBanks(dispatch, getState);
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Bank Account",
+            isSuccess: true,
+            message: "Bank Account Added ",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return true;
+      }
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
+    } catch (error) {
+      console.log(error.response.data);
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Bank Account",
+          isSuccess: false,
+          message: "Error!, please try again",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
+    }
+  };
+};
+
+export const deleteAccount = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "TRADE_LOADING" });
+      const res = await axios.delete(apiUrl + "wallet/naira/removebank/" + id, {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + getState().auth.accessToken,
+        },
+      });
+      if (res.status === 200) {
+        await getUserBanks(dispatch, getState);
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Bank Account",
+            isSuccess: true,
+            message: "User account detail removed successfully",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return true;
+      }
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
+    } catch (error) {
+      console.log(error.response.data);
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Bank Account",
+          isSuccess: false,
+          message: "Error!, please try again",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     }
   };
 };

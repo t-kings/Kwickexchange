@@ -1,21 +1,14 @@
 import React, { Component } from "react";
 import style from "./Index.module.css";
+import { deleteAccount } from "../../../../../store/actions/trade";
 import { connect } from "react-redux";
 class Index extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      errors: {
-        btc: [],
-        usd: [],
-        address: [],
-        password: [],
-      },
-    };
+    this.state = {};
   }
-  handleSubmit = () => {};
-  handleChange = () => {};
   render() {
+    const { isLoading, deleteAccount, accountToDelete } = this.props;
     return (
       <section
         id="deleteAccountPrompt"
@@ -45,7 +38,25 @@ class Index extends Component {
               >
                 Cancel
               </button>
-              <button className={style.button + " " + style.red}>Delete</button>
+              {isLoading ? (
+                <div className={style.load + " " + style.link_btn_gold}>
+                  <div className={style.loader}>Loading...</div>
+                </div>
+              ) : (
+                <button
+                  className={style.button + " " + style.red}
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    if (await deleteAccount(accountToDelete)) {
+                      document.querySelector(
+                        "#deleteAccountPrompt"
+                      ).style.display = "none";
+                    }
+                  }}
+                >
+                  Delete
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -54,9 +65,12 @@ class Index extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return { ...state.trade };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
-    // logout: () => dispatch(logout()),
+    deleteAccount: (id) => dispatch(deleteAccount(id)),
   };
 };
-export default connect(null, mapDispatchToProps)(Index);
+export default connect(mapStateToProps, mapDispatchToProps)(Index);
