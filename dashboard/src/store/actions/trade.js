@@ -1,6 +1,6 @@
 import { apiUrl } from "../../helpers/config";
 import axios from "axios";
-import { getUserBanks } from "./resources";
+import { getBalances, getUserBanks } from "./resources";
 export const buyBitcoin = (payload) => {
   return async (dispatch, getState) => {
     try {
@@ -16,6 +16,7 @@ export const buyBitcoin = (payload) => {
         }
       );
       if (res.status === 200) {
+        await getBalances(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -86,6 +87,7 @@ export const sellBitcoin = (payload) => {
         }
       );
       if (res.status === 200) {
+        await getBalances(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -295,6 +297,7 @@ export const withdrawBTC = () => {
         }
       );
       if (res.status === 200) {
+        await getBalances(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -385,6 +388,7 @@ export const emailBTC = () => {
         }
       );
       if (res.status === 200) {
+        await getBalances(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {

@@ -7,6 +7,9 @@ import vc1 from "../images/vc1.svg";
 import vc2 from "../images/vc2.svg";
 import vc3 from "../images/vc3.svg";
 import empty from "../images/empty.png";
+import vcc1 from "../images/vc1.png";
+import vcc2 from "../images/vc2.png";
+import vcc3 from "../images/vc3.png";
 import SelectBank from "../../../../components/dashboard/wallets/naira/bank";
 import Summary from "../../../../components/dashboard/wallets/naira/summary";
 import Account from "../../../../components/dashboard/wallets/naira/account";
@@ -109,7 +112,7 @@ class Index extends Component {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M0 -6C12.8066 172.315 161.527 313 343.105 313C524.684 313 673.404 172.315 686.211 -6H598.905C586.336 124.206 476.608 226 343.105 226C209.603 226 99.8752 124.206 87.3059 -6H0Z"
-                  fill="#0094FF"
+                  fill=" #00C844"
                 />
               </svg>
               <svg
@@ -123,11 +126,13 @@ class Index extends Component {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M0 -6C12.8066 172.315 161.527 313 343.105 313C524.684 313 673.404 172.315 686.211 -6H598.905C586.336 124.206 476.608 226 343.105 226C209.603 226 99.8752 124.206 87.3059 -6H0Z"
-                  fill="#0094FF"
+                  fill=" #00C844"
                 />
               </svg>
-              <h4>Naira Wallet Ballance</h4>
-              <h2>₦{balance.naira}</h2>
+              <div>
+                <h4>Naira Wallet Ballance</h4>
+                <h2>₦{balance.naira}</h2>
+              </div>
             </div>
           </div>
           <div className={walletStyle.hold}>
@@ -212,9 +217,10 @@ class Index extends Component {
                     </button>
                   </div>
                 </div> */}
-                <div className={walletStyle.withdraw}>
-                  <div className={walletStyle.holdAccounts}>
-                    {/* <div>
+                <div className={walletStyle.withdrawHold}>
+                  <div className={walletStyle.withdraw}>
+                    <div className={walletStyle.holdAccounts}>
+                      {/* <div>
                       <button
                         onClick={(e) => {
                           e.preventDefault();
@@ -242,181 +248,198 @@ class Index extends Component {
                         </span>
                       </button>
                     </div> */}
-                    <h1 style={{ width: "100%", textAlign: "center" }}>
-                      Withdraw to bank account
-                    </h1>
-                    {/* <div></div> */}
-                  </div>
-                  <div className={walletStyle.withDrawAccountsList}>
-                    {!user.phoneNumberVerified ? (
-                      <p className={walletStyle.verify}>
-                        Your Phone number is not verified.{" "}
-                        <Link to={"/home/settings/" + 4}>Verify Now</Link>
-                      </p>
-                    ) : null}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        document.querySelector("#bankList").style.display =
-                          "flex";
-                      }}
-                      className={walletStyle.choose}
-                    >
-                      Choose from saved Account
-                    </button>
-                    <form
-                      className={walletStyle.box}
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        document.querySelector("#nairaSummary").style.display =
-                          "flex";
-                      }}
-                    >
-                      <label
-                        className={
-                          walletStyle.control_label +
-                          " " +
-                          (errors["bank_name"].length > 0
-                            ? walletStyle.error
-                            : " ")
-                        }
-                        htmlFor="bank_name"
+                      <h1 style={{ width: "100%", textAlign: "center" }}>
+                        Withdraw to bank account
+                      </h1>
+                      {/* <div></div> */}
+                    </div>
+                    <div className={walletStyle.withDrawAccountsList}>
+                      {!user.phoneNumberVerified ? (
+                        <p className={walletStyle.verify}>
+                          Your Phone number is not verified.{" "}
+                          <Link to={"/home/settings/" + 4}>Verify Now</Link>
+                        </p>
+                      ) : null}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          document.querySelector("#bankList").style.display =
+                            "flex";
+                        }}
+                        className={walletStyle.choose}
                       >
-                        Select Bank
-                      </label>
-                      <select
-                        value={bank_name}
-                        className={
-                          walletStyle.form_control +
-                          " " +
-                          (errors["bank_name"].length > 0
-                            ? walletStyle.error
-                            : " ")
-                        }
-                        id="bank_name"
-                        name="bank_name"
-                        onChange={this.handleChange}
-                        required
+                        Choose from saved Account
+                      </button>
+                      <form
+                        className={walletStyle.box}
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          document.querySelector(
+                            "#nairaSummary"
+                          ).style.display = "flex";
+                        }}
                       >
-                        <option value="">Select Bank</option>
-                        {banks.map((itm, idx) => (
-                          <option key={idx} value={itm.code.toString()}>
-                            {itm.name}
-                          </option>
+                        <label
+                          className={
+                            walletStyle.control_label +
+                            " " +
+                            (errors["bank_name"].length > 0
+                              ? walletStyle.error
+                              : " ")
+                          }
+                          htmlFor="bank_name"
+                        >
+                          Select Bank
+                        </label>
+                        <select
+                          value={bank_name}
+                          className={
+                            walletStyle.form_control +
+                            " " +
+                            (errors["bank_name"].length > 0
+                              ? walletStyle.error
+                              : " ")
+                          }
+                          id="bank_name"
+                          name="bank_name"
+                          onChange={this.handleChange}
+                          required
+                        >
+                          <option value="">Select Bank</option>
+                          {banks.map((itm, idx) => (
+                            <option key={idx} value={itm.code.toString()}>
+                              {itm.name}
+                            </option>
+                          ))}
+                        </select>
+                        {errors["bank_name"].map((item, idx) => (
+                          <p key={idx} className={walletStyle.error_par}>
+                            {item}
+                          </p>
                         ))}
-                      </select>
-                      {errors["bank_name"].map((item, idx) => (
-                        <p key={idx} className={walletStyle.error_par}>
-                          {item}
-                        </p>
-                      ))}
 
-                      <label
-                        className={
-                          walletStyle.control_label +
-                          " " +
-                          (errors["account_name"].length > 0
-                            ? walletStyle.error
-                            : " ")
-                        }
-                        htmlFor="account_name"
-                      >
-                        Account Name
-                      </label>
-                      <input
-                        value={account_name}
-                        type="text"
-                        className={
-                          walletStyle.form_control +
-                          " " +
-                          (errors["account_name"].length > 0
-                            ? walletStyle.error
-                            : " ")
-                        }
-                        id="account_name"
-                        name="account_name"
-                        onChange={this.handleChange}
-                        required
-                      />
-                      {errors["account_name"].map((item, idx) => (
-                        <p key={idx} className={walletStyle.error_par}>
-                          {item}
-                        </p>
-                      ))}
+                        <label
+                          className={
+                            walletStyle.control_label +
+                            " " +
+                            (errors["account_name"].length > 0
+                              ? walletStyle.error
+                              : " ")
+                          }
+                          htmlFor="account_name"
+                        >
+                          Account Name
+                        </label>
+                        <input
+                          value={account_name}
+                          type="text"
+                          className={
+                            walletStyle.form_control +
+                            " " +
+                            (errors["account_name"].length > 0
+                              ? walletStyle.error
+                              : " ")
+                          }
+                          id="account_name"
+                          name="account_name"
+                          onChange={this.handleChange}
+                          required
+                        />
+                        {errors["account_name"].map((item, idx) => (
+                          <p key={idx} className={walletStyle.error_par}>
+                            {item}
+                          </p>
+                        ))}
 
-                      <label
-                        className={
-                          walletStyle.control_label +
-                          " " +
-                          (errors["account_number"].length > 0
-                            ? walletStyle.error
-                            : " ")
-                        }
-                        htmlFor="account_number"
-                      >
-                        Account Number
-                      </label>
-                      <input
-                        value={account_number}
-                        type="text"
-                        className={
-                          walletStyle.form_control +
-                          " " +
-                          (errors["account_number"].length > 0
-                            ? walletStyle.error
-                            : " ")
-                        }
-                        id="account_number"
-                        name="account_number"
-                        onChange={this.handleChange}
-                        required
-                      />
-                      {errors["account_number"].map((item, idx) => (
-                        <p key={idx} className={walletStyle.error_par}>
-                          {item}
-                        </p>
-                      ))}
+                        <label
+                          className={
+                            walletStyle.control_label +
+                            " " +
+                            (errors["account_number"].length > 0
+                              ? walletStyle.error
+                              : " ")
+                          }
+                          htmlFor="account_number"
+                        >
+                          Account Number
+                        </label>
+                        <input
+                          value={account_number}
+                          type="text"
+                          className={
+                            walletStyle.form_control +
+                            " " +
+                            (errors["account_number"].length > 0
+                              ? walletStyle.error
+                              : " ")
+                          }
+                          id="account_number"
+                          name="account_number"
+                          onChange={this.handleChange}
+                          required
+                        />
+                        {errors["account_number"].map((item, idx) => (
+                          <p key={idx} className={walletStyle.error_par}>
+                            {item}
+                          </p>
+                        ))}
 
-                      <label
-                        className={
-                          walletStyle.control_label +
-                          " " +
-                          (errors["amount"].length > 0
-                            ? walletStyle.error
-                            : " ")
-                        }
-                        htmlFor="amount"
-                      >
-                        Amount
-                      </label>
-                      <input
-                        value={amount}
-                        type="number"
-                        placeholder="amount"
-                        id="amount"
-                        step="any"
-                        name="amount"
-                        onChange={this.handleChange}
-                        className={
-                          walletStyle.form_control +
-                          " " +
-                          (errors["amount"].length > 0
-                            ? walletStyle.error
-                            : " ")
-                        }
-                      />
-                      {errors["amount"].map((item, idx) => (
-                        <p key={idx} className={walletStyle.error_par}>
-                          {item}
-                        </p>
-                      ))}
-                      <input
-                        type="submit"
-                        value="SEND"
-                        className={walletStyle.link_btn_gold}
-                      />
-                    </form>
+                        <label
+                          className={
+                            walletStyle.control_label +
+                            " " +
+                            (errors["amount"].length > 0
+                              ? walletStyle.error
+                              : " ")
+                          }
+                          htmlFor="amount"
+                        >
+                          Amount
+                        </label>
+                        <input
+                          value={amount}
+                          type="number"
+                          placeholder="amount"
+                          id="amount"
+                          step="any"
+                          name="amount"
+                          onChange={this.handleChange}
+                          className={
+                            walletStyle.form_control +
+                            " " +
+                            (errors["amount"].length > 0
+                              ? walletStyle.error
+                              : " ")
+                          }
+                        />
+                        {errors["amount"].map((item, idx) => (
+                          <p key={idx} className={walletStyle.error_par}>
+                            {item}
+                          </p>
+                        ))}
+                        <input
+                          type="submit"
+                          value="SEND"
+                          className={walletStyle.link_btn_gold}
+                        />
+                      </form>
+                    </div>
                   </div>
+                  <img
+                    src={vcc1}
+                    alt="holders"
+                    className={walletStyle.vcHolders}
+                  />
+                  <img
+                    src={vcc2}
+                    alt="holders"
+                    className={walletStyle.vcHolders}
+                  />
+                  <img
+                    src={vcc3}
+                    alt="holders"
+                    className={walletStyle.vcHolders}
+                  />
                 </div>
               </>
             ) : formTab === 2 ? (
