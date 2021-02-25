@@ -174,149 +174,151 @@ class Home extends Component {
               Sell
             </button>
           </div>
-          {formTab === 1 ? (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                buyBitcoin({
-                  amount: btc,
-                });
-              }}
-            >
-              <div className={bitcoinStyle.rates_text}>
-                <h2>Exchange Rate</h2>
-                <p>
-                  $
-                  {bitcoinBuyRate.usd
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                  /BTC
-                </p>
-              </div>
-              <div className={bitcoinStyle.input}>
-                <span>BTC</span>
-                <input
-                  type="number"
-                  step="any"
-                  min={0}
-                  name="btc"
-                  id="btc"
-                  onChange={this.handleBTC}
-                  value={this.state.btc}
-                />
-              </div>
-              <div className={bitcoinStyle.input}>
-                <span>$</span>
-                <input
-                  type="number"
-                  step="any"
-                  min={0}
-                  name="dollars"
-                  id="dollars"
-                  value={this.state.dollar}
-                  onChange={this.handleDollar}
-                />
-              </div>
-              <div className={bitcoinStyle.input}>
-                <span>₦</span>
-                <input
-                  type="number"
-                  step="any"
-                  min={0}
-                  name="naira"
-                  id="naira"
-                  value={this.state.naira}
-                  onChange={this.handleNaira}
-                />
-              </div>
-              {isLoading ? (
-                <div
-                  className={
-                    bitcoinStyle.load + " " + bitcoinStyle.link_btn_gold
-                  }
-                >
-                  <div className={bitcoinStyle.loader}>Loading...</div>
+          <div className={bitcoinStyle.holder}>
+            {formTab === 1 ? (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  buyBitcoin({
+                    amount: btc,
+                  });
+                }}
+              >
+                <div className={bitcoinStyle.rates_text}>
+                  <h2>Exchange Rate</h2>
+                  <p>
+                    $
+                    {bitcoinBuyRate.usd
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    /BTC
+                  </p>
                 </div>
-              ) : (
-                <input
-                  className={bitcoinStyle.link_btn_gold}
-                  type="submit"
-                  value="BUY BITCOIN"
-                />
-              )}
-            </form>
-          ) : (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                sellBitcoin({
-                  amount: btc,
-                });
-              }}
-            >
-              <div className={bitcoinStyle.rates_text}>
-                <h2>Exchange Rate</h2>
-                <p>
-                  $
-                  {bitcoinSellRate.usd
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                  /BTC
-                </p>
-              </div>
-              <div className={bitcoinStyle.input}>
-                <span>BTC</span>
-                <input
-                  type="number"
-                  step="any"
-                  min={0}
-                  name="btc"
-                  id="btc"
-                  onChange={this.handleBTC}
-                  value={this.state.btc}
-                />
-              </div>
-              <div className={bitcoinStyle.input}>
-                <span>$</span>
-                <input
-                  type="number"
-                  step="any"
-                  min={0}
-                  name="dollars"
-                  id="dollars"
-                  value={this.state.dollar}
-                  onChange={this.handleDollar}
-                />
-              </div>
-              <div className={bitcoinStyle.input}>
-                <span>₦</span>
-                <input
-                  type="number"
-                  step="any"
-                  min={0}
-                  name="naira"
-                  id="naira"
-                  value={this.state.naira}
-                  onChange={this.handleNaira}
-                />
-              </div>
-              {isLoading ? (
-                <div
-                  className={
-                    bitcoinStyle.load + " " + bitcoinStyle.link_btn_gold
-                  }
-                >
-                  <div className={bitcoinStyle.loader}>Loading...</div>
+                <div className={bitcoinStyle.input}>
+                  <span>BTC</span>
+                  <input
+                    type="number"
+                    step="any"
+                    min={0}
+                    name="btc"
+                    id="btc"
+                    onChange={this.handleBTC}
+                    value={this.state.btc}
+                  />
                 </div>
-              ) : (
-                <input
-                  className={bitcoinStyle.link_btn_gold}
-                  type="submit"
-                  value="SELL BITCOIN"
-                />
-              )}
-            </form>
-          )}
+                <div className={bitcoinStyle.input}>
+                  <span>$</span>
+                  <input
+                    type="number"
+                    step="any"
+                    min={0}
+                    name="dollars"
+                    id="dollars"
+                    value={this.state.dollar}
+                    onChange={this.handleDollar}
+                  />
+                </div>
+                <div className={bitcoinStyle.input}>
+                  <span>₦</span>
+                  <input
+                    type="number"
+                    step="any"
+                    min={0}
+                    name="naira"
+                    id="naira"
+                    value={this.state.naira}
+                    onChange={this.handleNaira}
+                  />
+                </div>
+                {isLoading ? (
+                  <div
+                    className={
+                      bitcoinStyle.load + " " + bitcoinStyle.link_btn_gold
+                    }
+                  >
+                    <div className={bitcoinStyle.loader}>Loading...</div>
+                  </div>
+                ) : (
+                  <input
+                    className={bitcoinStyle.link_btn_gold}
+                    type="submit"
+                    value="BUY BITCOIN"
+                  />
+                )}
+              </form>
+            ) : (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  sellBitcoin({
+                    amount: btc,
+                  });
+                }}
+              >
+                <div className={bitcoinStyle.rates_text}>
+                  <h2>Exchange Rate</h2>
+                  <p>
+                    $
+                    {bitcoinSellRate.usd
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    /BTC
+                  </p>
+                </div>
+                <div className={bitcoinStyle.input}>
+                  <span>BTC</span>
+                  <input
+                    type="number"
+                    step="any"
+                    min={0}
+                    name="btc"
+                    id="btc"
+                    onChange={this.handleBTC}
+                    value={this.state.btc}
+                  />
+                </div>
+                <div className={bitcoinStyle.input}>
+                  <span>$</span>
+                  <input
+                    type="number"
+                    step="any"
+                    min={0}
+                    name="dollars"
+                    id="dollars"
+                    value={this.state.dollar}
+                    onChange={this.handleDollar}
+                  />
+                </div>
+                <div className={bitcoinStyle.input}>
+                  <span>₦</span>
+                  <input
+                    type="number"
+                    step="any"
+                    min={0}
+                    name="naira"
+                    id="naira"
+                    value={this.state.naira}
+                    onChange={this.handleNaira}
+                  />
+                </div>
+                {isLoading ? (
+                  <div
+                    className={
+                      bitcoinStyle.load + " " + bitcoinStyle.link_btn_gold
+                    }
+                  >
+                    <div className={bitcoinStyle.loader}>Loading...</div>
+                  </div>
+                ) : (
+                  <input
+                    className={bitcoinStyle.link_btn_gold}
+                    type="submit"
+                    value="SELL BITCOIN"
+                  />
+                )}
+              </form>
+            )}
+          </div>
           <img src={vc1} className={bitcoinStyle.vc} alt="vector" />
           <img src={vc2} className={bitcoinStyle.vc} alt="vector" />
           <img src={vc3} className={bitcoinStyle.vc} alt="vector" />

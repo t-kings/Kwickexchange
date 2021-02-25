@@ -10,6 +10,7 @@ class Index extends Component {
         <Switch>
           <Route exact path="/home/bitcoin" component={Home} />
           <Route path="/home/bitcoin/status" component={Status} />
+          <Route component={Home} />
         </Switch>
       </main>
     );

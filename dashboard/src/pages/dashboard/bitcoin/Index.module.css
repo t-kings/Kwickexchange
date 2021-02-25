@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     flex-flow: column nowrap;
-    padding: 40px 0;
+    padding: 80px 2vw 20px 2vw;
     min-height: 100vh;
     position: relative;
 }
@@ -178,11 +178,16 @@
     bottom: -30px;
     display: block;
     width: 100%;
-    z-index: -1;
+}
+
+.holder {
+    position: relative;
 }
 
 .hold form {
     padding: 20px;
+    z-index: 2;
+    position: relative;
 }
 
 .tabs {
@@ -335,6 +340,9 @@ input.link_btn_gold:hover {
 }
 
 @media only screen and (max-width: 1000px) {
+    .home {
+        padding: 80px 6vw 20px 6vw;
+    }
     .hold {
         padding-bottom: 120px;
     }

@@ -624,4 +624,7 @@
         right: -80px;
         opacity: 0.5;
     }
+    .holdAccounts>div:first-child {
+        display: none;
+    }
 }
