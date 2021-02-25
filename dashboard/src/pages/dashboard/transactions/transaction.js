@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import transStyle from "./Index.module.css";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { cancelTrade } from "../../../store/actions/trade";
 class Transaction extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   render() {
-    const { isAuthenticated, transaction } = this.props;
+    const { isAuthenticated, transaction, isLoading, cancelTrade } = this.props;
     if (!isAuthenticated) {
       return (
         <Redirect
@@ -98,18 +99,30 @@ class Transaction extends Component {
                   </h6>
                 </li>
               </ul>
-              {transaction.can_cancell ? (
+              {transaction.can_cancell &&
+              transaction.status.toLowerCase() === "active" ? (
                 <div className={transStyle.center}>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                    className={
-                      transStyle.link_btn_gold + " " + transStyle.btn_red
-                    }
-                  >
-                    Cancel
-                  </button>
+                  {isLoading ? (
+                    <div
+                      className={
+                        transStyle.load + " " + transStyle.link_btn_gold
+                      }
+                    >
+                      <div className={transStyle.loader}>Loading...</div>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        cancelTrade(transaction.id);
+                      }}
+                      className={
+                        transStyle.link_btn_gold + " " + transStyle.btn_red
+                      }
+                    >
+                      Cancel
+                    </button>
+                  )}
                 </div>
               ) : null}
             </div>
@@ -154,6 +167,11 @@ const mapStateToProps = (state, props) => {
       (itm) => itm.transaction_hash === props.match.params.id
     );
   }
-  return { ...state.auth, ...state.resources, transaction };
+  return { ...state.auth, ...state.resources, transaction, ...state.trade };
 };
-export default connect(mapStateToProps, null)(Transaction);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    cancelTrade: (id) => dispatch(cancelTrade(id)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Transaction);

@@ -1,5 +1,6 @@
 import { apiUrl } from "../../helpers/config";
 import axios from "axios";
+import { getBalances, getNotificationSettingsList } from "./resources";
 export const signIn = (user) => {
   return async (dispatch, getState) => {
     dispatch({
@@ -538,6 +539,7 @@ export const checkToken = () => {
           refreshToken: token,
         });
         if (res.status === 200) {
+          await getUser(dispatch, getState);
           dispatch({
             type: "USER_LOGGED_IN",
             data: res.data.data,
@@ -610,6 +612,7 @@ export const uploadProfilePic = (form) => {
         },
       });
       if (res.status === 200) {
+        await getUser(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -644,6 +647,23 @@ export const uploadProfilePic = (form) => {
   };
 };
 
+export const getUser = async (dispatch, getState) => {
+  try {
+    const res = await axios.get(apiUrl + "auth/me", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "PROFILE_UPDATED", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
 export const updateProfile = (form) => {
   return async (dispatch, getState) => {
     try {
@@ -655,10 +675,8 @@ export const updateProfile = (form) => {
         },
       });
       if (res.status === 200) {
-        dispatch({
-          type: "PROFILE_UPDATED",
-          data: res.data.data,
-        });
+        await getUser(dispatch, getState);
+        await getBalances(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -712,6 +730,7 @@ export const updatePassword = (
         }
       );
       if (res.status === 200) {
+        await getUser(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -795,6 +814,7 @@ export const updateNotificationSettings = () => {
         }
       );
       if (res.status === 200) {
+        await getNotificationSettingsList(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -842,7 +862,6 @@ export const markNotification = (id) => {
           },
         }
       );
-      console.log(res.status);
     } catch (error) {
       console.log(error);
     }

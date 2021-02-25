@@ -45,7 +45,6 @@ const authReducer = (state = initState, action) => {
         JSON.stringify({
           ...state.user,
           ...action.data,
-          avatar: state.user.avatar,
         })
       );
       return {

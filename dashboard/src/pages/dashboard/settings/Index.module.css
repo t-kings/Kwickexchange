@@ -1,5 +1,5 @@
 .home {
-    padding: 0;
+    padding: 80px 2vw 20px 2vw;
     min-height: 100vh;
     position: relative;
 }
@@ -380,12 +380,14 @@
     justify-content: center;
     align-items: center;
     background: #FFC700;
+    overflow: hidden;
 }
 
 .avatar img {
-    width: 70%;
+    width: 100%;
+    border-radius: 50%;
     display: block;
-    height: 70%;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -561,6 +563,12 @@
 .password div input:focus {
     border: none;
     outline: none;
+}
+
+@media only screen and (max-width: 1000px) {
+    .home {
+        padding: 80px 6vw 20px 6vw;
+    }
 }
 
 @media only screen and (max-width: 600px) {

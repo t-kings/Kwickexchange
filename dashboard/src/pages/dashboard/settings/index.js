@@ -9,6 +9,7 @@ class Index extends Component {
         <Switch>
           <Route exact path="/home/settings" component={Home} />
           <Route exact path="/home/settings/:id" component={Home} />
+          <Route component={Home} />
         </Switch>
       </main>
     );

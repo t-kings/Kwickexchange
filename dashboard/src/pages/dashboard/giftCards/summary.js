@@ -250,7 +250,7 @@ class Summary extends Component {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    cancelTrade();
+                    cancelTrade(giftCard.id);
                   }}
                 >
                   CANCEL TRADE
@@ -331,7 +331,7 @@ const mapDispatchToProps = (dispatch) => {
           quantity
         )
       ),
-    cancelTrade: () => dispatch(cancelTrade()),
+    cancelTrade: (id) => dispatch(cancelTrade(id)),
     // uploadGiftCard: (payload) => dispatch(uploadGiftCard(payload)),
   };
 };
