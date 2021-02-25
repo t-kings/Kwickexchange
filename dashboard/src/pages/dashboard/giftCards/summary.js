@@ -45,7 +45,7 @@ class Summary extends Component {
         />
       );
     }
-    if (!formTab) {
+    if (!formTab || !card || !qty) {
       <Redirect to={"/home/gift-cards/" + match.params.id} />;
     }
     return (
@@ -101,6 +101,7 @@ class Summary extends Component {
                       qty
                     )
                   ) {
+                    document.querySelector("#chat").style.display = "block";
                   }
                 }
               }}
@@ -196,21 +197,20 @@ class Summary extends Component {
                     <p>Select Currency</p>
                   </div>
                 </div>
-              ) : (
-                <div className={bitcoinStyle.input}>
-                  <div>
-                    <p>Upload Credit Card</p>
-                  </div>
-                  <div>
-                    <input
-                      type="file"
-                      id="file"
-                      accept="image/*"
-                      placeholder="Upload image"
-                    />
-                  </div>
-                </div>
-              )}
+              ) : // <div className={bitcoinStyle.input}>
+              //   <div>
+              //     <p>Upload Credit Card</p>
+              //   </div>
+              //   <div>
+              //     <input
+              //       type="file"
+              //       id="file"
+              //       accept="image/*"
+              //       placeholder="Upload image"
+              //     />
+              //   </div>
+              // </div>
+              null}
               {isLoading ? (
                 <div
                   className={

@@ -10,7 +10,7 @@ class Status extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formTab: 1,
+      formTab: 2,
       currency: 0,
       card: 0,
       denomination: 0,
@@ -183,12 +183,12 @@ class Status extends Component {
         <div className={bitcoinStyle.group}>
           <div className={bitcoinStyle.hold}>
             <div className={bitcoinStyle.tabs}>
-              <button
+              {/* <button
                 onClick={() => this.setState({ ...this.state, formTab: 1 })}
                 className={formTab === 1 ? bitcoinStyle.active : ""}
               >
                 Buy
-              </button>
+              </button> */}
               <button
                 onClick={() => this.setState({ ...this.state, formTab: 2 })}
                 className={formTab === 1 ? "" : bitcoinStyle.active}
@@ -333,7 +333,7 @@ class Status extends Component {
                 </div>
               </div>
               <hr />
-              <div className={bitcoinStyle.input}>
+              {/* <div className={bitcoinStyle.input}>
                 <div>
                   <p>Payment Method</p>
                 </div>
@@ -349,7 +349,7 @@ class Status extends Component {
                     <option value={"naira"}>Naira wallet</option>
                   </select>
                 </div>
-              </div>
+              </div> */}
               {isLoading ? (
                 <div
                   className={

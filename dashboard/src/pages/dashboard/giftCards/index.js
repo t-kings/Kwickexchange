@@ -14,6 +14,7 @@ class Index extends Component {
           <Route path="/home/gift-cards/status" component={Status} />
           <Route exact path="/home/gift-cards/:id" component={GiftCard} />
           <Route path="/home/gift-cards/:id/summary" component={Summary} />
+          <Route component={Home} />
         </Switch>
       </main>
     );

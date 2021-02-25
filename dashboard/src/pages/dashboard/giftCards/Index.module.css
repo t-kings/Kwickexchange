@@ -2,6 +2,7 @@
     padding: 0;
     min-height: 100vh;
     position: relative;
+    padding: 80px 2vw 20px 2vw;
 }
 
 .loader, .loader:before, .loader:after {
@@ -168,7 +169,6 @@
 .vc {
     position: absolute;
     width: 100%;
-    z-index: -1;
     bottom: -20px;
 }
 
@@ -201,6 +201,8 @@
 
 .hold form {
     padding: 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .hold .img {
@@ -562,6 +564,9 @@ input.link_btn_gold:hover {
 }
 
 @media only screen and (max-width: 1000px) {
+    .home {
+        padding: 80px 6vw 20px 6vw;
+    }
     .hold {
         padding-bottom: 120px;
     }

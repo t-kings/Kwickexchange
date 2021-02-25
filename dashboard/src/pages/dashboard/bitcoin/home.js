@@ -297,7 +297,7 @@ class Home extends Component {
                     min={0}
                     name="naira"
                     id="naira"
-                    value={this.state.naira}
+                    value={this.state.naira.toString()}
                     onChange={this.handleNaira}
                   />
                 </div>

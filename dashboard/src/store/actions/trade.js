@@ -179,8 +179,8 @@ export const startGiftCardTrade = (
           giftcard_id,
           currency,
           card_type,
-          denomination,
-          quantity,
+          denomination: denomination.toString(),
+          quantity: quantity.toString(),
         },
         {
           headers: {
@@ -209,6 +209,23 @@ export const startGiftCardTrade = (
       dispatch({ type: "CLEAR_TRADE_LOADING" });
       return false;
     } catch (error) {
+      if (error?.response?.status === 400) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Trade",
+            isSuccess: false,
+            message: error.response.data.message,
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return false;
+      }
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {
