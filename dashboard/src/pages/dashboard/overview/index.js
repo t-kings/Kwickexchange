@@ -25,14 +25,14 @@ class Overview extends Component {
     const btc = parseFloat(e.target.value);
     let naira, dollar;
     if (formTab === 1) {
-      dollar = btc * bitcoinBuyRate.usd;
+      dollar = parseFloat(btc * bitcoinBuyRate.usd).toFixed(2);
     } else {
-      dollar = btc * bitcoinSellRate.usd;
+      dollar = parseFloat(btc * bitcoinSellRate.usd).toFixed(2);
     }
     if (formTab === 1) {
-      naira = dollar * bitcoinBuyRate.naira;
+      naira = parseFloat(dollar * bitcoinBuyRate.naira).toFixed(2);
     } else {
-      naira = dollar * bitcoinSellRate.naira;
+      naira = parseFloat(dollar * bitcoinSellRate.naira).toFixed(2);
     }
     this.setState({
       ...this.state,
@@ -47,14 +47,14 @@ class Overview extends Component {
     const dollar = parseFloat(e.target.value);
     let naira, btc;
     if (formTab === 1) {
-      naira = dollar * bitcoinBuyRate.naira;
+      naira = parseFloat(dollar * bitcoinBuyRate.naira).toFixed(2);
     } else {
-      naira = dollar * bitcoinSellRate.naira;
+      naira = parseFloat(dollar * bitcoinSellRate.naira).toFixed(2);
     }
     if (formTab === 1) {
-      btc = dollar / bitcoinBuyRate.usd;
+      btc = parseFloat(dollar / bitcoinBuyRate.usd).toFixed(8);
     } else {
-      btc = dollar / bitcoinSellRate.usd;
+      btc = parseFloat(dollar / bitcoinSellRate.usd).toFixed(8);
     }
     this.setState({
       ...this.state,
@@ -70,15 +70,15 @@ class Overview extends Component {
     const naira = parseFloat(e.target.value);
     let dollar, btc;
     if (formTab === 1) {
-      dollar = naira / bitcoinBuyRate.naira;
+      dollar = parseFloat(naira / bitcoinBuyRate.naira).toFixed(2);
     } else {
-      dollar = naira / bitcoinSellRate.naira;
+      dollar = parseFloat(naira / bitcoinSellRate.naira).toFixed(2);
     }
 
     if (formTab === 1) {
-      btc = dollar / bitcoinBuyRate.usd;
+      btc = parseFloat(dollar / bitcoinBuyRate.usd).toFixed(8);
     } else {
-      btc = dollar / bitcoinSellRate.usd;
+      btc = parseFloat(dollar / bitcoinSellRate.usd).toFixed(8);
     }
 
     this.setState({
@@ -94,9 +94,11 @@ class Overview extends Component {
     const { naira, formTab } = this.state;
     const { bitcoinSellRate } = this.props;
     if (formTab === 2) {
-      const newNaira = naira === null || naira === undefined ? 0 : naira;
-      const dollar = naira / bitcoinSellRate.naira;
-      const btc = dollar / bitcoinSellRate.usd;
+      const newNaira = parseFloat(
+        naira === null || naira === undefined ? 0 : naira
+      ).toFixed(2);
+      const dollar = parseFloat(naira / bitcoinSellRate.naira).toFixed(2);
+      const btc = parseFloat(dollar / bitcoinSellRate.usd).toFixed(8);
       this.setState({
         ...this.state,
         dollar: dollar ? dollar : 0,
@@ -112,9 +114,11 @@ class Overview extends Component {
     const { naira, formTab } = this.state;
     const { bitcoinBuyRate } = this.props;
     if (formTab === 1) {
-      const newNaira = naira === null || naira === undefined ? 0 : naira;
-      const dollar = naira / bitcoinBuyRate.naira;
-      const btc = dollar / bitcoinBuyRate.usd;
+      const newNaira = parseFloat(
+        naira === null || naira === undefined ? 0 : naira
+      ).toFixed(2);
+      const dollar = parseFloat(naira / bitcoinBuyRate.naira).toFixed(2);
+      const btc = parseFloat(dollar / bitcoinBuyRate.usd).toFixed(8);
       this.setState({
         ...this.state,
         dollar: dollar ? dollar : 0,
@@ -191,7 +195,7 @@ class Overview extends Component {
                       />
                     </svg>
                   </span>
-                  <h3>{balance.bitcoin} BTC</h3>
+                  <h3>{parseFloat(balance.bitcoin).toFixed(8)} BTC</h3>
                   <p>BTC Wallet Balance</p>
                 </div>
               </Link>
@@ -228,7 +232,7 @@ class Overview extends Component {
                   />
                 </svg>
                 <div>
-                  <span className={overviewStyle.naira}>
+                  <span className={parseFloat(overviewStyle.naira).toFixed(2)}>
                     <svg
                       width="14"
                       height="16"

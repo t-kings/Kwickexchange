@@ -85,16 +85,31 @@ class Home extends Component {
                     <tbody>
                       {allTradeHistory.data.map((itm, idx) => (
                         <tr key={idx}>
-                          <td>{itm.type}</td>
-                          <td className={transStyle.green}>
-                            ₦{itm.amount_in_naira}
+                          <td>
+                            {itm.asset} - {itm.type}
                           </td>
-                          <td className={transStyle.green}>₦ {itm.amount}</td>
+                          <td
+                            className={
+                              itm.type === "deposit" || itm.type === "buy"
+                                ? transStyle.green
+                                : transStyle.red
+                            }
+                          >
+                            ₦ {parseFloat(itm.amount_in_naira).toFixed(2)}
+                          </td>
+                          <td className={transStyle.green}>
+                            {itm.asset === "naira"
+                              ? `₦ ${parseFloat(itm.amount).toFixed(2)}`
+                              : `${parseFloat(itm.amount).toFixed(8)} BTC`}
+                          </td>
                           <td
                             className={
                               itm.status === "cancelled"
                                 ? transStyle.red
-                                : itm.status === "completed"
+                                : itm.status === "pending"
+                                ? transStyle.red
+                                : itm.status === "completed" ||
+                                  itm.status === "successful"
                                 ? transStyle.green
                                 : transStyle.blue
                             }
@@ -147,16 +162,31 @@ class Home extends Component {
                     <tbody>
                       {pendingTradeHistory.data.map((itm, idx) => (
                         <tr key={idx}>
-                          <td>{itm.type}</td>
-                          <td className={transStyle.green}>
-                            ₦{itm.amount_in_naira}
+                          <td>
+                            {itm.asset} - {itm.type}
                           </td>
-                          <td className={transStyle.green}>₦ {itm.amount}</td>
+                          <td
+                            className={
+                              itm.type === "deposit" || itm.type === "buy"
+                                ? transStyle.green
+                                : transStyle.red
+                            }
+                          >
+                            ₦ {parseFloat(itm.amount_in_naira).toFixed(2)}
+                          </td>
+                          <td className={transStyle.green}>
+                            {itm.asset === "naira"
+                              ? `₦ ${parseFloat(itm.amount).toFixed(2)}`
+                              : `${parseFloat(itm.amount).toFixed(8)} BTC`}
+                          </td>
                           <td
                             className={
                               itm.status === "cancelled"
                                 ? transStyle.red
-                                : itm.status === "completed"
+                                : itm.status === "pending"
+                                ? transStyle.red
+                                : itm.status === "completed" ||
+                                  itm.status === "successful"
                                 ? transStyle.green
                                 : transStyle.blue
                             }
@@ -210,16 +240,31 @@ class Home extends Component {
                     <tbody>
                       {activeTradeHistory.data.map((itm, idx) => (
                         <tr key={idx}>
-                          <td>{itm.type}</td>
-                          <td className={transStyle.green}>
-                            ₦{itm.amount_in_naira}
+                          <td>
+                            {itm.asset} - {itm.type}
                           </td>
-                          <td className={transStyle.green}>₦ {itm.amount}</td>
+                          <td
+                            className={
+                              itm.type === "deposit" || itm.type === "buy"
+                                ? transStyle.green
+                                : transStyle.red
+                            }
+                          >
+                            ₦ {parseFloat(itm.amount_in_naira).toFixed(2)}
+                          </td>
+                          <td className={transStyle.green}>
+                            {itm.asset === "naira"
+                              ? `₦ ${parseFloat(itm.amount).toFixed(2)}`
+                              : `${parseFloat(itm.amount).toFixed(8)} BTC`}
+                          </td>
                           <td
                             className={
                               itm.status === "cancelled"
                                 ? transStyle.red
-                                : itm.status === "completed"
+                                : itm.status === "pending"
+                                ? transStyle.red
+                                : itm.status === "completed" ||
+                                  itm.status === "successful"
                                 ? transStyle.green
                                 : transStyle.blue
                             }
@@ -273,16 +318,31 @@ class Home extends Component {
                     <tbody>
                       {completedTradeHistory.data.map((itm, idx) => (
                         <tr key={idx}>
-                          <td>{itm.type}</td>
-                          <td className={transStyle.green}>
-                            ₦{itm.amount_in_naira}
+                          <td>
+                            {itm.asset} - {itm.type}
                           </td>
-                          <td className={transStyle.green}>₦ {itm.amount}</td>
+                          <td
+                            className={
+                              itm.type === "deposit" || itm.type === "buy"
+                                ? transStyle.green
+                                : transStyle.red
+                            }
+                          >
+                            ₦ {parseFloat(itm.amount_in_naira).toFixed(2)}
+                          </td>
+                          <td className={transStyle.green}>
+                            {itm.asset === "naira"
+                              ? `₦ ${parseFloat(itm.amount).toFixed(2)}`
+                              : `${parseFloat(itm.amount).toFixed(8)} BTC`}
+                          </td>
                           <td
                             className={
                               itm.status === "cancelled"
                                 ? transStyle.red
-                                : itm.status === "completed"
+                                : itm.status === "pending"
+                                ? transStyle.red
+                                : itm.status === "completed" ||
+                                  itm.status === "successful"
                                 ? transStyle.green
                                 : transStyle.blue
                             }
@@ -335,7 +395,9 @@ class Home extends Component {
                   <tbody>
                     {cancelledTradeHistory.data.map((itm, idx) => (
                       <tr key={idx}>
-                        <td>{itm.type}</td>
+                        <td>
+                          {itm.asset} - {itm.type}
+                        </td>
                         <td className={transStyle.green}>
                           ₦{itm.amount_in_naira}
                         </td>
@@ -344,7 +406,10 @@ class Home extends Component {
                           className={
                             itm.status === "cancelled"
                               ? transStyle.red
-                              : itm.status === "completed"
+                              : itm.status === "pending"
+                              ? transStyle.red
+                              : itm.status === "completed" ||
+                                itm.status === "successful"
                               ? transStyle.green
                               : transStyle.blue
                           }

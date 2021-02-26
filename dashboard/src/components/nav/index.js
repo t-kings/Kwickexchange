@@ -45,7 +45,7 @@ const Index = ({ user, balance, notifications }) => {
                   />
                 </svg> */}
               </span>
-              <p>{balance.bitcoin_in_fiat}</p>
+              <p>{parseFloat(balance.bitcoin_in_fiat).toFixed(2)}</p>
             </Link>
           </li>
           <li className={style.balance}>
@@ -66,7 +66,7 @@ const Index = ({ user, balance, notifications }) => {
                   <rect y="8.63428" width="14" height="2" fill="#161616" />
                 </svg>
               </span>
-              <p>{balance.naira}</p>
+              <p>{parseFloat(balance.naira).toFixed(2)}</p>
             </Link>
           </li>
         </ul>

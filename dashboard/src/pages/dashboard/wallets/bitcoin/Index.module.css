@@ -167,6 +167,7 @@
 
 .balance_tab {
     position: relative;
+    background: white;
 }
 
 .balance_tab_hold {
@@ -191,6 +192,11 @@
 
 .text {
     flex: 6;
+    width: 100%;
+}
+
+.table {
+    margin: 20px 0;
 }
 
 .text span {
@@ -328,14 +334,14 @@
     position: relative;
 }
 
-.transactions_list table {
+.transactions_list table, .table {
     min-width: 400px;
     width: 100%;
     border-collapse: collapse;
     border: none;
 }
 
-.transactions_list th {
+.transactions_list th, .table th {
     text-align: left;
     color: rgb(22, 22, 22, 0.5);
     font-size: var(--paragraphMidFontSize);
@@ -343,40 +349,41 @@
     padding: 10px 0;
 }
 
-.transactions_list tr {
+.transactions_list tr, .table tr {
     border-bottom: 1px solid rgb(0, 0, 0, 0.2);
 }
 
-.transactions_list tr:last-child {
+.transactions_list tr:last-child .table tr:last-child {
     border-bottom: 0 solid rgb(0, 0, 0, 0.2);
 }
 
-.transactions_list tr:hover {
+.transactions_list tr:hover, .table tr:hover {
     background: rgb(22, 22, 22, 0.2);
     color: black;
 }
 
-.transactions_list tr:hover td, .transactions_list tr:hover th {
+.transactions_list tr:hover td, .transactions_list tr:hover th, .table tr:hover td, .table tr:hover th {
     color: black;
 }
 
-.transactions_list td {
+.transactions_list td, .table td {
     text-align: left;
     color: rgb(22, 22, 22, 0.5);
     font-size: var(--paragraphMidFontSize);
     padding: 10px 0;
 }
 
-.transactions_list td.green {
+.transactions_list td.green, .table td.green {
     color: green;
 }
 
-.transactions_list td.red {
+.transactions_list td.red, .table td.red {
     color: red;
 }
 
 .send {
     position: relative;
+    background: white;
 }
 
 .send_hold {

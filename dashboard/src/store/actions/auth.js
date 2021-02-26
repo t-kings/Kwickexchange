@@ -543,6 +543,7 @@ export const checkToken = () => {
             type: "USER_LOGGED_IN",
             data: res.data.data,
           });
+          await getUser(dispatch, getState);
           const expiryTime = res.data.data.accessTokenExpiresIn;
           setTimeout(() => {
             refreshToken(dispatch, getState);

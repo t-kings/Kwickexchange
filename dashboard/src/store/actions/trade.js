@@ -1,6 +1,10 @@
 import { apiUrl } from "../../helpers/config";
 import axios from "axios";
-import { getBalances, getUserBanks } from "./resources";
+import {
+  getBalances,
+  getBitcoinDepositAddresses,
+  getUserBanks,
+} from "./resources";
 export const buyBitcoin = (payload) => {
   return async (dispatch, getState) => {
     try {
@@ -751,14 +755,19 @@ export const transferNairaEmail = (payload) => {
 export const generateAddress = () => async (dispatch, getState) => {
   try {
     dispatch({ type: "TRADE_LOADING" });
-    const res = await axios.get(apiUrl + "wallet/bitcoin/deposit", {
-      headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + getState().auth.accessToken,
-      },
-    });
+    const res = await axios.post(
+      apiUrl + "wallet/bitcoin/generate",
+      {},
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + getState().auth.accessToken,
+        },
+      }
+    );
     if (res.status === 200) {
       dispatch({ type: "BITCOIN_DEPOSIT_ADDRESS", data: res.data.data });
+      await getBitcoinDepositAddresses(dispatch, getState);
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {

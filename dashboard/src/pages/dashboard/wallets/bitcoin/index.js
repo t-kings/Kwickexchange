@@ -45,6 +45,7 @@ class Index extends Component {
       bitcoinTransactionList,
       generateAddress,
       isLoading,
+      bitcoinDepositAddresses,
     } = this.props;
     if (!isAuthenticated) {
       return (
@@ -269,11 +270,41 @@ class Index extends Component {
                         Generate New Address
                       </button>
                     )}
+                    {bitcoinDepositAddresses.data.length > 0 ? (
+                      <table className={walletStyle.table}>
+                        <thead>
+                          <tr>
+                            <th>Address</th>
+                            <th>Network</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {bitcoinDepositAddresses.data.map((itm, idx) => (
+                            <tr key={idx}>
+                              <td>{itm.address}</td>
+                              <td>{itm.network}</td>
+                              <td
+                                className={
+                                  itm.status === "active"
+                                    ? walletStyle.green
+                                    : walletStyle.red
+                                }
+                              >
+                                {itm.status}
+                              </td>
+                              <td>{itm.createdAt}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    ) : null}
                   </div>
-                  <div className={walletStyle.qr}>
-                    {/* <img src={qr} alt="qr-code" />
+                  {/* <div className={walletStyle.qr}> */}
+                  {/* <img src={qr} alt="qr-code" />
                   <p>Scan QR code to receive BTC in your wallet</p> */}
-                  </div>
+                  {/* </div> */}
                 </div>
               </div>
             ) : formTab === 2 ? (

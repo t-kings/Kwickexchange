@@ -556,7 +556,7 @@ class Index extends Component {
                       <div></div>
                     </div>
                     <div className={walletStyle.withDrawAccountsList}>
-                      {!user.phoneNumberVerified ? (
+                      {!user.verification_status?.sms_verification ? (
                         <p className={walletStyle.verify}>
                           Your Phone number is not verified.{" "}
                           <Link to={"/home/settings/" + 4}>Verify Now</Link>
@@ -885,7 +885,7 @@ class Index extends Component {
                                     : walletStyle.red
                                 }
                               >
-                                {itm.amount} BTC
+                                ₦ {itm.amount}
                               </td>
                             </tr>
                           ))}

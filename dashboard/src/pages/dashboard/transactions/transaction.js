@@ -66,15 +66,21 @@ class Transaction extends Component {
               <ul>
                 <li>
                   <p>Transaction Type</p>
-                  <h6>
-                    {transaction.type} - {transaction.description}
-                  </h6>
+                  <h6>{transaction.description}</h6>
                 </li>
                 <li>
                   <p>Amount</p>
-                  <h6> ₦{transaction.amount_in_naira}</h6>
+                  <h6>₦{parseFloat(transaction.amount_in_naira).toFixed(2)}</h6>
                 </li>
 
+                <li>
+                  <p>Value</p>
+                  <h6>
+                    {transaction.asset === "naira"
+                      ? `₦ ${parseFloat(transaction.amount).toFixed(2)}`
+                      : `${parseFloat(transaction.amount).toFixed(8)} BTC`}
+                  </h6>
+                </li>
                 {transaction.recipient ? (
                   <li>
                     <p>Recipient</p>
