@@ -53,39 +53,6 @@
     padding: 20px;
 }
 
-.prompt ul {
-    padding: 20px 0;
-}
-
-.prompt ul li {
-    transition: all 0.3s;
-    border-bottom: 1px solid rgb(128, 128, 128, 0.2);
-    padding: 20px;
-    cursor: pointer;
-}
-
-.prompt ul li p {
-    color: black;
-    margin: 0;
-    text-align: left;
-    font-size: var(--paragraphFontSize);
-    padding: 0;
-}
-
-.prompt ul li p:first-child {
-    font-weight: bolder;
-}
-
-.prompt ul li p:nth-child(2) {
-    font-weight: lighter;
-    color: rgb(22, 22, 22, 0.5);
-    margin: 10px 0;
-}
-
-.prompt ul li:hover {
-    background: rgb(128, 128, 128, 0.2);
-}
-
 .actions {
     display: flex;
     justify-content: space-evenly;
@@ -150,8 +117,6 @@
     border: 1px solid var(--colorGold);
     display: inline-block;
     padding: 10px 20px;
-    text-align: center;
-    width: 120px;
     background: var(--colorGold);
     font-size: var(--bigLinkFontSize);
 }
@@ -189,14 +154,6 @@
     border-color: #FFC700;
 }
 
-.error_par {
-    margin: 0;
-    margin-top: 5px;
-    padding: 15px 25px;
-    background: rgba(231, 0, 0, 0.1);
-    color: #E70000;
-}
-
 .form_control.error {
     border-color: #E70000;
 }
@@ -215,77 +172,4 @@
     max-height: 70vh;
     max-width: 600px;
     overflow: hidden;
-}
-
-.loader, .loader:before, .loader:after {
-    background: #ffffff;
-    -webkit-animation: load1 1s infinite ease-in-out;
-    animation: load1 1s infinite ease-in-out;
-    width: 0.5em;
-    height: 20px;
-}
-
-.loader {
-    color: #ffffff;
-    text-indent: -9999em;
-    margin: 0 auto;
-    position: relative;
-    display: inline-block;
-    font-size: 5px;
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-animation-delay: -0.16s;
-    animation-delay: -0.16s;
-}
-
-.loader:before, .loader:after {
-    position: absolute;
-    top: 0;
-    content: '';
-}
-
-.link_btn_gold.load {
-    padding: 10px 60px !important;
-    cursor: not-allowed;
-    width: 30%;
-    min-width: 120px;
-    text-align: center;
-}
-
-.load:hover {
-    background: var(--colorGold) !important;
-    border-color: var(--colorGold) !important;
-}
-
-.loader:before {
-    left: -1.5em;
-    -webkit-animation-delay: -0.32s;
-    animation-delay: -0.32s;
-}
-
-.loader:after {
-    left: 1.5em;
-}
-
-@-webkit-keyframes load1 {
-    0%, 80%, 100% {
-        box-shadow: 0 0;
-        height: 0.25em;
-    }
-    40% {
-        box-shadow: 0 -4em;
-        height: 0.75em;
-    }
-}
-
-@keyframes load1 {
-    0%, 80%, 100% {
-        box-shadow: 0 0;
-        height: 1em;
-    }
-    40% {
-        box-shadow: 0 -2em;
-        height: 1.25em;
-    }
 }

@@ -119,6 +119,14 @@
     background: var(--colorGold);
 }
 
+.account_icons img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
 .account_icons p {
     margin: 0 5px;
     padding: 0;

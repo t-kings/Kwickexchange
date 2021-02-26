@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import style from "./Index.module.css";
-import { withdrawNaira } from "../../../../../store/actions/trade";
+import {
+  withdrawNaira,
+  transferNairaEmail,
+} from "../../../../../store/actions/trade";
 import { connect } from "react-redux";
 class Index extends Component {
   constructor(props) {
@@ -22,8 +25,20 @@ class Index extends Component {
       errors,
     });
     const { password } = this.state;
-    const { withdraw, onwProps } = this.props;
-    const { amount, account_name, account_number, bank } = onwProps;
+    const {
+      withdraw,
+      onwProps,
+
+      transferNairaEmail,
+      nairaTransfer,
+    } = this.props;
+    const {
+      amount,
+      account_name,
+      account_number,
+      bank,
+      isWithdrawal,
+    } = onwProps;
     if (password.length < 1) {
       errors.password.push("Password is required");
     }
@@ -33,19 +48,31 @@ class Index extends Component {
         errors,
       });
     } else {
-      if (
-        await withdraw({
-          account_number,
-          account_name,
-          amount,
-          bank_slug: bank.slug,
-          bank_name: bank.name,
-          bank_code: bank.code,
-          bank_type: bank.type,
-          bank_currency: bank.currency,
-        })
-      ) {
-        document.querySelector("#nairaSummary").style.display = "none";
+      if (isWithdrawal) {
+        if (
+          await withdraw({
+            account_number,
+            account_name,
+            amount,
+            bank_slug: bank.slug,
+            bank_name: bank.name,
+            bank_code: bank.code,
+            bank_type: bank.type,
+            bank_currency: bank.currency,
+          })
+        ) {
+          document.querySelector("#nairaSummary").style.display = "none";
+        }
+      } else {
+        if (
+          await transferNairaEmail({
+            email: nairaTransfer.email,
+            amount: nairaTransfer.amount.toString(),
+            password,
+          })
+        ) {
+          document.querySelector("#nairaSummary").style.display = "none";
+        }
       }
     }
   };
@@ -57,8 +84,19 @@ class Index extends Component {
   };
   render() {
     const { errors } = this.state;
-    const { nairaWithdrawalFee, onwProps } = this.props;
-    const { amount, account_name, account_number, bank, isLoading } = onwProps;
+    const {
+      nairaWithdrawalFee,
+      onwProps,
+      nairaTransfer,
+      isLoading,
+    } = this.props;
+    const {
+      amount,
+      account_name,
+      account_number,
+      bank,
+      isWithdrawal,
+    } = onwProps;
     return (
       <section
         onClick={(e) => {
@@ -72,16 +110,24 @@ class Index extends Component {
         <div className={style.modal_item + " " + style.card}>
           <div className={style.prompt}>
             <div className={style.top}>
-              <h3>Withdrawal Summary</h3>
+              <h3>{isWithdrawal ? "Withdrawal" : "Transfer"} Summary</h3>
             </div>
             <div className={style.box_}>
               <p>Service charge cost {nairaWithdrawalFee.percentage}</p>
-              <div className={style.amounts}>
-                <p>₦ {amount}</p>
-                <p>{account_name}</p>
-                <p>{bank.name}</p>
-                <p>{account_number}</p>
-              </div>
+              {isWithdrawal ? (
+                <div className={style.amounts}>
+                  <p>₦ {amount}</p>
+                  <p>{account_name}</p>
+                  <p>{bank.name}</p>
+                  <p>{account_number}</p>
+                </div>
+              ) : (
+                <div className={style.amounts}>
+                  <p>₦ {nairaTransfer.amount}</p>
+                  <p>{nairaTransfer.email}</p>
+                </div>
+              )}
+
               <form className={style.box} onSubmit={this.handleSubmit}>
                 <input
                   type="password"
@@ -123,7 +169,7 @@ class Index extends Component {
                   onClick={this.handleSubmit}
                   className={style.button + " " + style.link_btn_gold}
                 >
-                  Withdraw
+                  {isWithdrawal ? "Withdraw" : "Transfer"}
                 </button>
               )}
             </div>
@@ -140,6 +186,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     withdraw: (payload) => dispatch(withdrawNaira(payload)),
+    transferNairaEmail: (payload) => dispatch(transferNairaEmail(payload)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

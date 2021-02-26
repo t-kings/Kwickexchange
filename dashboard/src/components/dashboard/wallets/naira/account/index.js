@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import style from "./Index.module.css";
 import { connect } from "react-redux";
 import { addBank } from "../../../../../store/actions/trade";
+import { apiUrl } from "../../../../../helpers/config";
+import axios from "axios";
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -68,12 +70,127 @@ class Index extends Component {
       }
     }
   };
-  handleChange = (e) => {
-    this.setState({
-      ...this.state,
-      [e.target.name]: e.target.value,
-    });
+  handleBank = async (e) => {
+    const { account_number } = this.state;
+    const { banks, showNotification } = this.props;
+    const bank = banks.find((bank) => bank.code.toString() === e.target.value);
+    if (e.target.value.length > 0 && account_number.length > 9) {
+      try {
+        const res = await axios.post(
+          apiUrl + "wallet/naira/resolve",
+          {
+            account_number,
+            bank_code: bank.code,
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: "Bearer " + this.props.accessToken,
+            },
+          }
+        );
+        if (res.status === 200) {
+          this.setState({
+            ...this.state,
+            [e.target.name]: e.target.value,
+            account_name: res.data.data.account_name,
+            bank,
+            errors: {
+              ...this.state.errors,
+              account_name: [],
+            },
+          });
+        } else {
+          this.setState({
+            ...this.state,
+            [e.target.name]: e.target.value,
+            account_name: "",
+            bank,
+          });
+        }
+      } catch (error) {
+        if (error.response?.status === 400) {
+          showNotification(
+            "Account Number",
+            false,
+            JSON.stringify(error.response?.data.data)
+          );
+        }
+        this.setState({
+          ...this.state,
+          [e.target.name]: e.target.value,
+          account_name: "",
+          bank,
+        });
+      }
+    } else {
+      this.setState({
+        ...this.state,
+        [e.target.name]: e.target.value,
+        account_name: "",
+        bank,
+      });
+    }
   };
+
+  handleName = async (e) => {
+    const { bank_name, bank } = this.state;
+    const { showNotification } = this.props;
+    if (e.target.value.length > 9 && bank_name.length > 0) {
+      try {
+        const res = await axios.post(
+          apiUrl + "wallet/naira/resolve",
+          {
+            account_number: e.target.value,
+            bank_code: bank.code,
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: "Bearer " + this.props.accessToken,
+            },
+          }
+        );
+        if (res.status === 200) {
+          this.setState({
+            ...this.state,
+            [e.target.name]: e.target.value,
+            account_name: res.data.data.account_name,
+            errors: {
+              ...this.state.errors,
+              account_name: [],
+            },
+          });
+        } else {
+          this.setState({
+            ...this.state,
+            [e.target.name]: e.target.value,
+            account_name: "",
+          });
+        }
+      } catch (error) {
+        if (error.response?.status === 400) {
+          showNotification(
+            "Account Number",
+            false,
+            JSON.stringify(error.response?.data.data)
+          );
+        }
+        this.setState({
+          ...this.state,
+          [e.target.name]: e.target.value,
+          account_name: "",
+        });
+      }
+    } else {
+      this.setState({
+        ...this.state,
+        [e.target.name]: e.target.value,
+        account_name: "",
+      });
+    }
+  };
+
   componentDidMount = () => {
     const {
       account_number,
@@ -130,14 +247,7 @@ class Index extends Component {
                 id="bank_name_address"
                 defaultValue={bank_name}
                 name="bank_name"
-                onChange={(e) => {
-                  this.handleChange(e);
-                  this.setState({
-                    bank: banks.find(
-                      (bank) => bank.code.toString() === e.target.value
-                    ),
-                  });
-                }}
+                onChange={this.handleBank}
                 required
               >
                 <option value="">Select Bank</option>
@@ -148,35 +258,6 @@ class Index extends Component {
                 ))}
               </select>
               {errors["bank_name"].map((item, idx) => (
-                <p key={idx} className={style.error_par}>
-                  {item}
-                </p>
-              ))}
-
-              <label
-                className={
-                  style.control_label +
-                  " " +
-                  (errors["account_name"].length > 0 ? style.error : " ")
-                }
-                htmlFor="account_name"
-              >
-                Account Name
-              </label>
-              <input
-                type="text"
-                className={
-                  style.form_control +
-                  " " +
-                  (errors["account_name"].length > 0 ? style.error : " ")
-                }
-                id="account_name_naira"
-                name="account_name"
-                onChange={this.handleChange}
-                defaultValue={account_name}
-                required
-              />
-              {errors["account_name"].map((item, idx) => (
                 <p key={idx} className={style.error_par}>
                   {item}
                 </p>
@@ -202,10 +283,43 @@ class Index extends Component {
                 id="account_number_account"
                 defaultValue={account_number}
                 name="account_number"
-                onChange={this.handleChange}
+                onChange={this.handleName}
                 required
               />
               {errors["account_number"].map((item, idx) => (
+                <p key={idx} className={style.error_par}>
+                  {item}
+                </p>
+              ))}
+              <label
+                className={
+                  style.control_label +
+                  " " +
+                  (errors["account_name"].length > 0 ? style.error : " ")
+                }
+                htmlFor="account_name"
+              >
+                Account Name
+              </label>
+              <input
+                type="text"
+                readOnly
+                style={{
+                  cursor: "not-allowed",
+                  background: "rgb(128, 128, 128, 0.2)",
+                }}
+                className={
+                  style.form_control +
+                  " " +
+                  (errors["account_name"].length > 0 ? style.error : " ")
+                }
+                id="account_name_naira"
+                name="account_name"
+                onChange={(e) => {}}
+                value={account_name}
+                required
+              />
+              {errors["account_name"].map((item, idx) => (
                 <p key={idx} className={style.error_par}>
                   {item}
                 </p>
@@ -246,6 +360,18 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addBank: (payload) => dispatch(addBank(payload)),
+    showNotification: (type, isSuccess, message) =>
+      dispatch((dispatch, getState) => {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: { type, isSuccess, message },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+      }),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

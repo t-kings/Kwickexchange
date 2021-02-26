@@ -646,3 +646,70 @@ export const withdrawNaira = (payload) => {
     }
   };
 };
+
+export const transferNairaEmail = (payload) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "TRADE_LOADING" });
+      const res = await axios.post(apiUrl + "wallet/naira/transfer", payload, {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + getState().auth.accessToken,
+        },
+      });
+      if (res.status === 200) {
+        await getBalances(dispatch, getState);
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Naira Transfer",
+            isSuccess: true,
+            message: "Transfer Successful",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return true;
+      }
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
+    } catch (error) {
+      if (error?.response?.status === 400) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Withdrawal",
+            isSuccess: false,
+            message: JSON.stringify(error?.response?.data?.data),
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return false;
+      }
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Withdrawal",
+          isSuccess: false,
+          message: "Error!, please try again",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
+    }
+  };
+};

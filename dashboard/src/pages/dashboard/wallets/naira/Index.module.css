@@ -174,8 +174,24 @@
     background: var(--shadedBackground);
 }
 
+.balance_tab_hold {
+    background: white;
+    position: relative;
+}
+
+.error_par {
+    margin: 0;
+    margin-top: 5px;
+    padding: 15px 25px;
+    background: rgba(231, 0, 0, 0.1);
+    color: #E70000;
+}
+
 .balance_tab {
+    position: relative;
+    z-index: 2;
     padding: 40px 20px;
+    min-height: 50vh;
 }
 
 .balance_tab .address {

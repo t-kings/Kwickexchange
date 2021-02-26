@@ -539,7 +539,6 @@ export const checkToken = () => {
           refreshToken: token,
         });
         if (res.status === 200) {
-          await getUser(dispatch, getState);
           dispatch({
             type: "USER_LOGGED_IN",
             data: res.data.data,
@@ -587,6 +586,7 @@ export const refreshToken = async (dispatch, getState) => {
           type: "USER_LOGGED_IN",
           data: res.data.data,
         });
+        await getUser(dispatch, getState);
         const expiryTime = res.data.data.accessTokenExpiresIn;
         setTimeout(() => {
           refreshToken(dispatch, getState);

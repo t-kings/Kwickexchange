@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import walletStyle from "./Index.module.css";
-import { Link, Redirect } from "react-router-dom";
+import { Link, NavLink, Redirect } from "react-router-dom";
 import style from "../../Index.module.css";
 import vc1 from "../images/vc1.svg";
 import vc2 from "../images/vc2.svg";
@@ -54,7 +54,7 @@ class Index extends Component {
         <Email />
         <Address />
         <section className={walletStyle.wallets}>
-          <div className={walletStyle.back}>
+          {/* <div className={walletStyle.back}>
             <Link to="/home/wallet">
               <span>
                 <svg
@@ -74,11 +74,13 @@ class Index extends Component {
               </span>
               <p>BTC Wallet</p>
             </Link>
-          </div>
+          </div> */}
           <div className={walletStyle.balances}>
-            <div
-              to="/home/wallet"
-              className={style.card + " " + walletStyle.balance}
+            <NavLink
+              to="/home/wallet/bitcoin"
+              className={
+                style.card + " " + style.active + " " + walletStyle.balance
+              }
             >
               <svg
                 className={walletStyle.flier}
@@ -115,7 +117,44 @@ class Index extends Component {
                 </h2>
                 <h3>{balance.bitcoin} BTC</h3>
               </div>
-            </div>
+            </NavLink>
+            <NavLink
+              to="/home/wallet/naira"
+              className={style.card + " " + walletStyle.balance}
+            >
+              <svg
+                className={walletStyle.flier}
+                viewBox="0 0 687 313"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  opacity="0.1"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M0 -6C12.8066 172.315 161.527 313 343.105 313C524.684 313 673.404 172.315 686.211 -6H598.905C586.336 124.206 476.608 226 343.105 226C209.603 226 99.8752 124.206 87.3059 -6H0Z"
+                  fill=" #00C844"
+                />
+              </svg>
+              <svg
+                className={walletStyle.second_flier}
+                viewBox="0 0 687 313"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  opacity="0.1"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M0 -6C12.8066 172.315 161.527 313 343.105 313C524.684 313 673.404 172.315 686.211 -6H598.905C586.336 124.206 476.608 226 343.105 226C209.603 226 99.8752 124.206 87.3059 -6H0Z"
+                  fill=" #00C844"
+                />
+              </svg>
+              <div>
+                <h4 style={{ color: "#00C844" }}>Naira Wallet Ballance</h4>
+                <h2>₦{balance.naira}</h2>
+              </div>
+            </NavLink>
           </div>
           <div className={walletStyle.hold}>
             <div className={walletStyle.tabs}>

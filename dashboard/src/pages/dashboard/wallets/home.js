@@ -12,6 +12,7 @@ class Home extends Component {
     if (!isAuthenticated) {
       return <Redirect to={{ pathname: "/", redirect_to: "/home/wallet" }} />;
     }
+    return <Redirect to="/home/wallet/bitcoin" />;
     return (
       <section className={walletStyle.wallets}>
         <div className={walletStyle.walletsHolder}>

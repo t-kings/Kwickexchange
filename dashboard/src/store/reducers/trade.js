@@ -3,6 +3,7 @@ const initialState = {
   giftCardDetails: {},
   currentGiftCardTrade: {},
   btcWithdrawal: {},
+  nairaTransfer: {},
 };
 
 const tradeReducer = (state = initialState, action) => {
@@ -31,6 +32,11 @@ const tradeReducer = (state = initialState, action) => {
       return {
         ...state,
         btcWithdrawal: action.data,
+      };
+    case "SET_NAIRA_TRANSFER":
+      return {
+        ...state,
+        nairaTransfer: action.data,
       };
     default:
       return state;
