@@ -11,12 +11,16 @@ import {
   updatePassword,
   changeNotification,
   updateNotificationSettings,
+  deleteAccount,
+  verifyPhone,
+  resendCode,
 } from "../../../store/actions/auth";
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       formTab: 1,
+      deleteAccount: "",
       passwordType: "password",
       errors: {
         current_password: [],
@@ -84,9 +88,12 @@ class Home extends Component {
       currencyList,
       notificationSettings,
       changeNotification,
+      deleteAccountAction,
+      verifyPhone,
+      resendCode,
     } = this.props;
     const errors = { ...this.state.errors, ...this.props.errors };
-    const { formTab, passwordType } = this.state;
+    const { formTab, passwordType, deleteAccount } = this.state;
     if (!isAuthenticated) {
       return <Redirect to={{ pathname: "/", redirect_to: "/home/settings" }} />;
     }
@@ -279,7 +286,7 @@ class Home extends Component {
                 </button>
               )}
             </div>
-          ) : (
+          ) : formTab === 3 ? (
             <div className={transStyle.password}>
               <form onSubmit={this.handlePassword}>
                 <div>
@@ -388,71 +395,49 @@ class Home extends Component {
                 </p>
               ))}
             </div>
-          )}
-        </div>
-
-        {formTab === 1 ? (
-          <div className={transStyle.profileInfo}>
-            <div className={transStyle.profileTop}>
-              <h2>Personal Information</h2>
-            </div>
-            <div className={transStyle.profileBody}>
+          ) : (
+            <div
+              className={transStyle.profileBody}
+              style={{ background: "white" }}
+            >
+              <p style={{ color: "black" }}></p>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  updateProfile({
-                    currency_slug: this.state.currency_slug ?? user.fiat.slug,
-                    phone_number: this.state.phone_number ?? user.phone,
-                    full_name: user.fullname,
+                  verifyPhone({
+                    code: this.state.phoneCode,
+                    email: user.email,
                   });
                 }}
+                style={{}}
               >
+                {isLoading ? (
+                  <div
+                    className={transStyle.load + " " + transStyle.link_btn_gold}
+                  >
+                    <div className={transStyle.loader}>Loading...</div>
+                  </div>
+                ) : (
+                  <button
+                    className={transStyle.link_btn_gold}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      resendCode();
+                    }}
+                  >
+                    Send Code
+                  </button>
+                )}
                 <input
-                  type="text"
-                  placeholder="Full Name"
-                  defaultValue={user.fullname}
-                  readOnly
-                />
-                <input
-                  type="text"
-                  placeholder="Username"
-                  defaultValue={user.username}
-                  readOnly
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  defaultValue={user.email}
-                  readOnly
-                />
-                <select
-                  defaultValue={user.fiat.slug}
-                  required
+                  type="number"
+                  placeholder="Verification Code"
                   onChange={(e) => {
                     this.setState({
                       ...this.state,
-                      currency_slug: e.target.value,
+                      phoneCode: e.target.value,
                     });
                   }}
-                >
-                  <option value="">select currency</option>
-                  {currencyList.map((itm, idx) => (
-                    <option value={itm.fiat_slug} key={idx}>
-                      {itm.fiat} ({itm.fiat_slug})
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="tel"
-                  defaultValue={user.phone}
                   required
-                  onChange={(e) => {
-                    this.setState({
-                      ...this.state,
-                      phone_number: e.target.value,
-                    });
-                  }}
-                  placeholder="Phone Number"
                 />
                 {isLoading ? (
                   <div
@@ -463,13 +448,151 @@ class Home extends Component {
                 ) : (
                   <input
                     type="submit"
-                    value="SAVE"
+                    value="VERIFY"
                     className={transStyle.link_btn_gold}
                   />
                 )}
               </form>
             </div>
-          </div>
+          )}
+        </div>
+
+        {formTab === 1 ? (
+          <>
+            <div className={transStyle.profileInfo}>
+              <div className={transStyle.profileTop}>
+                <h2>Personal Information</h2>
+              </div>
+              <div className={transStyle.profileBody}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    updateProfile({
+                      currency_slug: this.state.currency_slug ?? user.fiat.slug,
+                      phone_number: this.state.phone_number ?? user.phone,
+                      full_name: user.fullname,
+                    });
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    defaultValue={user.fullname}
+                    readOnly
+                  />
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    defaultValue={user.username}
+                    readOnly
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    defaultValue={user.email}
+                    readOnly
+                  />
+                  <select
+                    defaultValue={user.fiat.slug}
+                    required
+                    onChange={(e) => {
+                      this.setState({
+                        ...this.state,
+                        currency_slug: e.target.value,
+                      });
+                    }}
+                  >
+                    <option value="">select currency</option>
+                    {currencyList.map((itm, idx) => (
+                      <option value={itm.fiat_slug} key={idx}>
+                        {itm.fiat} ({itm.fiat_slug})
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="tel"
+                    defaultValue={user.phone}
+                    required
+                    onChange={(e) => {
+                      this.setState({
+                        ...this.state,
+                        phone_number: e.target.value,
+                      });
+                    }}
+                    placeholder="Phone Number"
+                  />
+                  {isLoading ? (
+                    <div
+                      className={
+                        transStyle.load + " " + transStyle.link_btn_gold
+                      }
+                    >
+                      <div className={transStyle.loader}>Loading...</div>
+                    </div>
+                  ) : (
+                    <input
+                      type="submit"
+                      value="SAVE"
+                      className={transStyle.link_btn_gold}
+                    />
+                  )}
+                </form>
+              </div>
+            </div>
+
+            <div className={transStyle.profileInfo}>
+              <div className={transStyle.profileTop}>
+                <h2>Delete Account</h2>
+              </div>
+              <div className={transStyle.profileBody}>
+                <p style={{ color: "black" }}>
+                  To delete account, type in your email
+                </p>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    deleteAccountAction();
+                  }}
+                  style={{
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      this.setState({
+                        ...this.state,
+                        deleteAccount: e.target.value,
+                      });
+                    }}
+                    required
+                  />
+                  {isLoading ? (
+                    <div
+                      className={
+                        transStyle.load + " " + transStyle.link_btn_gold
+                      }
+                    >
+                      <div className={transStyle.loader}>Loading...</div>
+                    </div>
+                  ) : (
+                    <input
+                      style={{
+                        opacity: deleteAccount === user.email ? "1" : "0.5",
+                        cursor:
+                          deleteAccount === user.email
+                            ? "pointer"
+                            : "not-allowed",
+                      }}
+                      type="submit"
+                      value="DELETE"
+                      className={transStyle.link_btn_gold_red}
+                    />
+                  )}
+                </form>
+              </div>
+            </div>
+          </>
         ) : null}
       </section>
     );
@@ -490,6 +613,9 @@ const mapDispatchToProps = (dispatch) => {
         updatePassword(password, current_password, password_confirmation)
       ),
     updateNotificationSettings: () => dispatch(updateNotificationSettings()),
+    deleteAccountAction: () => dispatch(deleteAccount()),
+    verifyPhone: (e) => dispatch(verifyPhone(e)),
+    resendCode: () => dispatch(resendCode()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

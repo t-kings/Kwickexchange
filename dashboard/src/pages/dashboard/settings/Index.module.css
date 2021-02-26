@@ -153,6 +153,15 @@
     font-size: var(--bigLinkFontSize);
 }
 
+.link_btn_gold_red {
+    color: white;
+    border: 1px solid red;
+    display: inline-block;
+    padding: 10px 20px;
+    background: red;
+    font-size: var(--bigLinkFontSize);
+}
+
 .link_btn_gold:hover {
     background: black;
     border: 1px solid black;
@@ -454,7 +463,7 @@
     align-items: stretch;
 }
 
-.profileBody form input, .profileBody form select, .profileBody form>div {
+.profileBody form input, .profileBody form select, .profileBody form>div, .profileBody form button {
     width: 30%;
     padding: 20px;
     display: block;

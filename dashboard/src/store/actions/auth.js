@@ -868,3 +868,159 @@ export const markNotification = (id) => {
     }
   };
 };
+
+export const deleteAccount = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "AUTH_LOADING" });
+      const res = await axios.delete(apiUrl + "settings/delete-account", {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + getState().auth.accessToken,
+        },
+      });
+      if (res.status === 200) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Delete Account",
+            isSuccess: true,
+            message: "User account detail removed successfully",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_AUTH_LOADING" });
+        logout();
+        return true;
+      }
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+      return false;
+    } catch (error) {
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Delete Account",
+          isSuccess: false,
+          message: "Error!, please try again",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+      return false;
+    }
+  };
+};
+
+export const verifyPhone = (e) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "AUTH_LOADING" });
+      const res = await axios.post(apiUrl + "auth/verify/sms", e, {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + getState().auth.accessToken,
+        },
+      });
+      if (res.status === 200) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Phone Number Verification",
+            isSuccess: true,
+            message: "Phone Number Verified",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_AUTH_LOADING" });
+        logout();
+        return true;
+      }
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+      return false;
+    } catch (error) {
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Phone Number Verification",
+          isSuccess: false,
+          message: "Wrong Verification Code",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+      return false;
+    }
+  };
+};
+
+export const resendCode = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "AUTH_LOADING" });
+      const res = await axios.post(
+        apiUrl + "auth/verification/sms",
+        {
+          user: getState().auth.user.email,
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + getState().auth.accessToken,
+          },
+        }
+      );
+      if (res.status === 200) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Code Sent",
+            isSuccess: true,
+            message: "SMS verification sent",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_AUTH_LOADING" });
+        logout();
+        return true;
+      }
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+      return false;
+    } catch (error) {
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Code Sent",
+          isSuccess: false,
+          message: "Error!, please try again",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_AUTH_LOADING" });
+      return false;
+    }
+  };
+};
