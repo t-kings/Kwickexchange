@@ -213,11 +213,12 @@
 .balance_tab .address button {
     text-align: center;
     display: block;
+    margin-right: 20px;
     min-width: 150px;
 }
 
-.balance_tab .address button:first-child {
-    margin-right: 20px;
+.balance_tab .address button:last-child {
+    margin-right: 0;
 }
 
 .balance_tab .address button span {

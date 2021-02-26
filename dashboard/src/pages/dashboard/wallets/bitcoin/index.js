@@ -13,6 +13,7 @@ import vcc3 from "../images/vc3.png";
 import empty from "../images/empty.png";
 import email from "../images/email.png";
 import ad from "../images/ad.png";
+import { generateAddress } from "../../../../store/actions/trade";
 import Prompt from "../../../../components/dashboard/wallets/bitcoin/prompt";
 import Email from "../../../../components/dashboard/wallets/bitcoin/email";
 import Address from "../../../../components/dashboard/wallets/bitcoin/address";
@@ -42,6 +43,8 @@ class Index extends Component {
       bitcoinDepositAddress,
       showNotification,
       bitcoinTransactionList,
+      generateAddress,
+      isLoading,
     } = this.props;
     if (!isAuthenticated) {
       return (
@@ -245,6 +248,27 @@ class Index extends Component {
                       readOnly
                       id="myInput"
                     />
+                    {isLoading ? (
+                      <div
+                        style={{ marginTop: 20 }}
+                        className={
+                          walletStyle.load + " " + walletStyle.link_btn_gold
+                        }
+                      >
+                        <div className={walletStyle.loader}>Loading...</div>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          generateAddress();
+                        }}
+                        style={{ marginTop: 20 }}
+                        className={walletStyle.link_btn_gold}
+                      >
+                        Generate New Address
+                      </button>
+                    )}
                   </div>
                   <div className={walletStyle.qr}>
                     {/* <img src={qr} alt="qr-code" />
@@ -428,10 +452,11 @@ class Index extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.auth, ...state.resources };
+  return { ...state.auth, ...state.resources, ...state.trade };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    generateAddress: () => dispatch(generateAddress()),
     showNotification: (type, isSuccess, message) =>
       dispatch((dispatch, getState) => {
         dispatch({

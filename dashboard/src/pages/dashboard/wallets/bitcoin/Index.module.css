@@ -430,6 +430,79 @@
     fill: var(--colorGold);
 }
 
+.loader, .loader:before, .loader:after {
+    background: #ffffff;
+    -webkit-animation: load1 1s infinite ease-in-out;
+    animation: load1 1s infinite ease-in-out;
+    width: 0.5em;
+    height: 20px;
+}
+
+.loader {
+    color: #ffffff;
+    text-indent: -9999em;
+    margin: 0 auto;
+    position: relative;
+    display: inline-block;
+    font-size: 5px;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+.loader:before, .loader:after {
+    position: absolute;
+    top: 0;
+    content: '';
+}
+
+.link_btn_gold.load {
+    padding: 10px 60px !important;
+    cursor: not-allowed;
+    width: 30%;
+    min-width: 120px;
+    text-align: center;
+}
+
+.load:hover {
+    background: var(--colorGold) !important;
+    border-color: var(--colorGold) !important;
+}
+
+.loader:before {
+    left: -1.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.loader:after {
+    left: 1.5em;
+}
+
+@-webkit-keyframes load1 {
+    0%, 80%, 100% {
+        box-shadow: 0 0;
+        height: 0.25em;
+    }
+    40% {
+        box-shadow: 0 -4em;
+        height: 0.75em;
+    }
+}
+
+@keyframes load1 {
+    0%, 80%, 100% {
+        box-shadow: 0 0;
+        height: 1em;
+    }
+    40% {
+        box-shadow: 0 -2em;
+        height: 1.25em;
+    }
+}
+
 @media only screen and (max-width: 1000px) {
     .wallets {
         padding: 80px 6vw 20px 6vw;

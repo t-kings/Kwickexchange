@@ -713,3 +713,127 @@ export const transferNairaEmail = (payload) => {
     }
   };
 };
+
+export const generateAddress = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: "TRADE_LOADING" });
+    const res = await axios.get(apiUrl + "wallet/bitcoin/deposit", {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_DEPOSIT_ADDRESS", data: res.data.data });
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Address",
+          isSuccess: true,
+          message: "New Address Created",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+    }
+    dispatch({ type: "CLEAR_TRADE_LOADING" });
+    return true;
+  } catch (err) {
+    dispatch({
+      type: "SHOW_NOTIFICATION",
+      data: {
+        type: "Address",
+        isSuccess: false,
+        message: "Error, try again",
+      },
+    });
+    setTimeout(() => {
+      dispatch({
+        type: "CLEAR_NOTIFICATION",
+      });
+    }, 5000);
+    dispatch({ type: "CLEAR_TRADE_LOADING" });
+    return true;
+  }
+};
+
+export const depositNaira = (payload) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: "TRADE_LOADING" });
+    const res = await axios.post(apiUrl + "wallet/naira/deposit", payload, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      window.open(res.data.data.pay_url);
+    }
+    dispatch({ type: "CLEAR_TRADE_LOADING" });
+    return true;
+  } catch (err) {
+    console.log(err.response?.data?.data);
+    if (err?.response?.data?.data) {
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Deposit",
+          isSuccess: false,
+          message: JSON.stringify(err?.response?.data?.data),
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
+    }
+    dispatch({
+      type: "SHOW_NOTIFICATION",
+      data: {
+        type: "Deposit",
+        isSuccess: false,
+        message: "Error, try again",
+      },
+    });
+    setTimeout(() => {
+      dispatch({
+        type: "CLEAR_NOTIFICATION",
+      });
+    }, 5000);
+    dispatch({ type: "CLEAR_TRADE_LOADING" });
+    return false;
+  }
+};
+
+export const validatePayment = (trxref, reference) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: "TRADE_LOADING" });
+    const res = await axios.get(
+      apiUrl + `wallet/naira/verify?trxref=${trxref}&reference=${reference}`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + getState().auth.accessToken,
+        },
+      }
+    );
+    if (res.status === 200) {
+      dispatch({ type: "DEPOSIT_STATUS", data: true });
+    } else {
+      dispatch({ type: "DEPOSIT_STATUS", data: false });
+    }
+    dispatch({ type: "CLEAR_TRADE_LOADING" });
+  } catch (err) {
+    dispatch({ type: "DEPOSIT_STATUS", data: false });
+    dispatch({ type: "CLEAR_TRADE_LOADING" });
+  }
+};
