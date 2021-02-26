@@ -827,6 +827,7 @@ export const validatePayment = (trxref, reference) => async (
       }
     );
     if (res.status === 200) {
+      await getBalances(dispatch, getState);
       dispatch({ type: "DEPOSIT_STATUS", data: true });
     } else {
       dispatch({ type: "DEPOSIT_STATUS", data: false });
