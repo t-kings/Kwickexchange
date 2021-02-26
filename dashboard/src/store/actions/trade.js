@@ -770,7 +770,7 @@ export const depositNaira = (payload) => async (dispatch, getState) => {
       },
     });
     if (res.status === 200) {
-      window.open(res.data.data.pay_url);
+      window.location.replace(res.data.data.pay_url);
     }
     dispatch({ type: "CLEAR_TRADE_LOADING" });
     return true;
