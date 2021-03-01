@@ -6,7 +6,6 @@ import vc1 from "../images/vc1.svg";
 import vc2 from "../images/vc2.svg";
 import { connect } from "react-redux";
 import vc3 from "../images/vc3.svg";
-// import qr from "../images/qr.png";
 import vcc1 from "../images/vc1.png";
 import vcc2 from "../images/vc2.png";
 import vcc3 from "../images/vc3.png";
@@ -200,76 +199,92 @@ class Index extends Component {
                 />
                 <div className={walletStyle.balance_tab_hold}>
                   <div className={walletStyle.text}>
-                    <span className={walletStyle.btc}>
-                      <svg
-                        width="13"
-                        height="18"
-                        viewBox="0 0 13 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M2 10V14H0V16H3V18H5V16H7V18H9V15.949C10.968 15.7 12.5 14.034 12.5 12C12.5 10.68 11.85 9.516 10.86 8.787C11.5901 8.04302 11.9994 7.0424 12 6C12 4.142 10.721 2.589 9 2.142V0H7V2H5V0H3V2H0V4H2V10ZM8.5 14H4V10H8.5C9.603 10 10.5 10.897 10.5 12C10.5 13.103 9.603 14 8.5 14ZM4 4H8C9.103 4 10 4.897 10 6C10 7.103 9.103 8 8 8H4V4Z"
-                          fill="#0094FF"
-                        />
-                      </svg>
-                    </span>
-                    <div className={walletStyle.address}>
-                      <p>Your BTC Wallet Address</p>
-                      <svg
-                        onClick={() => {
-                          const copyText = document.querySelector("#myInput");
-                          copyText.select();
-                          document.execCommand("copy");
-                          showNotification(
-                            "Address",
-                            true,
-                            "Copied to clip board"
-                          );
-                        }}
-                        width="14"
-                        height="16"
-                        viewBox="0 0 14 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M11.5 0.780016C11.5 0.677163 11.4797 0.575325 11.4402 0.480364C11.4006 0.385402 11.3427 0.299193 11.2698 0.226697C11.1968 0.154202 11.1102 0.0968521 11.015 0.0579488C10.9198 0.0190454 10.8179 -0.000643288 10.715 1.60272e-05H0.785C0.682149 -0.000643288 0.580183 0.0190454 0.484971 0.0579488C0.389759 0.0968521 0.303182 0.154202 0.230222 0.226697C0.157262 0.299193 0.0993595 0.385402 0.0598485 0.480364C0.0203376 0.575325 -2.11305e-06 0.677163 1.64649e-10 0.780016V13.22C-2.11305e-06 13.3229 0.0203376 13.4247 0.0598485 13.5197C0.0993595 13.6146 0.157262 13.7008 0.230222 13.7733C0.303182 13.8458 0.389759 13.9032 0.484971 13.9421C0.580183 13.981 0.682149 14.0007 0.785 14H1.045V1.03502H11.5V0.780016Z"
-                          fill="black"
-                        />
-                        <path
-                          d="M12.75 2H2.75C2.33579 2 2 2.33579 2 2.75V15.25C2 15.6642 2.33579 16 2.75 16H12.75C13.1642 16 13.5 15.6642 13.5 15.25V2.75C13.5 2.33579 13.1642 2 12.75 2Z"
-                          fill="black"
-                        />
-                      </svg>
-                    </div>
-                    <input
-                      type="text"
-                      value={bitcoinDepositAddress.address}
-                      readOnly
-                      id="myInput"
-                    />
-                    {isLoading ? (
-                      <div
-                        style={{ marginTop: 20 }}
-                        className={
-                          walletStyle.load + " " + walletStyle.link_btn_gold
-                        }
-                      >
-                        <div className={walletStyle.loader}>Loading...</div>
+                    <div className={walletStyle.Text_}>
+                      <span className={walletStyle.btc}>
+                        <svg
+                          width="13"
+                          height="18"
+                          viewBox="0 0 13 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M2 10V14H0V16H3V18H5V16H7V18H9V15.949C10.968 15.7 12.5 14.034 12.5 12C12.5 10.68 11.85 9.516 10.86 8.787C11.5901 8.04302 11.9994 7.0424 12 6C12 4.142 10.721 2.589 9 2.142V0H7V2H5V0H3V2H0V4H2V10ZM8.5 14H4V10H8.5C9.603 10 10.5 10.897 10.5 12C10.5 13.103 9.603 14 8.5 14ZM4 4H8C9.103 4 10 4.897 10 6C10 7.103 9.103 8 8 8H4V4Z"
+                            fill="#0094FF"
+                          />
+                        </svg>
+                      </span>
+                      <div className={walletStyle.address}>
+                        <p>Your BTC Wallet Address</p>
+                        <svg
+                          onClick={() => {
+                            const copyText = document.querySelector("#myInput");
+                            copyText.select();
+                            document.execCommand("copy");
+                            showNotification(
+                              "Address",
+                              true,
+                              "Copied to clip board"
+                            );
+                          }}
+                          width="14"
+                          height="16"
+                          viewBox="0 0 14 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M11.5 0.780016C11.5 0.677163 11.4797 0.575325 11.4402 0.480364C11.4006 0.385402 11.3427 0.299193 11.2698 0.226697C11.1968 0.154202 11.1102 0.0968521 11.015 0.0579488C10.9198 0.0190454 10.8179 -0.000643288 10.715 1.60272e-05H0.785C0.682149 -0.000643288 0.580183 0.0190454 0.484971 0.0579488C0.389759 0.0968521 0.303182 0.154202 0.230222 0.226697C0.157262 0.299193 0.0993595 0.385402 0.0598485 0.480364C0.0203376 0.575325 -2.11305e-06 0.677163 1.64649e-10 0.780016V13.22C-2.11305e-06 13.3229 0.0203376 13.4247 0.0598485 13.5197C0.0993595 13.6146 0.157262 13.7008 0.230222 13.7733C0.303182 13.8458 0.389759 13.9032 0.484971 13.9421C0.580183 13.981 0.682149 14.0007 0.785 14H1.045V1.03502H11.5V0.780016Z"
+                            fill="black"
+                          />
+                          <path
+                            d="M12.75 2H2.75C2.33579 2 2 2.33579 2 2.75V15.25C2 15.6642 2.33579 16 2.75 16H12.75C13.1642 16 13.5 15.6642 13.5 15.25V2.75C13.5 2.33579 13.1642 2 12.75 2Z"
+                            fill="black"
+                          />
+                        </svg>
                       </div>
-                    ) : (
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          generateAddress();
-                        }}
-                        style={{ marginTop: 20 }}
-                        className={walletStyle.link_btn_gold}
-                      >
-                        Generate New Address
-                      </button>
-                    )}
+                      <input
+                        type="text"
+                        value={bitcoinDepositAddress.address}
+                        readOnly
+                        id="myInput"
+                      />
+                      {isLoading ? (
+                        <div
+                          style={{ marginTop: 20 }}
+                          className={
+                            walletStyle.load + " " + walletStyle.link_btn_gold
+                          }
+                        >
+                          <div className={walletStyle.loader}>Loading...</div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            generateAddress();
+                          }}
+                          style={{ marginTop: 20 }}
+                          className={walletStyle.link_btn_gold}
+                        >
+                          Generate New Address
+                        </button>
+                      )}
+                    </div>
+                    <div className={walletStyle.qr}>
+                      <img
+                        src={
+                          "https://www.bitcoinqrcodemaker.com/api/?style=bitcoin&amp;color=1&amp;prefix=on&amp;address=" +
+                          bitcoinDepositAddress.address
+                        }
+                        // height="300"
+                        // width="300"
+                        alt="Bitcoin QR Code"
+                      />
+                      <p>Scan QR code to receive BTC in your wallet</p>
+                    </div>
+                  </div>
+                  <div>
                     {bitcoinDepositAddresses.data.length > 0 ? (
                       <table className={walletStyle.table}>
                         <thead>
@@ -301,10 +316,6 @@ class Index extends Component {
                       </table>
                     ) : null}
                   </div>
-                  {/* <div className={walletStyle.qr}> */}
-                  {/* <img src={qr} alt="qr-code" />
-                  <p>Scan QR code to receive BTC in your wallet</p> */}
-                  {/* </div> */}
                 </div>
               </div>
             ) : formTab === 2 ? (
@@ -316,7 +327,8 @@ class Index extends Component {
                         <thead>
                           <tr>
                             <th>Date</th>
-                            <th>Trans. Type</th>
+                            <th>Asset</th>
+                            <th>Type</th>
                             <th>Amount</th>
                           </tr>
                         </thead>
@@ -324,17 +336,20 @@ class Index extends Component {
                           {bitcoinTransactionList.data.map((itm, idx) => (
                             <tr key={idx}>
                               <td>{itm.createdAt}</td>
-                              <td>
-                                {itm.asset} - {itm.type}
+                              <td style={{ textTransform: "capitalize" }}>
+                                {itm.asset}
+                              </td>
+                              <td style={{ textTransform: "capitalize" }}>
+                                {itm.type}
                               </td>
                               <td
                                 className={
-                                  itm.status === "successful"
+                                  itm.type === "buy"
                                     ? walletStyle.green
                                     : walletStyle.red
                                 }
                               >
-                                {itm.amount} BTC
+                                {parseFloat(itm.amount).toFixed(8)} BTC
                               </td>
                             </tr>
                           ))}

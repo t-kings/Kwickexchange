@@ -1,6 +1,10 @@
 import React, { Component } from "react";
+import { markNotification } from "../../../store/actions/auth";
 import transStyle from "./Index.module.css";
-import { Link, Redirect } from "react-router-dom";
+import {
+  // Link,
+  Redirect,
+} from "react-router-dom";
 import { connect } from "react-redux";
 class Home extends Component {
   constructor(props) {
@@ -9,8 +13,19 @@ class Home extends Component {
       formTab: 1,
     };
   }
+
+  componentDidMount = () => {
+    const { markNotification, notifications } = this.props;
+    for (let i = 0; i < notifications.length; i++) {
+      const notification = notifications[i];
+
+      if (notification.read_status === false) {
+        markNotification(notification._id);
+      }
+    }
+  };
   render() {
-    const { isAuthenticated, notifications } = this.props;
+    const { isAuthenticated, notifications, markNotification } = this.props;
     const { formTab } = this.state;
     if (!isAuthenticated) {
       return (
@@ -32,10 +47,10 @@ class Home extends Component {
           {formTab === 1 ? (
             <div className={transStyle.notification}>
               {notifications.map((itm, idx) => (
-                <Link
+                <div
                   key={idx}
                   className={transStyle.item}
-                  to={"/home/notifications/" + itm._id}
+                  // to={"/home/notifications/" + itm._id}
                 >
                   <div className={transStyle.avatar}>
                     <div>
@@ -55,10 +70,18 @@ class Home extends Component {
                     </div>
                   </div>
                   <div className={transStyle.story}>
-                    <p>{itm.title}</p>
-                    {/* <p className={transStyle.date}>{3rd Jan. 2021}</p> */}
+                    <p
+                      style={{
+                        color: "grey",
+                        textDecoration: "underline",
+                        marginBottom: 10,
+                      }}
+                    >
+                      {itm.title}
+                    </p>
+                    <p>{itm.message}</p>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           ) : (
@@ -73,4 +96,9 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return { ...state.auth, ...state.resources };
 };
-export default connect(mapStateToProps, null)(Home);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    markNotification: (id) => dispatch(markNotification(id)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

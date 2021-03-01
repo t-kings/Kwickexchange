@@ -556,7 +556,7 @@ class Index extends Component {
                       <div></div>
                     </div>
                     <div className={walletStyle.withDrawAccountsList}>
-                      {!user.verification_status?.sms_verification ? (
+                      {user.verification_status?.sms_verification !== true ? (
                         <p className={walletStyle.verify}>
                           Your Phone number is not verified.{" "}
                           <Link to={"/home/settings/" + 4}>Verify Now</Link>
@@ -867,7 +867,8 @@ class Index extends Component {
                         <thead>
                           <tr>
                             <th>Date</th>
-                            <th>Trans. Type</th>
+                            <th>Asset</th>
+                            <th>Type</th>
                             <th>Amount</th>
                           </tr>
                         </thead>
@@ -875,12 +876,23 @@ class Index extends Component {
                           {nairaTransactions.data.map((itm, idx) => (
                             <tr key={idx}>
                               <td>{itm.createdAt}</td>
-                              <td>
-                                {itm.asset} - {itm.type}
+                              <td
+                                style={{
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {itm.asset}
+                              </td>
+                              <td
+                                style={{
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {itm.type}
                               </td>
                               <td
                                 className={
-                                  itm.status === "successful"
+                                  itm.type !== "transfer"
                                     ? walletStyle.green
                                     : walletStyle.red
                                 }

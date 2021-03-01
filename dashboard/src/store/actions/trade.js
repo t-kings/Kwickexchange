@@ -4,6 +4,7 @@ import {
   getBalances,
   getBitcoinDepositAddresses,
   getUserBanks,
+  getHistories,
 } from "./resources";
 export const buyBitcoin = (payload) => {
   return async (dispatch, getState) => {
@@ -35,6 +36,7 @@ export const buyBitcoin = (payload) => {
           });
         }, 5000);
         dispatch({ type: "CLEAR_TRADE_LOADING" });
+        getHistories(dispatch, getState);
         return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
@@ -122,6 +124,7 @@ export const sellBitcoin = (payload) => {
             type: "CLEAR_NOTIFICATION",
           });
         }, 5000);
+        getHistories(dispatch, getState);
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
     } catch (error) {
@@ -367,6 +370,7 @@ export const withdrawBTC = () => {
           });
         }, 5000);
         dispatch({ type: "CLEAR_TRADE_LOADING" });
+        getHistories(dispatch, getState);
         return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
@@ -458,6 +462,7 @@ export const emailBTC = () => {
           });
         }, 5000);
         dispatch({ type: "CLEAR_TRADE_LOADING" });
+        getHistories(dispatch, getState);
         return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
@@ -660,6 +665,7 @@ export const withdrawNaira = (payload) => {
           });
         }, 5000);
         dispatch({ type: "CLEAR_TRADE_LOADING" });
+        getHistories(dispatch, getState);
         return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
@@ -711,6 +717,7 @@ export const transferNairaEmail = (payload) => {
           });
         }, 5000);
         dispatch({ type: "CLEAR_TRADE_LOADING" });
+        getHistories(dispatch, getState);
         return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
@@ -872,6 +879,7 @@ export const validatePayment = (trxref, reference) => async (
     if (res.status === 200) {
       await getBalances(dispatch, getState);
       dispatch({ type: "DEPOSIT_STATUS", data: true });
+      getHistories(dispatch, getState);
     } else {
       dispatch({ type: "DEPOSIT_STATUS", data: false });
     }

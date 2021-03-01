@@ -171,14 +171,11 @@
 }
 
 .balance_tab_hold {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
     width: 100%;
-    flex-flow: row nowrap;
     padding: 20px;
-    position: relative;
     z-index: 2;
+    z-index: 2;
+    position: relative;
     min-height: 50vh;
 }
 
@@ -191,8 +188,15 @@
 }
 
 .text {
-    flex: 6;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.text_ {
+    width: 50%;
 }
 
 .table {
@@ -245,7 +249,7 @@
 }
 
 .qr {
-    flex: 6;
+    width: 50%;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -370,7 +374,7 @@
     text-align: left;
     color: rgb(22, 22, 22, 0.5);
     font-size: var(--paragraphMidFontSize);
-    padding: 10px 0;
+    padding: 10px;
 }
 
 .transactions_list td.green, .table td.green {
@@ -517,15 +521,23 @@
 }
 
 @media only screen and (max-width: 700px) {
-    .balance_tab_hold {
-        flex-flow: column nowrap;
-    }
     .text {
+        flex-flow: column nowrap;
+        align-items: stretch;
+    }
+    .balance_tab_hold {
+        overflow-y: auto;
+    }
+    .text_ {
         width: 100%;
     }
     .qr {
         width: 100%;
         align-items: flex-start;
+        margin: 20px 0;
+    }
+    .qr img {
+        max-width: 200px;
     }
     .send .actions {
         align-items: center;

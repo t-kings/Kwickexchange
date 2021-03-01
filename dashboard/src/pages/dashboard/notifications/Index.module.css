@@ -1,7 +1,7 @@
 .home {
-    padding: 0;
     min-height: 100vh;
     position: relative;
+    padding: 80px 2vw 20px 2vw;
 }
 
 .title {
@@ -209,6 +209,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    cursor: pointer;
 }
 
 .avatar {
@@ -235,4 +236,10 @@
 .item .date {
     opacity: 0.5;
     margin-top: 10px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .home {
+        padding: 80px 6vw 20px 6vw;
+    }
 }

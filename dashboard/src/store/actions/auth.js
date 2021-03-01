@@ -869,7 +869,7 @@ export const markNotification = (id) => {
   };
 };
 
-export const deleteAccount = () => {
+export const deleteAccount = (e) => {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: "AUTH_LOADING" });
@@ -877,6 +877,9 @@ export const deleteAccount = () => {
         headers: {
           Accept: "application/json",
           Authorization: "Bearer " + getState().auth.accessToken,
+        },
+        data: {
+          password: e,
         },
       });
       if (res.status === 200) {
@@ -900,6 +903,24 @@ export const deleteAccount = () => {
       dispatch({ type: "CLEAR_AUTH_LOADING" });
       return false;
     } catch (error) {
+      console.log(error.response);
+      if (error?.response?.data?.data) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Delete Account",
+            isSuccess: false,
+            message: JSON.stringify(error?.response?.data?.data),
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_AUTH_LOADING" });
+        return false;
+      }
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {
@@ -950,6 +971,23 @@ export const verifyPhone = (e) => {
       dispatch({ type: "CLEAR_AUTH_LOADING" });
       return false;
     } catch (error) {
+      if (error?.response?.data?.data) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Phone Number Verification",
+            isSuccess: false,
+            message: JSON.stringify(error?.response?.data?.data),
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_AUTH_LOADING" });
+        return false;
+      }
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {

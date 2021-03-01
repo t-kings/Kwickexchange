@@ -140,11 +140,14 @@ class Testimonials extends Component {
                         <span>{item.title}</span>
                       </h1>
                       <p className={style.subtitle}>{item.message}</p>
-                      {/* <div className={style.action_buttons}>
-                    <a href="/contact/speak" className={style.link_btn_gold}>
-                      Speak with Us
-                    </a>
-                  </div> */}
+                      <div className={style.action_buttons}>
+                        <a
+                          href="https://dashboardkwickexchange.netlify.app/"
+                          className={style.link_btn_gold}
+                        >
+                          Get Started
+                        </a>
+                      </div>
                     </div>
                   )
                 )

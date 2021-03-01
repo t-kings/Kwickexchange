@@ -51,7 +51,6 @@ class Transaction extends Component {
               <h2>Transaction Summary</h2>
             </div>
             <div className={transStyle.cardBody}>
-              {}
               <h4
                 className={
                   transaction.status === "cancelled"

@@ -16,7 +16,15 @@ const initialState = {
   isLoading: true,
   currencyList: [],
   notificationSettings: [],
-  notifications: [],
+  notifications: [
+    {
+      read_status: true,
+      _id: "6012170734d20f9cc172faa0",
+      email: "harrysjil@gmail.com",
+      title: "TradeAlert",
+      message: "Hello people of God",
+    },
+  ],
   allTradeHistory: {
     data: [],
     meta: {},
@@ -116,7 +124,7 @@ const resourcesReducer = (state = initialState, action) => {
     case "NOTIFICATIONS_LIST":
       return {
         ...state,
-        notifications: action.data,
+        // notifications: action.data,
       };
     case "ALL_TRADE_HISTORY":
       return {

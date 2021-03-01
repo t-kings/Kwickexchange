@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import style from "./Index.module.css";
 const Index = ({ user, balance, notifications }) => {
+  const router = useHistory();
   return (
     <nav className={style.nav}>
       <div className={style.main_nav}>
@@ -88,7 +89,12 @@ const Index = ({ user, balance, notifications }) => {
         </ul>
         <ul className={style.action}>
           <li className={style.nav_dropdown}>
-            <div className={style.notification_icon}>
+            <div
+              onClick={(e) => {
+                router.push("/home/notifications");
+              }}
+              className={style.notification_icon}
+            >
               <svg
                 width="17"
                 height="20"

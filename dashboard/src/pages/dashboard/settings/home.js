@@ -398,61 +398,88 @@ class Home extends Component {
           ) : (
             <div
               className={transStyle.profileBody}
-              style={{ background: "white" }}
+              style={{ background: "white", minHeight: "50vh" }}
             >
-              <p style={{ color: "black" }}></p>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  verifyPhone({
-                    code: this.state.phoneCode,
-                    email: user.email,
-                  });
-                }}
-                style={{}}
-              >
-                {isLoading ? (
-                  <div
-                    className={transStyle.load + " " + transStyle.link_btn_gold}
-                  >
-                    <div className={transStyle.loader}>Loading...</div>
-                  </div>
-                ) : (
-                  <button
-                    className={transStyle.link_btn_gold}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      resendCode();
-                    }}
-                  >
-                    Send Code
-                  </button>
-                )}
-                <input
-                  type="number"
-                  placeholder="Verification Code"
-                  onChange={(e) => {
-                    this.setState({
-                      ...this.state,
-                      phoneCode: e.target.value,
+              {user.verification_status?.sms_verification === true ? (
+                <p
+                  style={{
+                    color: "black",
+                    textAlign: "center",
+                    margin: "auto 0",
+                    padding: 0,
+                  }}
+                >
+                  Your credentials are verified
+                </p>
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    verifyPhone({
+                      code: this.state.phoneCode,
+                      email: user.email,
                     });
                   }}
-                  required
-                />
-                {isLoading ? (
-                  <div
-                    className={transStyle.load + " " + transStyle.link_btn_gold}
-                  >
-                    <div className={transStyle.loader}>Loading...</div>
-                  </div>
-                ) : (
+                >
+                  {isLoading ? (
+                    <div
+                      style={{
+                        textAlign: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      className={
+                        transStyle.load + " " + transStyle.link_btn_gold
+                      }
+                    >
+                      <div className={transStyle.loader}>Loading...</div>
+                    </div>
+                  ) : (
+                    <button
+                      className={transStyle.link_btn_gold}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        resendCode();
+                      }}
+                    >
+                      Send Code
+                    </button>
+                  )}
                   <input
-                    type="submit"
-                    value="VERIFY"
-                    className={transStyle.link_btn_gold}
+                    type="number"
+                    placeholder="Verification Code"
+                    onChange={(e) => {
+                      this.setState({
+                        ...this.state,
+                        phoneCode: e.target.value,
+                      });
+                    }}
+                    required
                   />
-                )}
-              </form>
+                  {isLoading ? (
+                    <div
+                      style={{
+                        textAlign: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      className={
+                        transStyle.load + " " + transStyle.link_btn_gold
+                      }
+                    >
+                      <div className={transStyle.loader}>Loading...</div>
+                    </div>
+                  ) : (
+                    <input
+                      type="submit"
+                      value="VERIFY"
+                      className={transStyle.link_btn_gold}
+                    />
+                  )}
+                </form>
+              )}
             </div>
           )}
         </div>
@@ -546,19 +573,25 @@ class Home extends Component {
               </div>
               <div className={transStyle.profileBody}>
                 <p style={{ color: "black" }}>
-                  To delete account, type in your email
+                  To delete account, type in your password
                 </p>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    deleteAccountAction();
+                    const check = window.confirm(
+                      "Are you sure? This process is irreversible"
+                    );
+                    if (check) {
+                      deleteAccountAction(deleteAccount);
+                    }
                   }}
                   style={{
                     justifyContent: "flex-start",
                   }}
                 >
                   <input
-                    type="text"
+                    type="password"
+                    name="password"
                     onChange={(e) => {
                       this.setState({
                         ...this.state,
@@ -569,6 +602,11 @@ class Home extends Component {
                   />
                   {isLoading ? (
                     <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
                       className={
                         transStyle.load + " " + transStyle.link_btn_gold
                       }
@@ -578,11 +616,9 @@ class Home extends Component {
                   ) : (
                     <input
                       style={{
-                        opacity: deleteAccount === user.email ? "1" : "0.5",
+                        opacity: deleteAccount.length > 0 ? "1" : "0.5",
                         cursor:
-                          deleteAccount === user.email
-                            ? "pointer"
-                            : "not-allowed",
+                          deleteAccount.length > 0 ? "pointer" : "not-allowed",
                       }}
                       type="submit"
                       value="DELETE"
@@ -613,7 +649,7 @@ const mapDispatchToProps = (dispatch) => {
         updatePassword(password, current_password, password_confirmation)
       ),
     updateNotificationSettings: () => dispatch(updateNotificationSettings()),
-    deleteAccountAction: () => dispatch(deleteAccount()),
+    deleteAccountAction: (e) => dispatch(deleteAccount(e)),
     verifyPhone: (e) => dispatch(verifyPhone(e)),
     resendCode: () => dispatch(resendCode()),
   };
