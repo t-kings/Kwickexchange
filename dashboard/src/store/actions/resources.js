@@ -460,3 +460,100 @@ export const getUserBanks = async (dispatch, getState) => {
     return true;
   }
 };
+
+export const getAllTradeHistoryOffset = (url) => async (dispatch, getState) => {
+  try {
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "ALL_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getActiveTradeHistoryOffset = (url) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "ACTIVE_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getPendingTradeHistoryOffset = (url) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "PENDING_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getCancelledTradeHistoryOffset = (url) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "CANCELLED_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getCompletedTradeHistoryOffset = (url) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "COMPLETED_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};

@@ -3,6 +3,13 @@ import transStyle from "./Index.module.css";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Summary from "../../../components/dashboard/transactions";
+import {
+  getAllTradeHistoryOffset,
+  getActiveTradeHistoryOffset,
+  getPendingTradeHistoryOffset,
+  getCancelledTradeHistoryOffset,
+  getCompletedTradeHistoryOffset,
+} from "../../../store/actions/resources";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -48,8 +55,14 @@ class Home extends Component {
       pendingTradeHistory,
       cancelledTradeHistory,
       completedTradeHistory,
+      getAllTradeHistoryOffset,
+      getActiveTradeHistoryOffset,
+      getPendingTradeHistoryOffset,
+      getCancelledTradeHistoryOffset,
+      getCompletedTradeHistoryOffset,
     } = this.props;
     const { formTab } = this.state;
+    console.log(allTradeHistory);
     if (!isAuthenticated) {
       return (
         <Redirect to={{ pathname: "/", redirect_to: "/home/transactions" }} />
@@ -157,7 +170,10 @@ class Home extends Component {
                               {itm.status}
                             </td>
                             <td>{itm.transaction_hash}</td>
-                            <td>{new Date(itm.createdAt).toDateString()}</td>
+                            <td>
+                              {new Date(itm.createdAt).toLocaleDateString()}{" "}
+                              {new Date(itm.createdAt).toLocaleTimeString()}
+                            </td>
                             <td>
                               <Link
                                 to={
@@ -195,14 +211,16 @@ class Home extends Component {
                       <div>
                         <button
                           className={
-                            allTradeHistory.meta.current_page - 1 === 0
+                            !allTradeHistory.meta.previous_url
                               ? transStyle.back_none
                               : ""
                           }
                           onClick={(e) => {
                             e.preventDefault();
-                            if (allTradeHistory.meta.current_page - 1 > 0) {
-                              //go back
+                            if (allTradeHistory.meta.previous_url) {
+                              getAllTradeHistoryOffset(
+                                allTradeHistory.meta.previous_url
+                              );
                             }
                           }}
                         >
@@ -210,20 +228,16 @@ class Home extends Component {
                         </button>
                         <button
                           className={
-                            allTradeHistory.meta.current_page *
-                              allTradeHistory.meta.items_per_page >
-                            allTradeHistory.meta.total
+                            !allTradeHistory.meta.next_url
                               ? transStyle.back_none
                               : ""
                           }
                           onClick={(e) => {
                             e.preventDefault();
-                            if (
-                              allTradeHistory.meta.current_page *
-                                allTradeHistory.meta.items_per_page <
-                              allTradeHistory.meta.total
-                            ) {
-                              //go next
+                            if (allTradeHistory.meta.next_url) {
+                              getAllTradeHistoryOffset(
+                                allTradeHistory.meta.next_url
+                              );
                             }
                           }}
                         >
@@ -294,7 +308,10 @@ class Home extends Component {
                               {itm.status}
                             </td>
                             <td>{itm.transaction_hash}</td>
-                            <td>{new Date(itm.createdAt).toDateString()}</td>
+                            <td>
+                              {new Date(itm.createdAt).toLocaleDateString()}{" "}
+                              {new Date(itm.createdAt).toLocaleTimeString()}
+                            </td>
                             <td>
                               <Link
                                 to={
@@ -332,14 +349,16 @@ class Home extends Component {
                       <div>
                         <button
                           className={
-                            pendingTradeHistory.meta.current_page - 1 === 0
+                            !pendingTradeHistory.meta.previous_url
                               ? transStyle.back_none
                               : ""
                           }
                           onClick={(e) => {
                             e.preventDefault();
-                            if (pendingTradeHistory.meta.current_page - 1 > 0) {
-                              //go back
+                            if (pendingTradeHistory.meta.previous_url) {
+                              getPendingTradeHistoryOffset(
+                                pendingTradeHistory.meta.previous_url
+                              );
                             }
                           }}
                         >
@@ -347,20 +366,16 @@ class Home extends Component {
                         </button>
                         <button
                           className={
-                            pendingTradeHistory.meta.current_page *
-                              pendingTradeHistory.meta.items_per_page >
-                            pendingTradeHistory.meta.total
+                            !pendingTradeHistory.meta.next_url
                               ? transStyle.back_none
                               : ""
                           }
                           onClick={(e) => {
                             e.preventDefault();
-                            if (
-                              pendingTradeHistory.meta.current_page *
-                                pendingTradeHistory.meta.items_per_page <
-                              pendingTradeHistory.meta.total
-                            ) {
-                              //go next
+                            if (pendingTradeHistory.meta.next_url) {
+                              getPendingTradeHistoryOffset(
+                                pendingTradeHistory.meta.next_url
+                              );
                             }
                           }}
                         >
@@ -431,7 +446,10 @@ class Home extends Component {
                               {itm.status}
                             </td>
                             <td>{itm.transaction_hash}</td>
-                            <td>{new Date(itm.createdAt).toTimeString()}</td>
+                            <td>
+                              {new Date(itm.createdAt).toLocaleDateString()}{" "}
+                              {new Date(itm.createdAt).toLocaleTimeString()}
+                            </td>
                             <td>
                               <Link
                                 to={
@@ -469,14 +487,16 @@ class Home extends Component {
                       <div>
                         <button
                           className={
-                            activeTradeHistory.meta.current_page - 1 === 0
+                            !activeTradeHistory.meta.previous_url
                               ? transStyle.back_none
                               : ""
                           }
                           onClick={(e) => {
                             e.preventDefault();
-                            if (activeTradeHistory.meta.current_page - 1 > 0) {
-                              //go back
+                            if (activeTradeHistory.meta.previous_url) {
+                              getActiveTradeHistoryOffset(
+                                activeTradeHistory.meta.previous_url
+                              );
                             }
                           }}
                         >
@@ -484,20 +504,16 @@ class Home extends Component {
                         </button>
                         <button
                           className={
-                            activeTradeHistory.meta.current_page *
-                              activeTradeHistory.meta.items_per_page >
-                            activeTradeHistory.meta.total
+                            !activeTradeHistory.meta.next_url
                               ? transStyle.back_none
                               : ""
                           }
                           onClick={(e) => {
                             e.preventDefault();
-                            if (
-                              activeTradeHistory.meta.current_page *
-                                activeTradeHistory.meta.items_per_page <
-                              activeTradeHistory.meta.total
-                            ) {
-                              //go next
+                            if (activeTradeHistory.meta.next_url) {
+                              getActiveTradeHistoryOffset(
+                                activeTradeHistory.meta.next_url
+                              );
                             }
                           }}
                         >
@@ -568,7 +584,10 @@ class Home extends Component {
                               {itm.status}
                             </td>
                             <td>{itm.transaction_hash}</td>
-                            <td>{new Date(itm.createdAt).toDateString()}</td>
+                            <td>
+                              {new Date(itm.createdAt).toLocaleDateString()}{" "}
+                              {new Date(itm.createdAt).toLocaleTimeString()}
+                            </td>
                             <td>
                               <Link
                                 to={
@@ -606,17 +625,16 @@ class Home extends Component {
                       <div>
                         <button
                           className={
-                            completedTradeHistory.meta.current_page - 1 === 0
+                            !completedTradeHistory.meta.previous_url
                               ? transStyle.back_none
                               : ""
                           }
                           onClick={(e) => {
                             e.preventDefault();
-                            if (
-                              completedTradeHistory.meta.current_page - 1 >
-                              0
-                            ) {
-                              //go back
+                            if (completedTradeHistory.meta.previous_url) {
+                              getCompletedTradeHistoryOffset(
+                                completedTradeHistory.meta.previous_url
+                              );
                             }
                           }}
                         >
@@ -624,20 +642,16 @@ class Home extends Component {
                         </button>
                         <button
                           className={
-                            completedTradeHistory.meta.current_page *
-                              completedTradeHistory.meta.items_per_page >
-                            completedTradeHistory.meta.total
+                            !completedTradeHistory.meta.next_url
                               ? transStyle.back_none
                               : ""
                           }
                           onClick={(e) => {
                             e.preventDefault();
-                            if (
-                              completedTradeHistory.meta.current_page *
-                                completedTradeHistory.meta.items_per_page <
-                              completedTradeHistory.meta.total
-                            ) {
-                              //go next
+                            if (completedTradeHistory.meta.next_url) {
+                              getCompletedTradeHistoryOffset(
+                                completedTradeHistory.meta.next_url
+                              );
                             }
                           }}
                         >
@@ -697,7 +711,10 @@ class Home extends Component {
                             {itm.status}
                           </td>
                           <td>{itm.transaction_hash}</td>
-                          <td>{new Date(itm.createdAt).toDateString()}</td>
+                          <td>
+                            {new Date(itm.createdAt).toLocaleDateString()}{" "}
+                            {new Date(itm.createdAt).toLocaleTimeString()}
+                          </td>
                           <td>
                             <Link
                               to={
@@ -731,14 +748,16 @@ class Home extends Component {
                     <div>
                       <button
                         className={
-                          cancelledTradeHistory.meta.current_page - 1 === 0
+                          !cancelledTradeHistory.meta.previous_url
                             ? transStyle.back_none
                             : ""
                         }
                         onClick={(e) => {
                           e.preventDefault();
-                          if (cancelledTradeHistory.meta.current_page - 1 > 0) {
-                            //go back
+                          if (cancelledTradeHistory.meta.previous_url) {
+                            getCancelledTradeHistoryOffset(
+                              cancelledTradeHistory.meta.previous_url
+                            );
                           }
                         }}
                       >
@@ -746,20 +765,16 @@ class Home extends Component {
                       </button>
                       <button
                         className={
-                          cancelledTradeHistory.meta.current_page *
-                            cancelledTradeHistory.meta.items_per_page >
-                          cancelledTradeHistory.meta.total
+                          !cancelledTradeHistory.meta.next_url
                             ? transStyle.back_none
                             : ""
                         }
                         onClick={(e) => {
                           e.preventDefault();
-                          if (
-                            cancelledTradeHistory.meta.current_page *
-                              cancelledTradeHistory.meta.items_per_page <
-                            cancelledTradeHistory.meta.total
-                          ) {
-                            //go next
+                          if (cancelledTradeHistory.meta.next_url) {
+                            getCancelledTradeHistoryOffset(
+                              cancelledTradeHistory.meta.next_url
+                            );
                           }
                         }}
                       >
@@ -780,4 +795,24 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return { ...state.auth, ...state.resources, ...state.trade };
 };
-export default connect(mapStateToProps, null)(Home);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllTradeHistoryOffset: (url) =>
+      dispatch(getAllTradeHistoryOffset(url.replace("http://", "https://"))),
+    getActiveTradeHistoryOffset: (url) =>
+      dispatch(getActiveTradeHistoryOffset(url.replace("http://", "https://"))),
+    getPendingTradeHistoryOffset: (url) =>
+      dispatch(
+        getPendingTradeHistoryOffset(url.replace("http://", "https://"))
+      ),
+    getCancelledTradeHistoryOffset: (url) =>
+      dispatch(
+        getCancelledTradeHistoryOffset(url.replace("http://", "https://"))
+      ),
+    getCompletedTradeHistoryOffset: (url) =>
+      dispatch(
+        getCompletedTradeHistoryOffset(url.replace("http://", "https://"))
+      ),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
