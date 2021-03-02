@@ -819,6 +819,23 @@ export const depositNaira = (payload) => async (dispatch, getState) => {
     dispatch({ type: "CLEAR_TRADE_LOADING" });
     return true;
   } catch (err) {
+    if (err.response?.status === 422) {
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Deposit",
+          isSuccess: false,
+          message: JSON.stringify(err?.response?.data?.data?.error?.error),
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
+    }
     if (err?.response?.data?.data) {
       dispatch({
         type: "SHOW_NOTIFICATION",
