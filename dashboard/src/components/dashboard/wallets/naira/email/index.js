@@ -108,7 +108,7 @@ class Index extends Component {
                 }
                 id="amount_email"
                 name="amount"
-                value={amount.toString()}
+                value={amount}
                 step="any"
                 onChange={this.handleAmount}
                 required

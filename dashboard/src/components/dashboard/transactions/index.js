@@ -26,6 +26,9 @@ class Index extends Component {
             </div>
             <div className={style.box}>
               <h4
+                style={{
+                  textTransform: "capitalize",
+                }}
                 className={
                   itm.status === "cancelled"
                     ? style.red
@@ -84,9 +87,12 @@ class Index extends Component {
                     </div>
                   ) : (
                     <button
-                      onClick={(e) => {
+                      onClick={async (e) => {
                         e.preventDefault();
-                        cancelTrade(itm.id);
+                        if (await cancelTrade(itm.transaction_hash)) {
+                          document.querySelector("#transModal").style.display =
+                            "none";
+                        }
                       }}
                       className={style.link_btn_gold + " " + style.btn_red}
                     >

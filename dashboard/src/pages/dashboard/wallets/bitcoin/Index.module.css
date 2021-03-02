@@ -196,7 +196,7 @@
 }
 
 .text_ {
-    width: 50%;
+    width: 60%;
 }
 
 .table {
@@ -249,7 +249,7 @@
 }
 
 .qr {
-    width: 50%;
+    width: 40%;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -262,6 +262,7 @@
     margin-top: 20px;
     color: rgb(22, 22, 22, 0.8);
     font-size: var(--paragraphMidFontSize);
+    text-align: center;
 }
 
 .vc {
@@ -350,7 +351,7 @@
     color: rgb(22, 22, 22, 0.5);
     font-size: var(--paragraphMidFontSize);
     border-bottom: 1px solid rgb(0, 0, 0, 0.2);
-    padding: 10px 0;
+    padding: 10px;
 }
 
 .transactions_list tr, .table tr {
@@ -512,6 +513,74 @@
         box-shadow: 0 -2em;
         height: 1.25em;
     }
+}
+
+.qr img {
+    width: 80%;
+}
+
+.address_search {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.address_search input, .address_search input:focus {
+    display: block;
+    margin: 0;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(180, 180, 180);
+    outline: none;
+}
+
+.table_buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-flow: row nowrap;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.table_buttons>div {
+    margin-right: 20px;
+}
+
+.table_buttons button {
+    color: black;
+    font-weight: 900;
+    color: black;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.table_buttons button:hover {
+    background: rgba(216, 216, 216, 0.8);
+}
+
+.table_buttons .back_none {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.table_buttons>div:last-child {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.table_buttons>div:last-child {
+    margin-right: 0;
 }
 
 @media only screen and (max-width: 1000px) {

@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import {
   startGiftCardTrade,
   cancelTrade,
-  // uploadGiftCard,
+  uploadGiftCard,
 } from "../../../store/actions/trade";
 
 class Summary extends Component {
@@ -24,8 +24,9 @@ class Summary extends Component {
       giftCardDetails,
       isLoading,
       startGiftCardTrade,
-      // uploadGiftCard,
+      uploadGiftCard,
       cancelTrade,
+      currentGiftCardTrade,
     } = this.props;
     const {
       currency,
@@ -46,7 +47,7 @@ class Summary extends Component {
       );
     }
     if (!formTab || !card || !qty) {
-      <Redirect to={"/home/gift-cards/" + match.params.id} />;
+      return <Redirect to={"/home/gift-cards/" + match.params.id} />;
     }
     return (
       <section className={bitcoinStyle.home}>
@@ -78,13 +79,7 @@ class Summary extends Component {
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
-                // const input = document.getElementById("file");
-                // if ("files" in input) {
-                //   const file = input.files[0];
-                //   const formData = new FormData();
-                //   formData.append("file", file);
-                //   uploadGiftCard(formData);
-                // }
+
                 if (formTab === 2) {
                   if (
                     await startGiftCardTrade(
@@ -101,7 +96,15 @@ class Summary extends Component {
                       qty
                     )
                   ) {
-                    document.querySelector("#chat").style.display = "block";
+                    const input = document.getElementById("file");
+                    if ("files" in input) {
+                      const file = input.files[0];
+                      const formData = new FormData();
+                      formData.append("file", file);
+                      if (await uploadGiftCard(formData)) {
+                        this.props.history.push("/home/transactions/3/status");
+                      }
+                    }
                   }
                 }
               }}
@@ -197,20 +200,49 @@ class Summary extends Component {
                     <p>Select Currency</p>
                   </div>
                 </div>
-              ) : // <div className={bitcoinStyle.input}>
-              //   <div>
-              //     <p>Upload Credit Card</p>
-              //   </div>
-              //   <div>
-              //     <input
-              //       type="file"
-              //       id="file"
-              //       accept="image/*"
-              //       placeholder="Upload image"
-              //     />
-              //   </div>
-              // </div>
-              null}
+              ) : (
+                <div
+                  style={{
+                    width: "100%",
+                    flexFlow: "column nowrap",
+                  }}
+                  className={bitcoinStyle.input}
+                >
+                  <div
+                    style={{
+                      width: "100%",
+                      padding: 0,
+                    }}
+                  >
+                    <p
+                      style={{
+                        textAlign: "center",
+                      }}
+                    >
+                      <label htmlFor="file">Upload Credit Card</label>
+                    </p>
+                  </div>
+                  <div
+                    style={{
+                      width: "100%",
+                      textAlign: "center",
+                      padding: 0,
+                    }}
+                  >
+                    <input
+                      style={{
+                        margin: "0 auto",
+                        textAlign: "center",
+                      }}
+                      type="file"
+                      id="file"
+                      accept="image/*"
+                      placeholder="Upload image"
+                      required
+                    />
+                  </div>
+                </div>
+              )}
               {isLoading ? (
                 <div
                   className={
@@ -332,7 +364,7 @@ const mapDispatchToProps = (dispatch) => {
         )
       ),
     cancelTrade: (id) => dispatch(cancelTrade(id)),
-    // uploadGiftCard: (payload) => dispatch(uploadGiftCard(payload)),
+    uploadGiftCard: (payload) => dispatch(uploadGiftCard(payload)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Summary);

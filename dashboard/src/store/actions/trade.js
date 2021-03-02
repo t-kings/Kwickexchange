@@ -125,8 +125,11 @@ export const sellBitcoin = (payload) => {
           });
         }, 5000);
         getHistories(dispatch, getState);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     } catch (error) {
       if (error?.response?.data?.data?.error?.error) {
         dispatch({
@@ -176,6 +179,7 @@ export const sellBitcoin = (payload) => {
         });
       }, 5000);
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     }
   };
 };
@@ -230,26 +234,14 @@ export const startGiftCardTrade = (
           },
         }
       );
-      if (res.status === 200) {
+      if (res.status === 201) {
         dispatch({ type: "CURRENT_GIFT_CARD_TRADE", data: res.data.data });
-        dispatch({
-          type: "SHOW_NOTIFICATION",
-          data: {
-            type: "Trade",
-            isSuccess: true,
-            message: "Trade Started",
-          },
-        });
-        setTimeout(() => {
-          dispatch({
-            type: "CLEAR_NOTIFICATION",
-          });
-        }, 5000);
         return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
       return false;
     } catch (error) {
+      console.log(error.response?.data);
       if (error?.response?.status === 400) {
         dispatch({
           type: "SHOW_NOTIFICATION",
@@ -286,14 +278,12 @@ export const startGiftCardTrade = (
   };
 };
 
-export const cancelTrade = () => {
+export const cancelTrade = (id) => {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: "TRADE_LOADING" });
       const res = await axios.patch(
-        apiUrl +
-          "transaction/giftcard/sell/cancell/" +
-          getState().trade.currentGiftCardTrade.id,
+        apiUrl + "transaction/giftcard/sell/cancell/" + id,
         {},
         {
           headers: {
@@ -303,6 +293,7 @@ export const cancelTrade = () => {
         }
       );
       if (res.status === 200) {
+        await getHistories(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -316,8 +307,11 @@ export const cancelTrade = () => {
             type: "CLEAR_NOTIFICATION",
           });
         }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return true;
       }
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     } catch (error) {
       dispatch({
         type: "SHOW_NOTIFICATION",
@@ -333,6 +327,7 @@ export const cancelTrade = () => {
         });
       }, 5000);
       dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
     }
   };
 };
@@ -671,7 +666,6 @@ export const withdrawNaira = (payload) => {
       dispatch({ type: "CLEAR_TRADE_LOADING" });
       return false;
     } catch (error) {
-      console.log(error.response.data);
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {
@@ -825,7 +819,6 @@ export const depositNaira = (payload) => async (dispatch, getState) => {
     dispatch({ type: "CLEAR_TRADE_LOADING" });
     return true;
   } catch (err) {
-    console.log(err.response?.data?.data);
     if (err?.response?.data?.data) {
       dispatch({
         type: "SHOW_NOTIFICATION",
@@ -888,4 +881,78 @@ export const validatePayment = (trxref, reference) => async (
     dispatch({ type: "DEPOSIT_STATUS", data: false });
     dispatch({ type: "CLEAR_TRADE_LOADING" });
   }
+};
+
+export const uploadGiftCard = (formData) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: "TRADE_LOADING" });
+      const res = await axios.post(
+        apiUrl +
+          `transaction/giftcard/sell/upload/${
+            getState().trade.currentGiftCardTrade.transaction_hash
+          }`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + getState().auth.accessToken,
+          },
+        }
+      );
+      if (res.status === 201) {
+        await getHistories(dispatch, getState);
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Upload Gift Card",
+            isSuccess: true,
+            message: "Trade Started",
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return true;
+      }
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
+    } catch (err) {
+      if (err?.response?.data?.data) {
+        dispatch({
+          type: "SHOW_NOTIFICATION",
+          data: {
+            type: "Upload Gift Card",
+            isSuccess: false,
+            message: JSON.stringify(err?.response?.data?.data),
+          },
+        });
+        setTimeout(() => {
+          dispatch({
+            type: "CLEAR_NOTIFICATION",
+          });
+        }, 5000);
+        dispatch({ type: "CLEAR_TRADE_LOADING" });
+        return false;
+      }
+      dispatch({
+        type: "SHOW_NOTIFICATION",
+        data: {
+          type: "Upload Gift Card",
+          isSuccess: false,
+          message: "Error, try again",
+        },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+      dispatch({ type: "CLEAR_TRADE_LOADING" });
+      return false;
+    }
+  };
 };

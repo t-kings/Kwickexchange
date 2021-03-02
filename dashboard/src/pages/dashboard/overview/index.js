@@ -360,11 +360,20 @@ class Overview extends Component {
                 </div>
                 {formTab === 1 ? (
                   <form
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                       e.preventDefault();
-                      buyBitcoin({
-                        amount: btc,
-                      });
+                      if (
+                        await buyBitcoin({
+                          amount: btc,
+                        })
+                      ) {
+                        this.setState({
+                          ...this.state,
+                          dollar: 0.0,
+                          btc: 0.0,
+                          naira: 0.0,
+                        });
+                      }
                     }}
                   >
                     <div className={overviewStyle.rates_text}>
@@ -431,11 +440,20 @@ class Overview extends Component {
                   </form>
                 ) : (
                   <form
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                       e.preventDefault();
-                      sellBitcoin({
-                        amount: btc,
-                      });
+                      if (
+                        await sellBitcoin({
+                          amount: btc,
+                        })
+                      ) {
+                        this.setState({
+                          ...this.state,
+                          dollar: 0.0,
+                          btc: 0.0,
+                          naira: 0.0,
+                        });
+                      }
                     }}
                   >
                     <div className={overviewStyle.rates_text}>

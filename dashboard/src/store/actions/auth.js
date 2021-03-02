@@ -951,6 +951,7 @@ export const verifyPhone = (e) => {
         },
       });
       if (res.status === 200) {
+        await getUser(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {

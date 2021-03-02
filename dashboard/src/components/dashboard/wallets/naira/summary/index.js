@@ -28,7 +28,6 @@ class Index extends Component {
     const {
       withdraw,
       onwProps,
-
       transferNairaEmail,
       nairaTransfer,
     } = this.props;
@@ -39,16 +38,16 @@ class Index extends Component {
       bank,
       isWithdrawal,
     } = onwProps;
-    if (password.length < 1) {
-      errors.password.push("Password is required");
-    }
-    if (errors.password.length > 0) {
-      this.setState({
-        ...this.state,
-        errors,
-      });
-    } else {
-      if (isWithdrawal) {
+    if (isWithdrawal) {
+      if (password.length < 1) {
+        errors.password.push("Password is required");
+      }
+      if (errors.password.length > 0) {
+        this.setState({
+          ...this.state,
+          errors,
+        });
+      } else {
         if (
           await withdraw({
             account_number,
@@ -58,21 +57,22 @@ class Index extends Component {
             bank_name: bank.name,
             bank_code: bank.code,
             bank_type: bank.type,
+            password,
             bank_currency: bank.currency,
           })
         ) {
           document.querySelector("#nairaSummary").style.display = "none";
         }
-      } else {
-        if (
-          await transferNairaEmail({
-            email: nairaTransfer.email,
-            amount: nairaTransfer.amount.toString(),
-            password,
-          })
-        ) {
-          document.querySelector("#nairaSummary").style.display = "none";
-        }
+      }
+    } else {
+      if (
+        await transferNairaEmail({
+          email: nairaTransfer.email,
+          amount: nairaTransfer.amount.toString(),
+          password: nairaTransfer.password,
+        })
+      ) {
+        document.querySelector("#nairaSummary").style.display = "none";
       }
     }
   };
@@ -127,27 +127,28 @@ class Index extends Component {
                   <p>{nairaTransfer.email}</p>
                 </div>
               )}
-
-              <form className={style.box} onSubmit={this.handleSubmit}>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  required
-                  onChange={this.handleChange}
-                  id="password"
-                  name="password"
-                  className={
-                    style.form_control +
-                    " " +
-                    (errors.password.length > 0 ? style.error : " ")
-                  }
-                />
-                {errors.password.map((item, idx) => (
-                  <p key={idx} className={style.error_par}>
-                    {item.msg}
-                  </p>
-                ))}
-              </form>
+              {isWithdrawal ? (
+                <form className={style.box} onSubmit={this.handleSubmit}>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    required
+                    onChange={this.handleChange}
+                    id="password"
+                    name="password"
+                    className={
+                      style.form_control +
+                      " " +
+                      (errors.password.length > 0 ? style.error : " ")
+                    }
+                  />
+                  {errors.password.map((item, idx) => (
+                    <p key={idx} className={style.error_par}>
+                      {item.msg}
+                    </p>
+                  ))}
+                </form>
+              ) : null}
             </div>
             <div className={style.actions}>
               <button

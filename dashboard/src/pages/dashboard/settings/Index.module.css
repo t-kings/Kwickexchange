@@ -574,6 +574,68 @@
     outline: none;
 }
 
+.verified {
+    width: 100%;
+    border-left: 4px dashed green;
+    position: relative;
+    padding-left: 0;
+    padding: 20px 0;
+    margin: 20px;
+}
+
+.verified div {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: green;
+    border-radius: 50%;
+    left: -21px;
+}
+
+.verified div.circle_left {
+    top: -20px;
+}
+
+.verified div:last-child {
+    bottom: -20px;
+}
+
+.verified li {
+    margin-left: 40px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.verified li h2 {
+    font-size: var(--paragraphLargestFontSize);
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.verified li p {
+    margin: 10px 0;
+    padding: 0;
+    color: grey;
+}
+
+.verified li h2 span:last-child {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: green;
+    border-radius: 50%;
+}
+
 @media only screen and (max-width: 1000px) {
     .home {
         padding: 80px 6vw 20px 6vw;

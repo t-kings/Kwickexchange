@@ -199,7 +199,7 @@ class Index extends Component {
                 />
                 <div className={walletStyle.balance_tab_hold}>
                   <div className={walletStyle.text}>
-                    <div className={walletStyle.Text_}>
+                    <div className={walletStyle.text_}>
                       <span className={walletStyle.btc}>
                         <svg
                           width="13"
@@ -274,11 +274,9 @@ class Index extends Component {
                     <div className={walletStyle.qr}>
                       <img
                         src={
-                          "https://www.bitcoinqrcodemaker.com/api/?style=bitcoin&amp;color=1&amp;prefix=on&amp;address=" +
+                          "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=" +
                           bitcoinDepositAddress.address
                         }
-                        // height="300"
-                        // width="300"
                         alt="Bitcoin QR Code"
                       />
                       <p>Scan QR code to receive BTC in your wallet</p>
@@ -286,34 +284,106 @@ class Index extends Component {
                   </div>
                   <div>
                     {bitcoinDepositAddresses.data.length > 0 ? (
-                      <table className={walletStyle.table}>
-                        <thead>
-                          <tr>
-                            <th>Address</th>
-                            <th>Network</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {bitcoinDepositAddresses.data.map((itm, idx) => (
-                            <tr key={idx}>
-                              <td>{itm.address}</td>
-                              <td>{itm.network}</td>
-                              <td
-                                className={
-                                  itm.status === "active"
-                                    ? walletStyle.green
-                                    : walletStyle.red
-                                }
-                              >
-                                {itm.status}
-                              </td>
-                              <td>{itm.createdAt}</td>
+                      <>
+                        {/* <div className={walletStyle.address_search}>
+                          <input
+                            type="text"
+                            onChange={(e) => {
+                              e.preventDefault();
+                              this.searchAddress(e.target.value);
+                            }}
+                            placeholder="Search"
+                          />
+                        </div> */}
+                        <table className={walletStyle.table}>
+                          <thead>
+                            <tr>
+                              <th>Address</th>
+                              <th>Network</th>
+                              <th>Status</th>
+                              <th>Date</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {bitcoinDepositAddresses.data.map((itm, idx) => (
+                              <tr key={idx}>
+                                <td>{itm.address}</td>
+                                <td>{itm.network}</td>
+                                <td
+                                  className={
+                                    itm.status === "active"
+                                      ? walletStyle.green
+                                      : walletStyle.red
+                                  }
+                                >
+                                  {itm.status}
+                                </td>
+                                <td>{itm.createdAt}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                        <div className={walletStyle.table_buttons}>
+                          <div>
+                            {(bitcoinDepositAddresses.meta.current_page - 1) *
+                              bitcoinDepositAddresses.meta.items_per_page +
+                              1}{" "}
+                            -{" "}
+                            {bitcoinDepositAddresses.meta.current_page *
+                              bitcoinDepositAddresses.meta.items_per_page <
+                            bitcoinDepositAddresses.meta.total
+                              ? bitcoinDepositAddresses.meta.current_page *
+                                bitcoinDepositAddresses.meta.items_per_page
+                              : bitcoinDepositAddresses.meta.total}{" "}
+                            of {bitcoinDepositAddresses.meta.total}
+                          </div>
+                          <div>
+                            <button
+                              className={
+                                bitcoinDepositAddresses.meta.current_page -
+                                  1 ===
+                                0
+                                  ? walletStyle.back_none
+                                  : ""
+                              }
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if (
+                                  bitcoinDepositAddresses.meta.current_page -
+                                    1 >
+                                  0
+                                ) {
+                                  //go back
+                                }
+                              }}
+                            >
+                              &lt;
+                            </button>
+                            <button
+                              className={
+                                bitcoinDepositAddresses.meta.current_page *
+                                  bitcoinDepositAddresses.meta.items_per_page >
+                                bitcoinDepositAddresses.meta.total
+                                  ? walletStyle.back_none
+                                  : ""
+                              }
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if (
+                                  bitcoinDepositAddresses.meta.current_page *
+                                    bitcoinDepositAddresses.meta
+                                      .items_per_page <
+                                  bitcoinDepositAddresses.meta.total
+                                ) {
+                                  //go next
+                                }
+                              }}
+                            >
+                              &gt;
+                            </button>
+                          </div>
+                        </div>
+                      </>
                     ) : null}
                   </div>
                 </div>
@@ -355,6 +425,62 @@ class Index extends Component {
                           ))}
                         </tbody>
                       </table>
+                      <div className={walletStyle.table_buttons}>
+                        <div>
+                          {(bitcoinTransactionList.meta.current_page - 1) *
+                            bitcoinTransactionList.meta.items_per_page +
+                            1}{" "}
+                          -{" "}
+                          {bitcoinTransactionList.meta.current_page *
+                            bitcoinTransactionList.meta.items_per_page <
+                          bitcoinTransactionList.meta.total
+                            ? bitcoinTransactionList.meta.current_page *
+                              bitcoinTransactionList.meta.items_per_page
+                            : bitcoinTransactionList.meta.total}{" "}
+                          of {bitcoinTransactionList.meta.total}
+                        </div>
+                        <div>
+                          <button
+                            className={
+                              bitcoinTransactionList.meta.current_page - 1 === 0
+                                ? walletStyle.back_none
+                                : ""
+                            }
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (
+                                bitcoinTransactionList.meta.current_page - 1 >
+                                0
+                              ) {
+                                //go back
+                              }
+                            }}
+                          >
+                            &lt;
+                          </button>
+                          <button
+                            className={
+                              bitcoinTransactionList.meta.current_page *
+                                bitcoinTransactionList.meta.items_per_page >
+                              bitcoinTransactionList.meta.total
+                                ? walletStyle.back_none
+                                : ""
+                            }
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (
+                                bitcoinTransactionList.meta.current_page *
+                                  bitcoinTransactionList.meta.items_per_page <
+                                bitcoinTransactionList.meta.total
+                              ) {
+                                //go next
+                              }
+                            }}
+                          >
+                            &gt;
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (

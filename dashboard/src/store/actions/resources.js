@@ -37,13 +37,16 @@ export const getResources = () => {
 
 export const getHistories = async (dispatch, getState) => {
   try {
+    await getTransactionCount(dispatch, getState);
     await getAllTradeHistory(dispatch, getState);
     await getActiveTradeHistory(dispatch, getState);
+    await getNairaTransactions(dispatch, getState);
     await getPendingTradeHistory(dispatch, getState);
     await getCancelledTradeHistory(dispatch, getState);
     await getCompletedTradeHistory(dispatch, getState);
     await getBitcoinBuyRate(dispatch, getState);
     await getBitcoinBuyHistory(dispatch, getState);
+    await getBitcoinTransactions(dispatch, getState);
     await getBitcoinSellHistory(dispatch, getState);
     await getGiftCardsTradeHistory(dispatch, getState);
   } catch (error) {

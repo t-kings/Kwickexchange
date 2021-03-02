@@ -903,6 +903,60 @@ class Index extends Component {
                           ))}
                         </tbody>
                       </table>
+
+                      <div className={walletStyle.table_buttons}>
+                        <div>
+                          {(nairaTransactions.meta.current_page - 1) *
+                            nairaTransactions.meta.items_per_page +
+                            1}{" "}
+                          -{" "}
+                          {nairaTransactions.meta.current_page *
+                            nairaTransactions.meta.items_per_page <
+                          nairaTransactions.meta.total
+                            ? nairaTransactions.meta.current_page *
+                              nairaTransactions.meta.items_per_page
+                            : nairaTransactions.meta.total}{" "}
+                          of {nairaTransactions.meta.total}
+                        </div>
+                        <div>
+                          <button
+                            className={
+                              nairaTransactions.meta.current_page - 1 === 0
+                                ? walletStyle.back_none
+                                : ""
+                            }
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (nairaTransactions.meta.current_page - 1 > 0) {
+                                //go back
+                              }
+                            }}
+                          >
+                            &lt;
+                          </button>
+                          <button
+                            className={
+                              nairaTransactions.meta.current_page *
+                                nairaTransactions.meta.items_per_page >
+                              nairaTransactions.meta.total
+                                ? walletStyle.back_none
+                                : ""
+                            }
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (
+                                nairaTransactions.meta.current_page *
+                                  nairaTransactions.meta.items_per_page <
+                                nairaTransactions.meta.total
+                              ) {
+                                //go next
+                              }
+                            }}
+                          >
+                            &gt;
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <div className={walletStyle.transactions_empty}>

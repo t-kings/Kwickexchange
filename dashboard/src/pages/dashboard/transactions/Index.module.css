@@ -343,3 +343,67 @@
         padding: 80px 6vw 20px 6vw;
     }
 }
+
+.address_search {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.address_search input, .address_search input:focus {
+    display: block;
+    margin: 0;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(180, 180, 180);
+    outline: none;
+}
+
+.table_buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-flow: row nowrap;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.table_buttons>div {
+    margin-right: 20px;
+}
+
+.table_buttons button {
+    color: black;
+    font-weight: 900;
+    color: black;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.table_buttons button:hover {
+    background: rgba(216, 216, 216, 0.8);
+}
+
+.table_buttons .back_none {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.table_buttons>div:last-child {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+}
+
+.table_buttons>div:last-child {
+    margin-right: 0;
+}

@@ -159,6 +159,9 @@ class Status extends Component {
         />
       );
     }
+    if (!giftCard) {
+      return <Redirect to="/home/gift-cards/" />;
+    }
     return (
       <section className={bitcoinStyle.home}>
         <Link to={"/home/gift-cards"} className={bitcoinStyle.back}>

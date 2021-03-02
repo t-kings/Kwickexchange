@@ -409,7 +409,54 @@ class Home extends Component {
                     padding: 0,
                   }}
                 >
-                  Your credentials are verified
+                  <ul className={transStyle.verified}>
+                    <li>
+                      <h2>
+                        <span>Email Verification</span>
+                        <span>
+                          <svg
+                            width="10"
+                            height="9"
+                            viewBox="0 0 10 9"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1 4.75L3.18182 7L9 1"
+                              stroke="white"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </span>
+                      </h2>
+                      <p>Your Email has been verified</p>
+                    </li>
+                    <li>
+                      <h2>
+                        <span>Phone Verification</span>
+                        <span>
+                          <svg
+                            width="10"
+                            height="9"
+                            viewBox="0 0 10 9"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1 4.75L3.18182 7L9 1"
+                              stroke="white"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </span>
+                      </h2>
+                      <p>Your phone number has been verified</p>
+                    </li>
+                    <div className={transStyle.circle_left}> </div>
+                    <div> </div>
+                  </ul>
                 </p>
               ) : (
                 <form

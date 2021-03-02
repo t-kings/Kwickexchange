@@ -128,7 +128,7 @@ class Index extends Component {
                 id="btc_address"
                 name="btc"
                 step="any"
-                value={btc.toString()}
+                value={btc}
                 onChange={this.handleBTC}
                 required
               />
@@ -156,7 +156,7 @@ class Index extends Component {
                 }
                 id="usd_address"
                 name="usd"
-                value={usd.toString()}
+                value={usd}
                 step="any"
                 onChange={this.handleUSD}
                 required

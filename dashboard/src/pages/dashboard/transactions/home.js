@@ -22,6 +22,24 @@ class Home extends Component {
       console.log(e);
     }
   };
+  componentDidMount = () => {
+    const { tab, id } = this.props.match.params;
+    const { currentGiftCardTrade } = this.props;
+    if (tab && id === "status" && currentGiftCardTrade.id) {
+      this.setState({
+        ...this.state,
+        formTab: tab,
+        trans: currentGiftCardTrade,
+      });
+      try {
+        setTimeout(() => {
+          document.querySelector("#transModal").style.display = "flex";
+        }, 1000);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
   render() {
     const {
       isAuthenticated,
@@ -159,6 +177,60 @@ class Home extends Component {
                         ))}
                       </tbody>
                     </table>
+
+                    <div className={transStyle.table_buttons}>
+                      <div>
+                        {(allTradeHistory.meta.current_page - 1) *
+                          allTradeHistory.meta.items_per_page +
+                          1}{" "}
+                        -{" "}
+                        {allTradeHistory.meta.current_page *
+                          allTradeHistory.meta.items_per_page <
+                        allTradeHistory.meta.total
+                          ? allTradeHistory.meta.current_page *
+                            allTradeHistory.meta.items_per_page
+                          : allTradeHistory.meta.total}{" "}
+                        of {allTradeHistory.meta.total}
+                      </div>
+                      <div>
+                        <button
+                          className={
+                            allTradeHistory.meta.current_page - 1 === 0
+                              ? transStyle.back_none
+                              : ""
+                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (allTradeHistory.meta.current_page - 1 > 0) {
+                              //go back
+                            }
+                          }}
+                        >
+                          &lt;
+                        </button>
+                        <button
+                          className={
+                            allTradeHistory.meta.current_page *
+                              allTradeHistory.meta.items_per_page >
+                            allTradeHistory.meta.total
+                              ? transStyle.back_none
+                              : ""
+                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (
+                              allTradeHistory.meta.current_page *
+                                allTradeHistory.meta.items_per_page <
+                              allTradeHistory.meta.total
+                            ) {
+                              //go next
+                            }
+                          }}
+                        >
+                          &gt;
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )
@@ -242,6 +314,60 @@ class Home extends Component {
                         ))}
                       </tbody>
                     </table>
+
+                    <div className={transStyle.table_buttons}>
+                      <div>
+                        {(pendingTradeHistory.meta.current_page - 1) *
+                          pendingTradeHistory.meta.items_per_page +
+                          1}{" "}
+                        -{" "}
+                        {pendingTradeHistory.meta.current_page *
+                          pendingTradeHistory.meta.items_per_page <
+                        pendingTradeHistory.meta.total
+                          ? pendingTradeHistory.meta.current_page *
+                            pendingTradeHistory.meta.items_per_page
+                          : pendingTradeHistory.meta.total}{" "}
+                        of {pendingTradeHistory.meta.total}
+                      </div>
+                      <div>
+                        <button
+                          className={
+                            pendingTradeHistory.meta.current_page - 1 === 0
+                              ? transStyle.back_none
+                              : ""
+                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (pendingTradeHistory.meta.current_page - 1 > 0) {
+                              //go back
+                            }
+                          }}
+                        >
+                          &lt;
+                        </button>
+                        <button
+                          className={
+                            pendingTradeHistory.meta.current_page *
+                              pendingTradeHistory.meta.items_per_page >
+                            pendingTradeHistory.meta.total
+                              ? transStyle.back_none
+                              : ""
+                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (
+                              pendingTradeHistory.meta.current_page *
+                                pendingTradeHistory.meta.items_per_page <
+                              pendingTradeHistory.meta.total
+                            ) {
+                              //go next
+                            }
+                          }}
+                        >
+                          &gt;
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )
@@ -325,6 +451,60 @@ class Home extends Component {
                         ))}
                       </tbody>
                     </table>
+
+                    <div className={transStyle.table_buttons}>
+                      <div>
+                        {(activeTradeHistory.meta.current_page - 1) *
+                          activeTradeHistory.meta.items_per_page +
+                          1}{" "}
+                        -{" "}
+                        {activeTradeHistory.meta.current_page *
+                          activeTradeHistory.meta.items_per_page <
+                        activeTradeHistory.meta.total
+                          ? activeTradeHistory.meta.current_page *
+                            activeTradeHistory.meta.items_per_page
+                          : activeTradeHistory.meta.total}{" "}
+                        of {activeTradeHistory.meta.total}
+                      </div>
+                      <div>
+                        <button
+                          className={
+                            activeTradeHistory.meta.current_page - 1 === 0
+                              ? transStyle.back_none
+                              : ""
+                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (activeTradeHistory.meta.current_page - 1 > 0) {
+                              //go back
+                            }
+                          }}
+                        >
+                          &lt;
+                        </button>
+                        <button
+                          className={
+                            activeTradeHistory.meta.current_page *
+                              activeTradeHistory.meta.items_per_page >
+                            activeTradeHistory.meta.total
+                              ? transStyle.back_none
+                              : ""
+                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (
+                              activeTradeHistory.meta.current_page *
+                                activeTradeHistory.meta.items_per_page <
+                              activeTradeHistory.meta.total
+                            ) {
+                              //go next
+                            }
+                          }}
+                        >
+                          &gt;
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )
@@ -408,6 +588,63 @@ class Home extends Component {
                         ))}
                       </tbody>
                     </table>
+
+                    <div className={transStyle.table_buttons}>
+                      <div>
+                        {(completedTradeHistory.meta.current_page - 1) *
+                          completedTradeHistory.meta.items_per_page +
+                          1}{" "}
+                        -{" "}
+                        {completedTradeHistory.meta.current_page *
+                          completedTradeHistory.meta.items_per_page <
+                        completedTradeHistory.meta.total
+                          ? completedTradeHistory.meta.current_page *
+                            completedTradeHistory.meta.items_per_page
+                          : completedTradeHistory.meta.total}{" "}
+                        of {completedTradeHistory.meta.total}
+                      </div>
+                      <div>
+                        <button
+                          className={
+                            completedTradeHistory.meta.current_page - 1 === 0
+                              ? transStyle.back_none
+                              : ""
+                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (
+                              completedTradeHistory.meta.current_page - 1 >
+                              0
+                            ) {
+                              //go back
+                            }
+                          }}
+                        >
+                          &lt;
+                        </button>
+                        <button
+                          className={
+                            completedTradeHistory.meta.current_page *
+                              completedTradeHistory.meta.items_per_page >
+                            completedTradeHistory.meta.total
+                              ? transStyle.back_none
+                              : ""
+                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (
+                              completedTradeHistory.meta.current_page *
+                                completedTradeHistory.meta.items_per_page <
+                              completedTradeHistory.meta.total
+                            ) {
+                              //go next
+                            }
+                          }}
+                        >
+                          &gt;
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )
@@ -476,6 +713,60 @@ class Home extends Component {
                       ))}
                     </tbody>
                   </table>
+
+                  <div className={transStyle.table_buttons}>
+                    <div>
+                      {(cancelledTradeHistory.meta.current_page - 1) *
+                        cancelledTradeHistory.meta.items_per_page +
+                        1}{" "}
+                      -{" "}
+                      {cancelledTradeHistory.meta.current_page *
+                        cancelledTradeHistory.meta.items_per_page <
+                      cancelledTradeHistory.meta.total
+                        ? cancelledTradeHistory.meta.current_page *
+                          cancelledTradeHistory.meta.items_per_page
+                        : cancelledTradeHistory.meta.total}{" "}
+                      of {cancelledTradeHistory.meta.total}
+                    </div>
+                    <div>
+                      <button
+                        className={
+                          cancelledTradeHistory.meta.current_page - 1 === 0
+                            ? transStyle.back_none
+                            : ""
+                        }
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (cancelledTradeHistory.meta.current_page - 1 > 0) {
+                            //go back
+                          }
+                        }}
+                      >
+                        &lt;
+                      </button>
+                      <button
+                        className={
+                          cancelledTradeHistory.meta.current_page *
+                            cancelledTradeHistory.meta.items_per_page >
+                          cancelledTradeHistory.meta.total
+                            ? transStyle.back_none
+                            : ""
+                        }
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (
+                            cancelledTradeHistory.meta.current_page *
+                              cancelledTradeHistory.meta.items_per_page <
+                            cancelledTradeHistory.meta.total
+                          ) {
+                            //go next
+                          }
+                        }}
+                      >
+                        &gt;
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -487,6 +778,6 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { ...state.auth, ...state.resources };
+  return { ...state.auth, ...state.resources, ...state.trade };
 };
 export default connect(mapStateToProps, null)(Home);

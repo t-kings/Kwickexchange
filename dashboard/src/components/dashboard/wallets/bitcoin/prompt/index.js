@@ -30,8 +30,8 @@ class Index extends Component {
                   </span>
                 </div>
               ) : null}
-              <p>{btcWithdrawal.btc} BTC</p>
-              <p>$ {btcWithdrawal.usd}</p>
+              <p>{parseFloat(btcWithdrawal.btc).toFixed(8)} BTC</p>
+              <p>$ {parseFloat(btcWithdrawal.usd).toFixed(2)}</p>
               <p>
                 {btcWithdrawal.address && btcWithdrawal.address.length > 0
                   ? btcWithdrawal.address

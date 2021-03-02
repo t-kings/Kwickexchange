@@ -11,9 +11,10 @@ class Index extends Component {
       <main className={style.main_body}>
         <Switch>
           <Route exact path="/home/gift-cards" component={Home} />
-          <Route path="/home/gift-cards/status" component={Status} />
+          {/* <Route path="/home/gift-cards/status" component={Status} /> */}
           <Route exact path="/home/gift-cards/:id" component={GiftCard} />
           <Route path="/home/gift-cards/:id/summary" component={Summary} />
+          <Route path="/home/gift-cards/:id/status" component={Status} />
           <Route component={Home} />
         </Switch>
       </main>
