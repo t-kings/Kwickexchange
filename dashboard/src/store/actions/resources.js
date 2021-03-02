@@ -30,7 +30,7 @@ export const getResources = () => {
       await getUserBanks(dispatch, getState);
       dispatch({ type: "KILL_RESOURCES_LOADING" });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 };
@@ -50,7 +50,7 @@ export const getHistories = async (dispatch, getState) => {
     await getBitcoinSellHistory(dispatch, getState);
     await getGiftCardsTradeHistory(dispatch, getState);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -551,6 +551,66 @@ export const getCompletedTradeHistoryOffset = (url) => async (
     });
     if (res.status === 200) {
       dispatch({ type: "COMPLETED_TRADE_HISTORY", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinTransactionsOffset = (url) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_TRANSACTIONS_LIST", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getNairaTransactionsOffset = (url) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "NAIRA_TRANSACTIONS_LIST", data: res.data.data });
+    }
+    return true;
+  } catch (err) {
+    return true;
+  }
+};
+
+export const getBitcoinDepositAddressesOffset = (url) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + getState().auth.accessToken,
+      },
+    });
+    if (res.status === 200) {
+      dispatch({ type: "BITCOIN_DEPOSIT_ADDRESSES", data: res.data.data });
     }
     return true;
   } catch (err) {

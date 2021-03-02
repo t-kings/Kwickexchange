@@ -18,7 +18,6 @@ class Notification extends Component {
   };
   render() {
     const { isAuthenticated, notification } = this.props;
-    console.log(notification);
     if (!isAuthenticated) {
       return (
         <Redirect

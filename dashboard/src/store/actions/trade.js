@@ -241,7 +241,7 @@ export const startGiftCardTrade = (
       dispatch({ type: "CLEAR_TRADE_LOADING" });
       return false;
     } catch (error) {
-      console.log(error.response?.data);
+      // console.log(error.response?.data);
       if (error?.response?.status === 400) {
         dispatch({
           type: "SHOW_NOTIFICATION",
@@ -614,7 +614,7 @@ export const deleteAccount = (id) => {
       dispatch({ type: "CLEAR_TRADE_LOADING" });
       return false;
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       dispatch({
         type: "SHOW_NOTIFICATION",
         data: {

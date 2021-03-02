@@ -19,6 +19,7 @@ import Deposit from "../../../../components/dashboard/wallets/naira/deposit";
 import Email from "../../../../components/dashboard/wallets/naira/email";
 import Account from "../../../../components/dashboard/wallets/naira/account";
 import Delete from "../../../../components/dashboard/wallets/naira/delete";
+import { getNairaTransactionsOffset } from "../../../../store/actions/resources";
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -239,6 +240,7 @@ class Index extends Component {
       banks,
       userBanks,
       nairaTransactions,
+      getNairaTransactionsOffset,
     } = this.props;
     if (!isAuthenticated) {
       return (
@@ -921,14 +923,16 @@ class Index extends Component {
                         <div>
                           <button
                             className={
-                              nairaTransactions.meta.current_page - 1 === 0
+                              !nairaTransactions.meta.previous_url
                                 ? walletStyle.back_none
                                 : ""
                             }
                             onClick={(e) => {
                               e.preventDefault();
-                              if (nairaTransactions.meta.current_page - 1 > 0) {
-                                //go back
+                              if (nairaTransactions.meta.previous_url) {
+                                getNairaTransactionsOffset(
+                                  nairaTransactions.meta.previous_url
+                                );
                               }
                             }}
                           >
@@ -936,20 +940,16 @@ class Index extends Component {
                           </button>
                           <button
                             className={
-                              nairaTransactions.meta.current_page *
-                                nairaTransactions.meta.items_per_page >
-                              nairaTransactions.meta.total
+                              !nairaTransactions.meta.next_url
                                 ? walletStyle.back_none
                                 : ""
                             }
                             onClick={(e) => {
                               e.preventDefault();
-                              if (
-                                nairaTransactions.meta.current_page *
-                                  nairaTransactions.meta.items_per_page <
-                                nairaTransactions.meta.total
-                              ) {
-                                //go next
+                              if (nairaTransactions.meta.next_url) {
+                                getNairaTransactionsOffset(
+                                  nairaTransactions.meta.next_url
+                                );
                               }
                             }}
                           >
@@ -983,6 +983,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getNairaTransactionsOffset: (url) =>
+      dispatch(getNairaTransactionsOffset(url.replace("http://", "https://"))),
     showNotification: (type, isSuccess, message) =>
       dispatch((dispatch, getState) => {
         dispatch({

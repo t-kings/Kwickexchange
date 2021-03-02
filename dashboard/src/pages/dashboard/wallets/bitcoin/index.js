@@ -13,6 +13,10 @@ import empty from "../images/empty.png";
 import email from "../images/email.png";
 import ad from "../images/ad.png";
 import { generateAddress } from "../../../../store/actions/trade";
+import {
+  getBitcoinTransactionsOffset,
+  getBitcoinDepositAddressesOffset,
+} from "../../../../store/actions/resources";
 import Prompt from "../../../../components/dashboard/wallets/bitcoin/prompt";
 import Email from "../../../../components/dashboard/wallets/bitcoin/email";
 import Address from "../../../../components/dashboard/wallets/bitcoin/address";
@@ -44,6 +48,8 @@ class Index extends Component {
       bitcoinTransactionList,
       generateAddress,
       isLoading,
+      getBitcoinTransactionsOffset,
+      getBitcoinDepositAddressesOffset,
       bitcoinDepositAddresses,
     } = this.props;
     if (!isAuthenticated) {
@@ -340,20 +346,16 @@ class Index extends Component {
                           <div>
                             <button
                               className={
-                                bitcoinDepositAddresses.meta.current_page -
-                                  1 ===
-                                0
+                                !bitcoinDepositAddresses.meta.previous_url
                                   ? walletStyle.back_none
                                   : ""
                               }
                               onClick={(e) => {
                                 e.preventDefault();
-                                if (
-                                  bitcoinDepositAddresses.meta.current_page -
-                                    1 >
-                                  0
-                                ) {
-                                  //go back
+                                if (bitcoinDepositAddresses.meta.previous_url) {
+                                  getBitcoinDepositAddressesOffset(
+                                    bitcoinDepositAddress.meta.previous_url
+                                  );
                                 }
                               }}
                             >
@@ -361,21 +363,16 @@ class Index extends Component {
                             </button>
                             <button
                               className={
-                                bitcoinDepositAddresses.meta.current_page *
-                                  bitcoinDepositAddresses.meta.items_per_page >
-                                bitcoinDepositAddresses.meta.total
+                                !bitcoinDepositAddresses.meta.next_url
                                   ? walletStyle.back_none
                                   : ""
                               }
                               onClick={(e) => {
                                 e.preventDefault();
-                                if (
-                                  bitcoinDepositAddresses.meta.current_page *
-                                    bitcoinDepositAddresses.meta
-                                      .items_per_page <
-                                  bitcoinDepositAddresses.meta.total
-                                ) {
-                                  //go next
+                                if (bitcoinDepositAddresses.meta.next_url) {
+                                  getBitcoinDepositAddressesOffset(
+                                    bitcoinDepositAddresses.meta.next_url
+                                  );
                                 }
                               }}
                             >
@@ -442,17 +439,16 @@ class Index extends Component {
                         <div>
                           <button
                             className={
-                              bitcoinTransactionList.meta.current_page - 1 === 0
+                              !bitcoinTransactionList.meta.previous_url
                                 ? walletStyle.back_none
                                 : ""
                             }
                             onClick={(e) => {
                               e.preventDefault();
-                              if (
-                                bitcoinTransactionList.meta.current_page - 1 >
-                                0
-                              ) {
-                                //go back
+                              if (bitcoinTransactionList.meta.previous_url) {
+                                getBitcoinTransactionsOffset(
+                                  bitcoinTransactionList.meta.previous_url
+                                );
                               }
                             }}
                           >
@@ -460,20 +456,16 @@ class Index extends Component {
                           </button>
                           <button
                             className={
-                              bitcoinTransactionList.meta.current_page *
-                                bitcoinTransactionList.meta.items_per_page >
-                              bitcoinTransactionList.meta.total
+                              !bitcoinTransactionList.meta.next_url
                                 ? walletStyle.back_none
                                 : ""
                             }
                             onClick={(e) => {
                               e.preventDefault();
-                              if (
-                                bitcoinTransactionList.meta.current_page *
-                                  bitcoinTransactionList.meta.items_per_page <
-                                bitcoinTransactionList.meta.total
-                              ) {
-                                //go next
+                              if (bitcoinTransactionList.meta.next_url) {
+                                getBitcoinTransactionsOffset(
+                                  bitcoinTransactionList.meta.next_url
+                                );
                               }
                             }}
                           >
@@ -629,6 +621,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     generateAddress: () => dispatch(generateAddress()),
+    getBitcoinDepositAddressesOffset: (url) =>
+      dispatch(
+        getBitcoinDepositAddressesOffset(url.replace("http://", "https://"))
+      ),
+    getBitcoinTransactionsOffset: (url) =>
+      dispatch(
+        getBitcoinTransactionsOffset(url.replace("http://", "https://"))
+      ),
     showNotification: (type, isSuccess, message) =>
       dispatch((dispatch, getState) => {
         dispatch({

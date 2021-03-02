@@ -569,7 +569,7 @@ export const checkToken = () => {
       dispatch({
         type: "CLEAR_TOKEN_LOADING",
       });
-      console.log(e);
+      // console.log(e);
       return false;
     }
   };
@@ -598,7 +598,7 @@ export const refreshToken = async (dispatch, getState) => {
     dispatch({
       type: "CLEAR_AUTH_LOADING",
     });
-    console.log(e);
+    // console.log(e);
   }
 };
 
@@ -795,7 +795,7 @@ export const changeNotification = (idx, key, value) => {
     try {
       dispatch({ type: "CHANGE_NOTIFICATION", idx, key, value });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 };
@@ -864,7 +864,7 @@ export const markNotification = (id) => {
         }
       );
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 };
@@ -903,7 +903,6 @@ export const deleteAccount = (e) => {
       dispatch({ type: "CLEAR_AUTH_LOADING" });
       return false;
     } catch (error) {
-      console.log(error.response);
       if (error?.response?.data?.data) {
         dispatch({
           type: "SHOW_NOTIFICATION",

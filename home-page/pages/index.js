@@ -97,7 +97,7 @@ const getGiftCardRate = async () => {
     }
     return [];
   } catch (e) {
-    console.log(e.response.status);
+    // console.log(e.response.status);
     return [];
   }
 };

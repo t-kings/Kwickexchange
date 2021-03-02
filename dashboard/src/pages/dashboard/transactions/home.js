@@ -26,7 +26,7 @@ class Home extends Component {
       });
       document.querySelector("#transModal").style.display = "flex";
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
   componentDidMount = () => {
@@ -43,7 +43,7 @@ class Home extends Component {
           document.querySelector("#transModal").style.display = "flex";
         }, 1000);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   };
@@ -62,7 +62,6 @@ class Home extends Component {
       getCompletedTradeHistoryOffset,
     } = this.props;
     const { formTab } = this.state;
-    console.log(allTradeHistory);
     if (!isAuthenticated) {
       return (
         <Redirect to={{ pathname: "/", redirect_to: "/home/transactions" }} />
