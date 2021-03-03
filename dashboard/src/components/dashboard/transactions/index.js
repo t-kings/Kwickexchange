@@ -41,14 +41,23 @@ class Index extends Component {
               </h4>
               <ul>
                 <li>
+                  <p>Transaction Asset</p>
+                  <h6 style={{ textTransform: "capitalize" }}>{itm.asset}</h6>
+                </li>
+                <li>
                   <p>Transaction Type</p>
-                  <h6>{itm.description}</h6>
+                  <h6 style={{ textTransform: "capitalize" }}>{itm.type}</h6>
+                </li>
+                <li>
+                  <p>Transaction Description</p>
+                  <h6 style={{ textTransform: "capitalize" }}>
+                    {itm.description}
+                  </h6>
                 </li>
                 <li>
                   <p>Amount</p>
                   <h6>₦{parseFloat(itm.amount_in_naira).toFixed(2)}</h6>
                 </li>
-
                 <li>
                   <p>Value</p>
                   <h6>
@@ -63,7 +72,6 @@ class Index extends Component {
                     <h6>{itm.recipient}</h6>
                   </li>
                 ) : null}
-
                 {/* <li className={style.flex}>
                   <div>
                     <p>Quantity</p>

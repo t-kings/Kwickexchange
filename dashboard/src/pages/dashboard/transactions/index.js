@@ -10,7 +10,7 @@ class Index extends Component {
         <Switch>
           <Route exact path="/home/transactions" component={Home} />
           {/* <Route path="/home/transactions/:tab/:id" component={Transaction} /> */}
-          <Route path="/home/transactions/:tab/:id" component={Home} />
+          <Route path="/home/transactions/:tab" component={Home} />
           <Route component={Home} />
         </Switch>
       </main>

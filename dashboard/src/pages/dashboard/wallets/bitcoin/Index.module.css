@@ -521,7 +521,7 @@
 
 .address_search {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
     flex-flow: row nowrap;
     padding: 0;

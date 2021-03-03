@@ -5,6 +5,8 @@ import {
   getBitcoinDepositAddresses,
   getUserBanks,
   getHistories,
+  getAllTradeHistory,
+  getActiveTradeHistory,
 } from "./resources";
 export const buyBitcoin = (payload) => {
   return async (dispatch, getState) => {
@@ -918,7 +920,8 @@ export const uploadGiftCard = (formData) => {
         }
       );
       if (res.status === 201) {
-        await getHistories(dispatch, getState);
+        await getAllTradeHistory(dispatch, getState);
+        await getActiveTradeHistory(dispatch, getState);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {

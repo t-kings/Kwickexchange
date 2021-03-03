@@ -102,7 +102,11 @@ class Summary extends Component {
                       const formData = new FormData();
                       formData.append("file", file);
                       if (await uploadGiftCard(formData)) {
-                        this.props.history.push("/home/transactions/3/status");
+                        this.props.history.push(
+                          "/home/gift-cards/" +
+                            currentGiftCardTrade.transaction_hash +
+                            "/status"
+                        );
                       }
                     }
                   }

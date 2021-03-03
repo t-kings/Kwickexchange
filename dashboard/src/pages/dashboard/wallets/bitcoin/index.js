@@ -35,11 +35,62 @@ class Index extends Component {
       card: 0,
       denomination: 0,
       giftCards: [],
+      bitcoinDepositAddresses: [],
+      addressSearch: false,
+      bitcoinDepositAddressesState: [],
+      transactionSearch: false,
+      bitcoinTransactionListState: [],
     };
   }
 
+  handleAddressSearch = (e) => {
+    if (e) {
+      const bitcoinDepositAddresses = this.props.bitcoinDepositAddresses.data.filter(
+        (address) =>
+          JSON.stringify(address).toLowerCase().includes(e.toLowerCase())
+      );
+      this.setState({
+        ...this.state,
+        bitcoinDepositAddressesState: bitcoinDepositAddresses,
+        addressSearch: true,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        bitcoinDepositAddressesState: this.props.bitcoinDepositAddresses,
+        addressSearch: false,
+      });
+    }
+  };
+
+  handleTransactionSearch = (e) => {
+    if (e) {
+      const bitcoinTransactionList = this.props.bitcoinTransactionList.data.filter(
+        (address) =>
+          JSON.stringify(address).toLowerCase().includes(e.toLowerCase())
+      );
+      this.setState({
+        ...this.state,
+        bitcoinTransactionListState: bitcoinTransactionList,
+        transactionSearch: true,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        bitcoinTransactionListState: this.props.bitcoinTransactionList,
+        transactionSearch: false,
+      });
+    }
+  };
+
   render() {
-    const { formTab } = this.state;
+    const {
+      formTab,
+      addressSearch,
+      bitcoinDepositAddressesState,
+      bitcoinTransactionListState,
+      transactionSearch,
+    } = this.state;
     const {
       isAuthenticated,
       balance,
@@ -291,16 +342,16 @@ class Index extends Component {
                   <div>
                     {bitcoinDepositAddresses.data.length > 0 ? (
                       <>
-                        {/* <div className={walletStyle.address_search}>
+                        <div className={walletStyle.address_search}>
                           <input
                             type="text"
                             onChange={(e) => {
                               e.preventDefault();
-                              this.searchAddress(e.target.value);
+                              this.handleAddressSearch(e.target.value);
                             }}
                             placeholder="Search"
                           />
-                        </div> */}
+                        </div>
                         <table className={walletStyle.table}>
                           <thead>
                             <tr>
@@ -311,7 +362,10 @@ class Index extends Component {
                             </tr>
                           </thead>
                           <tbody>
-                            {bitcoinDepositAddresses.data.map((itm, idx) => (
+                            {(addressSearch
+                              ? bitcoinDepositAddressesState
+                              : bitcoinDepositAddresses.data
+                            ).map((itm, idx) => (
                               <tr key={idx}>
                                 <td>{itm.address}</td>
                                 <td>{itm.network}</td>
@@ -390,6 +444,16 @@ class Index extends Component {
                 {bitcoinTransactionList.data.length > 0 ? (
                   <div className={walletStyle.transactions_list}>
                     <div className={walletStyle.transactions_list_hold}>
+                      <div className={walletStyle.address_search}>
+                        <input
+                          type="text"
+                          onChange={(e) => {
+                            e.preventDefault();
+                            this.handleTransactionSearch(e.target.value);
+                          }}
+                          placeholder="Search"
+                        />
+                      </div>
                       <table>
                         <thead>
                           <tr>
@@ -400,7 +464,10 @@ class Index extends Component {
                           </tr>
                         </thead>
                         <tbody>
-                          {bitcoinTransactionList.data.map((itm, idx) => (
+                          {(transactionSearch
+                            ? bitcoinTransactionListState
+                            : bitcoinTransactionList.data
+                          ).map((itm, idx) => (
                             <tr key={idx}>
                               <td>{itm.createdAt}</td>
                               <td style={{ textTransform: "capitalize" }}>
@@ -411,9 +478,13 @@ class Index extends Component {
                               </td>
                               <td
                                 className={
-                                  itm.type === "buy"
+                                  itm.type === "buy" ||
+                                  itm.type === "deposit" ||
+                                  itm.type === "deposit"
                                     ? walletStyle.green
-                                    : walletStyle.red
+                                    : itm.type === "sell"
+                                    ? walletStyle.red
+                                    : ""
                                 }
                               >
                                 {parseFloat(itm.amount).toFixed(8)} BTC

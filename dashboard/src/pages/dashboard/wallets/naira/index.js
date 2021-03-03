@@ -32,6 +32,8 @@ class Index extends Component {
       amount: "",
       bank: {},
       account_number: "",
+      transactionSearch: false,
+      nairaTransactionListState: [],
       errors: {
         bank_name: [],
         account_name: [],
@@ -221,6 +223,26 @@ class Index extends Component {
       document.querySelector("#nairaSummary").style.display = "flex";
     }
   };
+
+  handleTransactionSearch = (e) => {
+    if (e) {
+      const nairaTransactionList = this.props.nairaTransactions.data.filter(
+        (address) =>
+          JSON.stringify(address).toLowerCase().includes(e.toLowerCase())
+      );
+      this.setState({
+        ...this.state,
+        nairaTransactionListState: nairaTransactionList,
+        transactionSearch: true,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        nairaTransactionListState: this.props.nairaTransactionList,
+        transactionSearch: false,
+      });
+    }
+  };
   render() {
     const {
       formTab,
@@ -231,6 +253,8 @@ class Index extends Component {
       account_number,
       accountToDelete,
       transTab,
+      transactionSearch,
+      nairaTransactionListState,
     } = this.state;
 
     const {
@@ -865,6 +889,16 @@ class Index extends Component {
                 <div className={walletStyle.transactions}>
                   {nairaTransactions.data.length > 0 ? (
                     <div className={walletStyle.transactions_list}>
+                      <div className={walletStyle.address_search}>
+                        <input
+                          type="text"
+                          onChange={(e) => {
+                            e.preventDefault();
+                            this.handleTransactionSearch(e.target.value);
+                          }}
+                          placeholder="Search"
+                        />
+                      </div>
                       <table>
                         <thead>
                           <tr>
@@ -875,7 +909,10 @@ class Index extends Component {
                           </tr>
                         </thead>
                         <tbody>
-                          {nairaTransactions.data.map((itm, idx) => (
+                          {(transactionSearch
+                            ? nairaTransactionListState
+                            : nairaTransactions.data
+                          ).map((itm, idx) => (
                             <tr key={idx}>
                               <td>{itm.createdAt}</td>
                               <td
@@ -894,9 +931,13 @@ class Index extends Component {
                               </td>
                               <td
                                 className={
-                                  itm.type !== "transfer"
+                                  itm.type === "buy" ||
+                                  itm.type === "deposit" ||
+                                  itm.type === "receive"
                                     ? walletStyle.green
-                                    : walletStyle.red
+                                    : itm.type === "sell"
+                                    ? walletStyle.red
+                                    : ""
                                 }
                               >
                                 ₦ {itm.amount}

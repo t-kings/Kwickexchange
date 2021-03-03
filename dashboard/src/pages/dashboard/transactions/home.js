@@ -16,6 +16,16 @@ class Home extends Component {
     this.state = {
       formTab: 1,
       trans: {},
+      allTradeHistoryState: [],
+      activeTradeHistoryState: [],
+      pendingTradeHistoryState: [],
+      cancelledTradeHistoryState: [],
+      completedTradeHistoryState: [],
+      allTradeHistorySearch: false,
+      activeTradeHistorySearch: false,
+      pendingTradeHistorySearch: false,
+      cancelledTradeHistorySearch: false,
+      completedTradeHistorySearch: false,
     };
   }
   openViewModal = (itm) => {
@@ -30,21 +40,107 @@ class Home extends Component {
     }
   };
   componentDidMount = () => {
-    const { tab, id } = this.props.match.params;
-    const { currentGiftCardTrade } = this.props;
-    if (tab && id === "status" && currentGiftCardTrade.id) {
+    const { tab } = this.props.match.params;
+    if (tab) {
       this.setState({
         ...this.state,
-        formTab: tab,
-        trans: currentGiftCardTrade,
+        formTab: parseInt(tab),
       });
-      try {
-        setTimeout(() => {
-          document.querySelector("#transModal").style.display = "flex";
-        }, 1000);
-      } catch (e) {
-        // console.log(e);
-      }
+    }
+  };
+
+  handleAllTransactionSearch = (e) => {
+    if (e) {
+      const allTradeHistoryState = this.props.allTradeHistory.data.filter(
+        (trade) => JSON.stringify(trade).toLowerCase().includes(e.toLowerCase())
+      );
+      this.setState({
+        ...this.state,
+        allTradeHistoryState,
+        allTradeHistorySearch: true,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        allTradeHistoryState: this.props.allTradeHistory,
+        allTradeHistorySearch: false,
+      });
+    }
+  };
+
+  handlePendingTransactionSearch = (e) => {
+    if (e) {
+      const pendingTradeHistoryState = this.props.pendingTradeHistory.data.filter(
+        (trade) => JSON.stringify(trade).toLowerCase().includes(e.toLowerCase())
+      );
+      this.setState({
+        ...this.state,
+        pendingTradeHistoryState,
+        pendingTradeHistorySearch: true,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        pendingTradeHistoryState: this.props.pendingTradeHistory,
+        pendingTradeHistorySearch: false,
+      });
+    }
+  };
+
+  handleActiveTransactionSearch = (e) => {
+    if (e) {
+      const activeTradeHistoryState = this.props.activeTradeHistory.data.filter(
+        (trade) => JSON.stringify(trade).toLowerCase().includes(e.toLowerCase())
+      );
+      this.setState({
+        ...this.state,
+        activeTradeHistoryState,
+        activeTradeHistorySearch: true,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        activeTradeHistoryState: this.props.activeTradeHistory,
+        activeTradeHistorySearch: false,
+      });
+    }
+  };
+
+  handleCancelledTransactionSearch = (e) => {
+    if (e) {
+      const cancelledTradeHistoryState = this.props.cancelledTradeHistory.data.filter(
+        (trade) => JSON.stringify(trade).toLowerCase().includes(e.toLowerCase())
+      );
+      this.setState({
+        ...this.state,
+        cancelledTradeHistoryState,
+        cancelledTradeHistorySearch: true,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        cancelledTradeHistoryState: this.props.cancelledTradeHistory,
+        cancelledTradeHistorySearch: false,
+      });
+    }
+  };
+
+  handleCompletedTransactionSearch = (e) => {
+    if (e) {
+      const completedTradeHistoryState = this.props.completedTradeHistory.data.filter(
+        (trade) => JSON.stringify(trade).toLowerCase().includes(e.toLowerCase())
+      );
+      this.setState({
+        ...this.state,
+        completedTradeHistoryState,
+        completedTradeHistorySearch: true,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        completedTradeHistoryState: this.props.completedTradeHistory,
+        completedTradeHistorySearch: false,
+      });
     }
   };
   render() {
@@ -61,7 +157,19 @@ class Home extends Component {
       getCancelledTradeHistoryOffset,
       getCompletedTradeHistoryOffset,
     } = this.props;
-    const { formTab } = this.state;
+    const {
+      formTab,
+      allTradeHistoryState,
+      activeTradeHistoryState,
+      pendingTradeHistoryState,
+      cancelledTradeHistoryState,
+      completedTradeHistoryState,
+      allTradeHistorySearch,
+      activeTradeHistorySearch,
+      pendingTradeHistorySearch,
+      cancelledTradeHistorySearch,
+      completedTradeHistorySearch,
+    } = this.state;
     if (!isAuthenticated) {
       return (
         <Redirect to={{ pathname: "/", redirect_to: "/home/transactions" }} />
@@ -115,6 +223,16 @@ class Home extends Component {
               ) : (
                 <div className={transStyle.transactions}>
                   <div className={transStyle.transactions_list}>
+                    <div className={transStyle.address_search}>
+                      <input
+                        type="text"
+                        onChange={(e) => {
+                          e.preventDefault();
+                          this.handleAllTransactionSearch(e.target.value);
+                        }}
+                        placeholder="Search"
+                      />
+                    </div>
                     <table>
                       <thead>
                         <tr>
@@ -129,7 +247,10 @@ class Home extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {allTradeHistory.data.map((itm, idx) => (
+                        {(allTradeHistorySearch
+                          ? allTradeHistoryState
+                          : allTradeHistory.data
+                        ).map((itm, idx) => (
                           <tr key={idx}>
                             <td style={{ textTransform: "capitalize" }}>
                               {itm.asset}
@@ -139,17 +260,23 @@ class Home extends Component {
                             </td>
                             <td
                               className={
-                                itm.type === "deposit" || itm.type === "buy"
+                                itm.type === "deposit" ||
+                                itm.type === "buy" ||
+                                itm.type === "receive"
                                   ? transStyle.green
+                                  : itm.type === "transfer"
+                                  ? ""
                                   : transStyle.red
                               }
                             >
                               ₦ {parseFloat(itm.amount_in_naira).toFixed(2)}
                             </td>
                             <td className={transStyle.green}>
-                              {itm.asset === "naira"
+                              {itm.asset.toLowerCase() === "naira"
                                 ? `₦ ${parseFloat(itm.amount).toFixed(2)}`
-                                : `${parseFloat(itm.amount).toFixed(8)} BTC`}
+                                : itm.asset.toLowerCase() === "giftcard"
+                                ? parseFloat(itm.amount)
+                                : parseFloat(itm.amount).toFixed(2) + " BTC"}
                             </td>
                             <td
                               className={
@@ -174,19 +301,26 @@ class Home extends Component {
                               {new Date(itm.createdAt).toLocaleTimeString()}
                             </td>
                             <td>
-                              <Link
-                                to={
-                                  "/home/transactions/all/" +
-                                  itm.transaction_hash
-                                }
+                              <button
                                 className={transStyle.link_btn_gold}
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  this.openViewModal(itm);
+                                  if (
+                                    itm.status.toLowerCase() === "active" &&
+                                    itm.asset.toLowerCase() === "giftcard"
+                                  ) {
+                                    this.props.history.push(
+                                      "/home/gift-cards/" +
+                                        itm.transaction_hash +
+                                        "/status"
+                                    );
+                                  } else {
+                                    this.openViewModal(itm);
+                                  }
                                 }}
                               >
                                 View
-                              </Link>
+                              </button>
                             </td>
                           </tr>
                         ))}
@@ -257,10 +391,21 @@ class Home extends Component {
               ) : (
                 <div className={transStyle.transactions}>
                   <div className={transStyle.transactions_list}>
+                    <div className={transStyle.address_search}>
+                      <input
+                        type="text"
+                        onChange={(e) => {
+                          e.preventDefault();
+                          this.handlePendingTransactionSearch(e.target.value);
+                        }}
+                        placeholder="Search"
+                      />
+                    </div>
                     <table>
                       <thead>
                         <tr>
-                          <th>Trans. Type</th>
+                          <th>Asset</th>
+                          <th>Type</th>
                           <th>NGN</th>
                           <th>Value</th>
                           <th>Status</th>
@@ -270,24 +415,36 @@ class Home extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {pendingTradeHistory.data.map((itm, idx) => (
+                        {(pendingTradeHistorySearch
+                          ? pendingTradeHistoryState
+                          : pendingTradeHistory.data
+                        ).map((itm, idx) => (
                           <tr key={idx}>
                             <td style={{ textTransform: "capitalize" }}>
-                              {itm.asset} - {itm.type}
+                              {itm.asset}
+                            </td>
+                            <td style={{ textTransform: "capitalize" }}>
+                              {itm.type}
                             </td>
                             <td
                               className={
-                                itm.type === "deposit" || itm.type === "buy"
+                                itm.type === "deposit" ||
+                                itm.type === "buy" ||
+                                itm.type === "receive"
                                   ? transStyle.green
+                                  : itm.type === "transfer"
+                                  ? ""
                                   : transStyle.red
                               }
                             >
                               ₦ {parseFloat(itm.amount_in_naira).toFixed(2)}
                             </td>
                             <td className={transStyle.green}>
-                              {itm.asset === "naira"
+                              {itm.asset.toLowerCase() === "naira"
                                 ? `₦ ${parseFloat(itm.amount).toFixed(2)}`
-                                : `${parseFloat(itm.amount).toFixed(8)} BTC`}
+                                : itm.asset.toLowerCase() === "giftcard"
+                                ? parseFloat(itm.amount)
+                                : parseFloat(itm.amount).toFixed(2) + " BTC"}
                             </td>
                             <td
                               className={
@@ -312,19 +469,26 @@ class Home extends Component {
                               {new Date(itm.createdAt).toLocaleTimeString()}
                             </td>
                             <td>
-                              <Link
-                                to={
-                                  "/home/transactions/pending/" +
-                                  itm.transaction_hash
-                                }
+                              <button
                                 className={transStyle.link_btn_gold}
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  this.openViewModal(itm);
+                                  if (
+                                    itm.status.toLowerCase() === "active" &&
+                                    itm.asset.toLowerCase() === "giftcard"
+                                  ) {
+                                    this.props.history.push(
+                                      "/home/gift-cards/" +
+                                        itm.transaction_hash +
+                                        "/status"
+                                    );
+                                  } else {
+                                    this.openViewModal(itm);
+                                  }
                                 }}
                               >
                                 View
-                              </Link>
+                              </button>
                             </td>
                           </tr>
                         ))}
@@ -395,10 +559,21 @@ class Home extends Component {
               ) : (
                 <div className={transStyle.transactions}>
                   <div className={transStyle.transactions_list}>
+                    <div className={transStyle.address_search}>
+                      <input
+                        type="text"
+                        onChange={(e) => {
+                          e.preventDefault();
+                          this.handleActiveTransactionSearch(e.target.value);
+                        }}
+                        placeholder="Search"
+                      />
+                    </div>
                     <table>
                       <thead>
                         <tr>
-                          <th>Trans. Type</th>
+                          <th>Asset</th>
+                          <th>Type</th>
                           <th>NGN</th>
                           <th>Value</th>
                           <th>Status</th>
@@ -408,24 +583,36 @@ class Home extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {activeTradeHistory.data.map((itm, idx) => (
+                        {(activeTradeHistorySearch
+                          ? activeTradeHistoryState
+                          : activeTradeHistory.data
+                        ).map((itm, idx) => (
                           <tr key={idx}>
                             <td style={{ textTransform: "capitalize" }}>
-                              {itm.asset} - {itm.type}
+                              {itm.asset}
+                            </td>
+                            <td style={{ textTransform: "capitalize" }}>
+                              {itm.type}
                             </td>
                             <td
                               className={
-                                itm.type === "deposit" || itm.type === "buy"
+                                itm.type === "deposit" ||
+                                itm.type === "buy" ||
+                                itm.type === "receive"
                                   ? transStyle.green
+                                  : itm.type === "transfer"
+                                  ? ""
                                   : transStyle.red
                               }
                             >
                               ₦ {parseFloat(itm.amount_in_naira).toFixed(2)}
                             </td>
                             <td className={transStyle.green}>
-                              {itm.asset === "naira"
+                              {itm.asset.toLowerCase() === "naira"
                                 ? `₦ ${parseFloat(itm.amount).toFixed(2)}`
-                                : `${parseFloat(itm.amount).toFixed(8)} BTC`}
+                                : itm.asset.toLowerCase() === "giftcard"
+                                ? parseFloat(itm.amount)
+                                : parseFloat(itm.amount).toFixed(2) + " BTC"}
                             </td>
                             <td
                               className={
@@ -450,19 +637,26 @@ class Home extends Component {
                               {new Date(itm.createdAt).toLocaleTimeString()}
                             </td>
                             <td>
-                              <Link
-                                to={
-                                  "/home/transactions/active/" +
-                                  itm.transaction_hash
-                                }
+                              <button
                                 className={transStyle.link_btn_gold}
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  this.openViewModal(itm);
+                                  if (
+                                    itm.status.toLowerCase() === "active" &&
+                                    itm.asset.toLowerCase() === "giftcard"
+                                  ) {
+                                    this.props.history.push(
+                                      "/home/gift-cards/" +
+                                        itm.transaction_hash +
+                                        "/status"
+                                    );
+                                  } else {
+                                    this.openViewModal(itm);
+                                  }
                                 }}
                               >
                                 View
-                              </Link>
+                              </button>
                             </td>
                           </tr>
                         ))}
@@ -533,10 +727,21 @@ class Home extends Component {
               ) : (
                 <div className={transStyle.transactions}>
                   <div className={transStyle.transactions_list}>
+                    <div className={transStyle.address_search}>
+                      <input
+                        type="text"
+                        onChange={(e) => {
+                          e.preventDefault();
+                          this.handleCompletedTransactionSearch(e.target.value);
+                        }}
+                        placeholder="Search"
+                      />
+                    </div>
                     <table>
                       <thead>
                         <tr>
-                          <th>Trans. Type</th>
+                          <th>Asset</th>
+                          <th>Type</th>
                           <th>NGN</th>
                           <th>Value</th>
                           <th>Status</th>
@@ -546,24 +751,36 @@ class Home extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {completedTradeHistory.data.map((itm, idx) => (
+                        {(completedTradeHistorySearch
+                          ? completedTradeHistoryState
+                          : completedTradeHistory.data
+                        ).map((itm, idx) => (
                           <tr key={idx}>
                             <td style={{ textTransform: "capitalize" }}>
-                              {itm.asset} - {itm.type}
+                              {itm.asset}
+                            </td>
+                            <td style={{ textTransform: "capitalize" }}>
+                              {itm.type}
                             </td>
                             <td
                               className={
-                                itm.type === "deposit" || itm.type === "buy"
+                                itm.type === "deposit" ||
+                                itm.type === "buy" ||
+                                itm.type === "receive"
                                   ? transStyle.green
+                                  : itm.type === "transfer"
+                                  ? ""
                                   : transStyle.red
                               }
                             >
                               ₦ {parseFloat(itm.amount_in_naira).toFixed(2)}
                             </td>
                             <td className={transStyle.green}>
-                              {itm.asset === "naira"
+                              {itm.asset.toLowerCase() === "naira"
                                 ? `₦ ${parseFloat(itm.amount).toFixed(2)}`
-                                : `${parseFloat(itm.amount).toFixed(8)} BTC`}
+                                : itm.asset.toLowerCase() === "giftcard"
+                                ? parseFloat(itm.amount)
+                                : parseFloat(itm.amount).toFixed(2) + " BTC"}
                             </td>
                             <td
                               className={
@@ -588,19 +805,26 @@ class Home extends Component {
                               {new Date(itm.createdAt).toLocaleTimeString()}
                             </td>
                             <td>
-                              <Link
-                                to={
-                                  "/home/transactions/completed/" +
-                                  itm.transaction_hash
-                                }
+                              <button
                                 className={transStyle.link_btn_gold}
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  this.openViewModal(itm);
+                                  if (
+                                    itm.status.toLowerCase() === "active" &&
+                                    itm.asset.toLowerCase() === "giftcard"
+                                  ) {
+                                    this.props.history.push(
+                                      "/home/gift-cards/" +
+                                        itm.transaction_hash +
+                                        "/status"
+                                    );
+                                  } else {
+                                    this.openViewModal(itm);
+                                  }
                                 }}
                               >
                                 View
-                              </Link>
+                              </button>
                             </td>
                           </tr>
                         ))}
@@ -670,10 +894,21 @@ class Home extends Component {
             ) : (
               <div className={transStyle.transactions}>
                 <div className={transStyle.transactions_list}>
+                  <div className={transStyle.address_search}>
+                    <input
+                      type="text"
+                      onChange={(e) => {
+                        e.preventDefault();
+                        this.handleCancelledTransactionSearch(e.target.value);
+                      }}
+                      placeholder="Search"
+                    />
+                  </div>
                   <table>
                     <thead>
                       <tr>
-                        <th>Trans. Type</th>
+                        <th>Asset</th>
+                        <th>Type</th>
                         <th>NGN</th>
                         <th>Value</th>
                         <th>Status</th>
@@ -683,15 +918,37 @@ class Home extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {cancelledTradeHistory.data.map((itm, idx) => (
+                      {(cancelledTradeHistorySearch
+                        ? cancelledTradeHistoryState
+                        : cancelledTradeHistory.data
+                      ).map((itm, idx) => (
                         <tr key={idx}>
                           <td style={{ textTransform: "capitalize" }}>
-                            {itm.asset} - {itm.type}
+                            {itm.asset}
+                          </td>
+                          <td style={{ textTransform: "capitalize" }}>
+                            {itm.type}
+                          </td>
+                          <td
+                            className={
+                              itm.type === "deposit" ||
+                              itm.type === "buy" ||
+                              itm.type === "receive"
+                                ? transStyle.green
+                                : itm.type === "transfer"
+                                ? ""
+                                : transStyle.red
+                            }
+                          >
+                            ₦ {parseFloat(itm.amount_in_naira).toFixed(2)}
                           </td>
                           <td className={transStyle.green}>
-                            ₦{itm.amount_in_naira}
+                            {itm.asset.toLowerCase() === "naira"
+                              ? `₦ ${parseFloat(itm.amount).toFixed(2)}`
+                              : itm.asset.toLowerCase() === "giftcard"
+                              ? parseFloat(itm.amount)
+                              : parseFloat(itm.amount).toFixed(2) + " BTC"}
                           </td>
-                          <td className={transStyle.green}>₦ {itm.amount}</td>
                           <td
                             className={
                               itm.status === "cancelled"
@@ -715,15 +972,26 @@ class Home extends Component {
                             {new Date(itm.createdAt).toLocaleTimeString()}
                           </td>
                           <td>
-                            <Link
-                              to={
-                                "/home/transactions/cancelled/" +
-                                itm.transaction_hash
-                              }
+                            <button
                               className={transStyle.link_btn_gold}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if (
+                                  itm.status.toLowerCase() === "active" &&
+                                  itm.asset.toLowerCase() === "giftcard"
+                                ) {
+                                  this.props.history.push(
+                                    "/home/gift-cards/" +
+                                      itm.transaction_hash +
+                                      "/status"
+                                  );
+                                } else {
+                                  this.openViewModal(itm);
+                                }
+                              }}
                             >
                               View
-                            </Link>
+                            </button>
                           </td>
                         </tr>
                       ))}

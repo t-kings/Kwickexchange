@@ -22,7 +22,7 @@ class Status extends Component {
   }
 
   handleCurrency = (e) => {
-    const currency = e.target.value;
+    const currency = e;
     const { giftCard } = this.props;
     const { card, denomination, qty } = this.state;
     let rate = 0;
@@ -230,17 +230,62 @@ class Status extends Component {
                     <p>Currency</p>
                   </div>
                   <div>
-                    <select
-                      name="currency"
-                      id="currency"
-                      onChange={this.handleCurrency}
+                    <div
+                      id="selectCurrency"
+                      onClick={(e) => {
+                        document.querySelector(
+                          "#optionCurrency"
+                        ).style.display =
+                          document.querySelector("#optionCurrency").style
+                            .display === "block"
+                            ? "none"
+                            : "block";
+                      }}
+                      className={bitcoinStyle.selectCurrency}
                     >
-                      {giftCard.currency.map((itm, index) => (
-                        <option key={index} value={index}>
-                          {itm.country}
-                        </option>
-                      ))}
-                    </select>
+                      <div
+                        id="optionCurrencyChosen"
+                        onClick={(e) => {}}
+                        className={bitcoinStyle.optionCurrency}
+                      >
+                        <img
+                          src={giftCard.currency[currency].flag}
+                          alt={giftCard.currency[currency].country}
+                        />
+                        <p>{giftCard.currency[currency].country}</p>
+                        <svg
+                          width="14"
+                          height="9"
+                          viewBox="0 0 14 9"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1 1L7 7L13 0.999999"
+                            stroke="black"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        id="optionCurrency"
+                        className={bitcoinStyle.optionSelectCurrency}
+                      >
+                        {giftCard.currency.map((itm, index) => (
+                          <div
+                            className={bitcoinStyle.optionCurrency}
+                            key={index}
+                            onClick={() => {
+                              this.handleCurrency(index);
+                            }}
+                          >
+                            <img src={itm.flag} alt={itm.country} />
+                            <p>{itm.country}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               ) : null}

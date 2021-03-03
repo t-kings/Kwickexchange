@@ -17,40 +17,26 @@ class Summary extends Component {
       isAuthenticated,
       match,
       giftCard,
-      giftCardDetails,
       isLoading,
-      startGiftCardTrade,
-      uploadGiftCard,
       cancelTrade,
-      currentGiftCardTrade,
     } = this.props;
-    const {
-      currency,
-      card,
-      denomination,
-      total,
-      qty,
-      formTab,
-    } = giftCardDetails;
     if (!isAuthenticated) {
       return (
         <Redirect
           to={{
             pathname: "/",
-            redirect_to: "/home/gift-cards/" + match.params.id + "/summary",
+            redirect_to: "/home/gift-cards/" + match.params.id + "/status",
           }}
         />
       );
     }
-    if (!formTab || !card || !qty) {
-      return <Redirect to={"/home/gift-cards/"} />;
+    const { card_type } = giftCard;
+    if (!card_type) {
+      return <Redirect to={"/home/transactions/3"} />;
     }
     return (
       <section className={bitcoinStyle.home}>
-        <Link
-          to={"/home/gift-cards/" + match.params.id}
-          className={bitcoinStyle.back}
-        >
+        <Link to={"/home/transactions/3"} className={bitcoinStyle.back}>
           <span>
             <svg
               width="12"
@@ -67,7 +53,7 @@ class Summary extends Component {
               />
             </svg>
           </span>
-          <span>Trade Gift Card</span>
+          <span>Active Transactions</span>
         </Link>
         <div className={bitcoinStyle.group}>
           <div className={bitcoinStyle.hold}>
@@ -75,95 +61,52 @@ class Summary extends Component {
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
-
-                if (formTab === 2) {
-                  if (
-                    await startGiftCardTrade(
-                      giftCard.id,
-                      giftCard.currency[currency].country,
-                      giftCard.currency[currency].cards.length
-                        ? giftCard.currency[currency].cards[card].card_type
-                        : "",
-                      giftCard.currency[currency].cards[card].denomination
-                        ? giftCard.currency[currency].cards[card].denomination[
-                            denomination
-                          ].value
-                        : 0,
-                      qty
-                    )
-                  ) {
-                    const input = document.getElementById("file");
-                    if ("files" in input) {
-                      const file = input.files[0];
-                      const formData = new FormData();
-                      formData.append("file", file);
-                      if (await uploadGiftCard(formData)) {
-                        this.props.history.push(
-                          "/home/gift-cards/" +
-                            currentGiftCardTrade.transaction_hash +
-                            "/status"
-                        );
-                      }
-                    }
-                  }
-                }
+                cancelTrade(this.props.match.params.id);
               }}
             >
               <img
                 className={bitcoinStyle.img}
-                src={giftCard.image}
-                alt={giftCard.name}
+                src={giftCard.giftcard_logo}
+                alt={giftCard.giftcard}
               />
               <div className={bitcoinStyle.input}>
                 <div>
                   <p>Product</p>
                 </div>
                 <div>
-                  <p>{giftCard.name}</p>
+                  <p>{giftCard.giftcard}</p>
                 </div>
               </div>
-              {giftCard.currency.length > 0 ? (
-                <div className={bitcoinStyle.input}>
-                  <div>
-                    <p>Currency</p>
-                  </div>
-                  <div>
-                    <p>{giftCard.currency[currency].country}</p>
-                  </div>
+              <div className={bitcoinStyle.input}>
+                <div>
+                  <p>Currency</p>
                 </div>
-              ) : null}
-              {giftCard.currency[currency].cards.length > 0 ? (
-                <div className={bitcoinStyle.input}>
-                  <div>
-                    <p>Card</p>
-                  </div>
-                  <div>
-                    <p>{giftCard.currency[currency].cards[card].card_type}</p>
-                  </div>
+                <div>
+                  <p>{giftCard.currency}</p>
                 </div>
-              ) : null}
-              {giftCard.currency[currency].cards[card].denomination ? (
-                <div className={bitcoinStyle.input}>
-                  <div>
-                    <p>Denomination</p>
-                  </div>
-                  <div>
-                    <p>
-                      {
-                        giftCard.currency[currency].cards[card].denomination[
-                          denomination
-                        ].value
-                      }
-                    </p>
-                  </div>
+              </div>
+              <div className={bitcoinStyle.input}>
+                <div>
+                  <p>Card</p>
                 </div>
-              ) : null}
+                <div>
+                  <p>{giftCard.card_type}</p>
+                </div>
+              </div>
+              <div className={bitcoinStyle.input}>
+                <div>
+                  <p>Denomination</p>
+                </div>
+                <div>
+                  <p>{giftCard.denomination}</p>
+                </div>
+              </div>
               <div className={bitcoinStyle.input}>
                 <div>
                   <p>Quantity</p>
                 </div>
                 <div>
-                  <p>{qty}</p>
+                  <p>{giftCard.quantity}</p>
                 </div>
               </div>
 
@@ -172,14 +115,7 @@ class Summary extends Component {
                   <p>Rate</p>
                 </div>
                 <div>
-                  <p className={bitcoinStyle.rates_text}>
-                    ₦
-                    {giftCard.currency[currency].cards[card].denomination
-                      ? giftCard.currency[currency].cards[card].denomination[
-                          denomination
-                        ].rate
-                      : giftCard.currency[currency].cards[card].rate}
-                  </p>
+                  <p className={bitcoinStyle.rates_text}>₦{giftCard.rate}</p>
                 </div>
               </div>
               <div className={bitcoinStyle.input}>
@@ -187,62 +123,54 @@ class Summary extends Component {
                   <p>Total</p>
                 </div>
                 <div>
-                  <p className={bitcoinStyle.total}>₦ {total}</p>
+                  <p className={bitcoinStyle.total}>
+                    ₦ {giftCard.amount_in_naira}
+                  </p>
                 </div>
               </div>
               <hr />
-              {formTab === 1 ? (
-                <div className={bitcoinStyle.input}>
-                  <div>
-                    <p>Payment Method</p>
-                  </div>
-                  <div>
-                    <p>Select Currency</p>
-                  </div>
-                </div>
-              ) : (
+              <div
+                style={{
+                  width: "100%",
+                  flexFlow: "column nowrap",
+                }}
+                className={bitcoinStyle.input}
+              >
                 <div
                   style={{
                     width: "100%",
-                    flexFlow: "column nowrap",
+                    padding: 0,
                   }}
-                  className={bitcoinStyle.input}
                 >
-                  <div
+                  <p
                     style={{
-                      width: "100%",
-                      padding: 0,
-                    }}
-                  >
-                    <p
-                      style={{
-                        textAlign: "center",
-                      }}
-                    >
-                      <label htmlFor="file">Upload Credit Card</label>
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      width: "100%",
                       textAlign: "center",
-                      padding: 0,
                     }}
                   >
-                    <input
-                      style={{
-                        margin: "0 auto",
-                        textAlign: "center",
-                      }}
-                      type="file"
-                      id="file"
-                      accept="image/*"
-                      placeholder="Upload image"
-                      required
-                    />
-                  </div>
+                    Gift Card Uploaded
+                    {/* <label htmlFor="file">Upload Credit Card</label> */}
+                  </p>
                 </div>
-              )}
+                {/* <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    padding: 0,
+                  }}
+                >
+                  <input
+                    style={{
+                      margin: "0 auto",
+                      textAlign: "center",
+                    }}
+                    type="file"
+                    id="file"
+                    accept="image/*"
+                    placeholder="Upload image"
+                    required
+                  />
+                </div> */}
+              </div>
               {isLoading ? (
                 <div
                   className={
@@ -255,7 +183,11 @@ class Summary extends Component {
                 <input
                   className={bitcoinStyle.link_btn_gold}
                   type="submit"
-                  value={formTab === 1 ? "BUY GIFT CARD" : "SELL GIFT CARD"}
+                  style={{
+                    background: "red",
+                    color: "white",
+                  }}
+                  value={"CANCEL TRADE"}
                 />
               )}
             </form>
@@ -340,9 +272,13 @@ class Summary extends Component {
 const mapStateToProps = (state, props) => {
   const { activeTradeHistory } = state.resources;
   const trade = activeTradeHistory.data.find(
-    (itm) => itm.id === props.match.params.id
+    (itm) => itm.transaction_hash === props.match.params.id
   );
-  return { ...state.auth, ...state.resources, trade, ...state.trade };
+  let giftCard = {};
+  if (trade) {
+    giftCard = trade.giftcard[0] ?? {};
+  }
+  return { ...state.auth, ...state.resources, trade, ...state.trade, giftCard };
 };
 
 const mapDispatchToProps = (dispatch) => {
