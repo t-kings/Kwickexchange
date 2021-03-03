@@ -544,10 +544,9 @@ export const checkToken = () => {
             data: res.data.data,
           });
           await getUser(dispatch, getState);
-          const expiryTime = res.data.data.accessTokenExpiresIn;
           setTimeout(() => {
             refreshToken(dispatch, getState);
-          }, expiryTime - 300000);
+          }, 300000);
         } else {
           dispatch({
             type: "CLEAR_TOKEN_LOADING",
@@ -588,10 +587,9 @@ export const refreshToken = async (dispatch, getState) => {
           data: res.data.data,
         });
         await getUser(dispatch, getState);
-        const expiryTime = res.data.data.accessTokenExpiresIn;
         setTimeout(() => {
           refreshToken(dispatch, getState);
-        }, expiryTime - 300000);
+        }, 300000);
       }
     }
   } catch (e) {

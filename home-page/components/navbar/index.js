@@ -53,18 +53,16 @@ class Nav extends Component {
           </ul>
           <ul className={style.hide_mobile}>
             <li>
-              <Link href="/products">
-                <a
-                  className={router.pathname == "/products" ? style.active : ""}
-                >
-                  Products
+              <Link href="/about">
+                <a className={router.pathname == "/about" ? style.active : ""}>
+                  About
                 </a>
               </Link>
             </li>
             <li>
-              <Link href="/about">
-                <a className={router.pathname == "/about" ? style.active : ""}>
-                  About
+              <Link href="/faq">
+                <a className={router.pathname == "/faq" ? style.active : ""}>
+                  FAQ
                 </a>
               </Link>
             </li>
@@ -172,21 +170,6 @@ class Nav extends Component {
               <div>
                 <ul className={style.mobile_nav_title}>
                   <li>
-                    <Link href="/products">
-                      <a
-                        className={
-                          router.pathname == "/products" ? style.active : ""
-                        }
-                      >
-                        Products
-                      </a>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <ul className={style.mobile_nav_title}>
-                  <li>
                     <Link href="/about">
                       <a
                         className={
@@ -209,6 +192,36 @@ class Nav extends Component {
                         }
                       >
                         Rates
+                      </a>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <ul className={style.mobile_nav_title}>
+                  <li>
+                    <Link href="/#products">
+                      <a
+                        className={
+                          router.pathname == "/products" ? style.active : ""
+                        }
+                      >
+                        Products
+                      </a>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <ul className={style.mobile_nav_title}>
+                  <li>
+                    <Link href="/faq">
+                      <a
+                        className={
+                          router.pathname == "/faq" ? style.active : ""
+                        }
+                      >
+                        FAQ
                       </a>
                     </Link>
                   </li>

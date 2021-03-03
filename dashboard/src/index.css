@@ -11,6 +11,7 @@ html {
   --colorGold: #FFC700;
   --headerLargestFontSize: 48px;
   --headerLargeFontSize: 36px;
+  --headerSmallFontSize: 20px;
   --paragraphLargestFontSize: 18px;
   --paragraphFontSize: 14px;
   --paragraphMidFontSize: 16px;
@@ -29,6 +30,7 @@ html {
     --paragraphFontSize: 12px;
     --paragraphMidFontSize: 14px;
     --paragraphSmallFontSize: 10px;
+    --headerSmallFontSize: 18px;
     --paragraphSmallestFontSize: 8px;
     --shadedBackground: rgb(130, 130, 130, 0.3);
   }

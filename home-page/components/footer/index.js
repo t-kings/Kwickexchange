@@ -60,6 +60,7 @@ class Footer extends Component {
     });
   };
   render() {
+    const { router } = this.props;
     return (
       <footer className={style.footer}>
         <div className={style.hold}>
@@ -68,18 +69,66 @@ class Footer extends Component {
               <h2>Company</h2>
             </li>
             <li>
-              <Link href="/overview">
+              {/* <Link href="/overview">
                 <a>Overview</a>
-              </Link>
+              </Link> */}
+              <p>
+                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                lorem lorem lorem lorem
+              </p>
             </li>
             <li>
-              <Link href="/why">
+              {/* <Link href="/why">
                 <a>Why Us</a>
+              </Link> */}
+              <p>Yaba, Lagos</p>
+            </li>
+            <li>
+              <a href="mailto:hi@quickexchnage.com">hi@quickexchnage.com</a>
+            </li>
+          </ul>
+        </div>
+        <div className={style.hold}>
+          <ul>
+            <li className={style.title}>
+              <h2>Links</h2>
+            </li>
+            <li>
+              <Link href="/">
+                <a className={router.pathname == "/" ? style.active : ""}>
+                  Home
+                </a>
               </Link>
             </li>
             <li>
-              <Link href="/data">
-                <a>Data</a>
+              <Link href="/about">
+                <a className={router.pathname == "/about" ? style.active : ""}>
+                  About
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq">
+                <a className={router.pathname == "/faq" ? style.active : ""}>
+                  FAQ
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/products">
+                <a
+                  className={router.pathname == "/products" ? style.active : ""}
+                >
+                  Products
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/rates">
+                <a className={router.pathname == "/rates" ? style.active : ""}>
+                  Rates
+                </a>
               </Link>
             </li>
           </ul>

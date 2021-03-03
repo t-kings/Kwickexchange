@@ -8,12 +8,12 @@ const Index = () => {
   const router = useRouter();
   return (
     <div>
-      <Rates router={router} />
+      <Products router={router} />
     </div>
   );
 };
 export default Index;
-class Rates extends Component {
+class Products extends Component {
   render() {
     return (
       <>
@@ -23,7 +23,7 @@ class Rates extends Component {
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          <title>Rates | Kwick Xchange</title>
+          <title>FAQ | Kwick Xchange</title>
           <meta
             name="description"
             content="The most reliable crypto currency exchange platform. Where you have easy access to your money anytime
@@ -129,8 +129,8 @@ class Rates extends Component {
 
           <div className={style.header_holder}>
             <div className={style.info_holder}>
-              <h1>Rates</h1>
-              <p className={style.subtitle}>Gift cards & BitCoin</p>
+              <h1>FAQ</h1>
+              <p className={style.subtitle}>Frequently Asked Questions</p>
             </div>
           </div>
         </header>

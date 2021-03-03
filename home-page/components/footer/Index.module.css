@@ -7,9 +7,9 @@
 }
 
 .hold {
-    width: 30%;
-    min-width: 300px;
-    margin: 20px 0;
+    width: 25%;
+    min-width: 200px;
+    padding: 20px;
 }
 
 .hold .title {
@@ -116,6 +116,13 @@
     display: inline-block;
 }
 
+.hold ul li p {
+    color: #FFFFFF;
+    padding: 10px 20px 10px 0;
+    margin: 10px 0 10px 0;
+    display: inline-block;
+}
+
 .hold input {
     background: none;
     border: none;
@@ -156,14 +163,26 @@
     color: white;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
+    .hold:nth-child(2) {
+        order: 3;
+        margin-top: 20px;
+    }
+    .hold:nth-child(3) {
+        order: 4;
+        margin-top: 20px;
+    }
+    .hold {
+        min-width: 40%;
+        width: 40%;
+        padding: 0;
+    }
     .hold:last-child {
         order: 1;
+        width: 100%;
     }
     .hold:first-child {
         order: 2;
-    }
-    .hold:nth-child(2) {
-        order: 3;
+        width: 100%;
     }
 }

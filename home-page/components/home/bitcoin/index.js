@@ -13,7 +13,7 @@ export default Index;
 class Bitcoin extends Component {
   render() {
     return (
-      <section className={style.header}>
+      <section id="products" className={style.header}>
         <div className={style.header_holder}>
           <div className={style.animated_payment}>
             <img src="/images/image.png" alt="animated bitcoin payment" />
