@@ -239,13 +239,15 @@
 }
 
 .text input, .text input:focus {
-    font-size: var(--paragraphMidFontSize);
+    font-size: var(--paragraphLargestFontSize);
     text-decoration: underline;
     border: none;
     background: none;
+    font-weight: bolder;
     display: block;
     width: 100%;
     outline: none;
+    overflow-x: visible;
 }
 
 .qr {

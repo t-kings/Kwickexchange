@@ -13,7 +13,7 @@ export const signIn = (user) => {
         const expiryTime = res.data.data.accessTokenExpiresIn;
         setTimeout(() => {
           refreshToken(dispatch, getState);
-        }, expiryTime - 300000);
+        }, expiryTime - 120000);
         dispatch({
           type: "SHOW_NOTIFICATION",
           data: {
@@ -546,7 +546,7 @@ export const checkToken = () => {
           await getUser(dispatch, getState);
           setTimeout(() => {
             refreshToken(dispatch, getState);
-          }, 300000);
+          }, 120000);
         } else {
           dispatch({
             type: "CLEAR_TOKEN_LOADING",
@@ -589,7 +589,7 @@ export const refreshToken = async (dispatch, getState) => {
         await getUser(dispatch, getState);
         setTimeout(() => {
           refreshToken(dispatch, getState);
-        }, 300000);
+        }, 120000);
       }
     }
   } catch (e) {

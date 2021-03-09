@@ -24,13 +24,13 @@
 
 .tabs {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: stretch;
     background: black;
     overflow-x: auto;
 }
 
-.tabs button {
+.tabs>button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,13 +41,97 @@
     max-width: 200px;
 }
 
-.tabs button.active {
+.tabs>button.active {
     background: var(--shadedBackground);
     border-bottom: 5px solid var(--colorGold);
     font-weight: bolder;
 }
 
-.tabs button:hover {
+.tabs div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.loader, .loader:before, .loader:after {
+    background: #ffffff;
+    -webkit-animation: load1 1s infinite ease-in-out;
+    animation: load1 1s infinite ease-in-out;
+    width: 0.5em;
+    height: 20px;
+}
+
+.loader {
+    color: #ffffff;
+    text-indent: -9999em;
+    margin: 0 auto;
+    position: relative;
+    display: inline-block;
+    font-size: 5px;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+.loader:before, .loader:after {
+    position: absolute;
+    top: 0;
+    content: '';
+}
+
+.link_btn_gold.load {
+    padding: 10px 60px !important;
+    cursor: not-allowed;
+    width: 100%;
+    text-align: center;
+}
+
+.load:hover {
+    background: var(--colorGold) !important;
+    border-color: var(--colorGold) !important;
+}
+
+.loader:before {
+    left: -1.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.loader:after {
+    left: 1.5em;
+}
+
+@-webkit-keyframes load1 {
+    0%, 80%, 100% {
+        box-shadow: 0 0;
+        height: 0.25em;
+    }
+    40% {
+        box-shadow: 0 -4em;
+        height: 0.75em;
+    }
+}
+
+@keyframes load1 {
+    0%, 80%, 100% {
+        box-shadow: 0 0;
+        height: 1em;
+    }
+    40% {
+        box-shadow: 0 -2em;
+        height: 1.25em;
+    }
+}
+
+.tabs div .link_btn_gold:hover {
+    background: var(--colorGold);
+    color: black;
+}
+
+.tabs>button:hover {
     background: var(--shadedBackground);
 }
 
@@ -207,14 +291,16 @@
     border-bottom: 1px solid #E0E0E0;
     padding-bottom: 20px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
 }
 
-.avatar {
-    width: 20%;
-    margin-right: 20px;
+.avatar, .status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
 }
 
 .avatar div {
@@ -225,6 +311,10 @@
     align-items: center;
     border-radius: 50%;
     background: rgb(255, 199, 0, 0.2);
+}
+
+.story {
+    flex-grow: 10;
 }
 
 .item p {
