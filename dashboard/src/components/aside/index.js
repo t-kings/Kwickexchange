@@ -108,7 +108,7 @@ export default function index() {
               e.preventDefault();
               document.querySelector("#logout").style.display = "flex";
             }}
-            className={style.NavLink_btn_gold}
+            className={style.link_btn_gold}
           >
             LOGOUT
           </button>
