@@ -5,6 +5,7 @@ import bg2 from "./images/bg2.svg";
 import bg3 from "./images/bg3.svg";
 import { connect } from "react-redux";
 import logo from "./images/logo.png";
+import { motion } from "framer-motion";
 import { Link, Redirect } from "react-router-dom";
 class Verify extends Component {
   render() {
@@ -20,8 +21,27 @@ class Verify extends Component {
         />
       );
     }
+    const containerVariants = {
+      hidden: {
+        opacity: 0.5,
+      },
+      visible: {
+        opacity: 1,
+        transition: { delay: 0, duration: 0.5 },
+      },
+      exit: {
+        x: "-100vh",
+        transition: { ease: "easeInOut" },
+      },
+    };
     return (
-      <div className={style.big_container}>
+      <motion.div
+        className={style.big_container}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <div className={style.flier}>
           <img src={bg1} alt="bg" />
         </div>
@@ -47,7 +67,7 @@ class Verify extends Component {
             </Link>
           </form>
         </div>
-      </div>
+      </motion.div>
     );
   }
 }

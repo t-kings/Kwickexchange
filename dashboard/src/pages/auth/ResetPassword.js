@@ -6,6 +6,7 @@ import bg3 from "./images/bg3.svg";
 import { connect } from "react-redux";
 import logo from "./images/logo.png";
 import { Link, Redirect } from "react-router-dom";
+import { motion } from "framer-motion";
 import { resetPassword } from "../../store/actions/auth";
 class ResetPassword extends Component {
   constructor(props) {
@@ -87,8 +88,27 @@ class ResetPassword extends Component {
     if (isPasswordChanged) {
       return <Redirect to={"/password/" + user.email + "/reset/status"} />;
     }
+    const containerVariants = {
+      hidden: {
+        opacity: 0.5,
+      },
+      visible: {
+        opacity: 1,
+        transition: { delay: 0, duration: 0.5 },
+      },
+      exit: {
+        x: "-100vh",
+        transition: { ease: "easeInOut" },
+      },
+    };
     return (
-      <div className={style.big_container}>
+      <motion.div
+        className={style.big_container}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <div className={style.flier}>
           <img src={bg1} alt="bg" />
         </div>
@@ -181,7 +201,7 @@ class ResetPassword extends Component {
             <Link to="/">Sign In</Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 }

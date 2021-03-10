@@ -6,6 +6,7 @@ import bg3 from "./images/bg3.svg";
 import { connect } from "react-redux";
 import logo from "./images/logo.png";
 import { Link, Redirect } from "react-router-dom";
+import { motion } from "framer-motion";
 import { verifyEmail } from "../../store/actions/auth";
 class VerifyEmail extends Component {
   componentDidMount = () => {
@@ -13,6 +14,19 @@ class VerifyEmail extends Component {
     verifyEmail(match.params.token);
   };
   render() {
+    const containerVariants = {
+      hidden: {
+        opacity: 0.5,
+      },
+      visible: {
+        opacity: 1,
+        transition: { delay: 0, duration: 0.5 },
+      },
+      exit: {
+        x: "-100vh",
+        transition: { ease: "easeInOut" },
+      },
+    };
     const { isAuthenticated, isLoading, isVerified } = this.props;
     if (isAuthenticated) {
       return (
@@ -26,7 +40,13 @@ class VerifyEmail extends Component {
       );
     }
     return (
-      <div className={style.big_container}>
+      <motion.div
+        className={style.big_container}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <div className={style.flier}>
           <img src={bg1} alt="bg" />
         </div>
@@ -72,7 +92,7 @@ class VerifyEmail extends Component {
             </>
           )}
         </div>
-      </div>
+      </motion.div>
     );
   }
 }

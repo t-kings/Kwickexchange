@@ -9,6 +9,7 @@ import vc2 from "../images/vc2.png";
 import vc3 from "../images/vc3.png";
 import { buyBitcoin, sellBitcoin } from "../../../store/actions/trade";
 import { Link, Redirect } from "react-router-dom";
+import { motion } from "framer-motion";
 class Overview extends Component {
   constructor(props) {
     super(props);
@@ -143,8 +144,28 @@ class Overview extends Component {
     if (!isAuthenticated) {
       return <Redirect to={{ pathname: "/", redirect_to: "/home/overview" }} />;
     }
+
+    const containerVariants = {
+      hidden: {
+        opacity: 0.5,
+      },
+      visible: {
+        opacity: 1,
+        transition: { delay: 0, duration: 0.5 },
+      },
+      exit: {
+        x: "-100vh",
+        transition: { ease: "easeInOut" },
+      },
+    };
     return (
-      <main className={style.main_body}>
+      <motion.main
+        className={style.main_body}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <section className={overviewStyle.overview}>
           <div className={overviewStyle.actions}>
             <div className={overviewStyle.balances}>
@@ -526,7 +547,7 @@ class Overview extends Component {
             </div>
           </div>
         </section>
-      </main>
+      </motion.main>
     );
   }
 }
