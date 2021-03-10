@@ -11,15 +11,17 @@ class Index extends Component {
   render() {
     const containerVariants = {
       hidden: {
+        x: "20vw",
         opacity: 0.5,
       },
       visible: {
+        x: "0vh",
         opacity: 1,
-        transition: { delay: 0, duration: 0.5 },
+        transition: { delay: 0, duration: 0.3 },
       },
       exit: {
-        x: "-100vh",
-        transition: { ease: "easeInOut" },
+        opacity: 0,
+        transition: { ease: "easeInOut", duration: 0.15 },
       },
     };
     return (
